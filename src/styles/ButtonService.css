@@ -28,7 +28,6 @@
   flex-shrink: 1;             
 }
 
-/* Hover/focus */
 .button-service:hover,
 .button-service:focus {
   outline: none;
@@ -50,25 +49,4 @@
   border: 2px solid #fff;
 }
 
-/* Colori specifici dei servizi */
-.button-service.inps    { background-color: #065183; border-color: #005A8C; }
-.button-service.fisco   { background-color: #EB641F; border-color: #B34C16; }
-.button-service.inail   { background-color: #00923F; border-color: #006B2A; }
-.button-service.puglia  { background-color: #009BDB; border-color: #007A9E; }
-.button-service.poste   { background-color: #FFE600; border-color: #CCAD00; color: #000; }
-.button-service.bcc     { background-color: #0C234B; border-color: #081A33; }
 
-/* Nascondi pulsanti quando glossario aperto su desktop */
-body.glossary-open .button-service {
-  display: none !important;
-}
-
-/* Centra il glossario su desktop */
-body.glossary-open .glossary-container {
-  display: flex !important;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0 auto;
-}

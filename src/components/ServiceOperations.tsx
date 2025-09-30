@@ -1,53 +1,38 @@
+// src/components/ServiceOperations.tsx
 import React from "react";
-import "../styles/ServiceOperations.css";
-import type { AccessMode } from "../pages/Home";
-
-interface Operation {
-  label: string;
-  url: string;
-}
-
-interface Service {
-  id: string;
-  name: string;
-  description: string;
-  operations: Operation[];
-}
+import { useNavigate } from "react-router-dom";
+import type { AccessMode } from "../types";
+import type { Service } from "../pages/servicesData";
+import "../styles/ServiceDetail.css";
 
 interface ServiceOperationsProps {
   service: Service;
-  onBack: () => void;
   accessMode: AccessMode;
 }
 
-const ServiceOperations: React.FC<ServiceOperationsProps> = ({
-  service,
-  onBack,
-  accessMode,
-}) => {
+const ServiceOperations: React.FC<ServiceOperationsProps> = ({ service, accessMode }) => {
+  const navigate = useNavigate();
+
   return (
     <div
       className={`service-operations ${
         accessMode.highContrast ? "high-contrast-mode" : ""
       } ${accessMode.largeText ? "large-text-mode" : ""}`}
     >
-      <h2>{service.name}</h2>
-      <div className="operations-list">
-        {service.operations.map((op) => (
-          <a
-            key={op.label}
-            href={op.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`operation-btn ${
-              accessMode.highContrast ? "high-contrast-mode" : ""
-            } ${accessMode.largeText ? "large-text-mode" : ""}`}
-          >
-            {op.label}
-          </a>
+      <h2>Operazioni di {service.name}</h2>
+      <ul style={{ listStyle: "none", paddingLeft: 0 }}>
+        {service.operations.map((op, index) => (
+          <li key={index} style={{ marginBottom: "8px" }}>
+            <button
+              className="detail-btn"
+              onClick={() => navigate(`/operation/${service.id}/${index}`)}
+            >
+              {op.name}
+            </button>
+          </li>
         ))}
-      </div>
-      <button onClick={onBack} className="detail-btn back">
+      </ul>
+      <button className="detail-btn back" onClick={() => navigate("/")}>
         Torna ai servizi
       </button>
     </div>

@@ -1,9 +1,15 @@
+// src/App.tsx
 import React, { useState, useEffect, useRef } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useParams, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
+import ServiceOperations from "./components/ServiceOperations";
 import DizionarioSlang from "./components/DizionarioSlang";
+import OperationGuide from "./components/OperationGuide";
+import servicesData from "./pages/servicesData";
+import type { Service } from "./pages/servicesData";
+import type { AccessMode } from "./types"; // Import corretto dal nuovo file types.ts
 import "./App.css";
 
 function useIsMobile(breakpoint: number = 768): boolean {
@@ -33,9 +39,14 @@ function useIsMobile(breakpoint: number = 768): boolean {
   return isMobile;
 }
 
-type AccessMode = {
-  largeText: boolean;
-  highContrast: boolean;
+// Wrapper per gestire la route /service/:serviceId
+const ServiceOperationsWrapper: React.FC<{ accessMode: AccessMode }> = ({ accessMode }) => {
+  const { serviceId } = useParams<{ serviceId: string }>();
+  const service: Service | undefined = servicesData.find((s) => s.id === serviceId);
+
+  if (!service) return <Navigate to="/" />;
+
+  return <ServiceOperations service={service} accessMode={accessMode} />;
 };
 
 const App: React.FC = () => {
@@ -71,12 +82,10 @@ const App: React.FC = () => {
     if (appContainerRef.current) {
       const container = appContainerRef.current;
 
-      if (accessMode.highContrast)
-        container.classList.add("high-contrast-mode");
+      if (accessMode.highContrast) container.classList.add("high-contrast-mode");
       else container.classList.remove("high-contrast-mode");
 
-      if (accessMode.largeText)
-        container.classList.add("large-text-mode");
+      if (accessMode.largeText) container.classList.add("large-text-mode");
       else container.classList.remove("large-text-mode");
 
       if (focusMode) container.classList.add("focus-mode");
@@ -95,10 +104,7 @@ const App: React.FC = () => {
       />
 
       <Routes>
-        <Route 
-          path="/" 
-          element={<Home accessMode={accessMode} isMobile={isMobile} />} 
-        />
+        <Route path="/" element={<Home accessMode={accessMode} isMobile={isMobile} />} />
         <Route
           path="/glossario"
           element={
@@ -108,6 +114,8 @@ const App: React.FC = () => {
             />
           }
         />
+        <Route path="/service/:serviceId" element={<ServiceOperationsWrapper accessMode={accessMode} />} />
+        <Route path="/operation/:serviceId/:operationId" element={<OperationGuide accessMode={accessMode} />} />
       </Routes>
     </div>
   );

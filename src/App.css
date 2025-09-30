@@ -1,4 +1,6 @@
-/* Base: corpo, html, root */
+/* ===============================
+   Reset e Base
+=============================== */
 body, html, #root {
   margin: 0;
   padding: 0;
@@ -9,44 +11,154 @@ body, html, #root {
   height: 100%;
   min-height: 100vh;
   overflow-x: hidden;
-  overflow-y: auto; /* scroll globale sul body */
+  overflow-y: auto;
 }
 
-/* Contenitore principale */
 .app-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
   overflow: visible !important;
-  padding-bottom: 0; /* rimosso padding sotto footer */
+  padding-bottom: 0;
 }
 
-/* Modalità contrasto elevato */
-.app-container.high-contrast-mode {
-  background-color: #1a1a1a !important;
+/* ===============================
+   Modalità Accessibilità
+=============================== */
+.large-text-mode {
+  font-size: 1.3rem !important;
+  line-height: 1.6 !important;
+}
+
+.large-text-mode .app-header .logo {
+  font-size: 2.8rem !important;
+}
+
+.large-text-mode .button-service {
+  font-size: 28px !important;
+  min-height: 90px !important;
+  min-width: 440px !important;
+  max-width: 95%;
+}
+
+.large-text-mode .navbar,
+.large-text-mode .footer-btn {
+  font-size: 28px !important;
+  padding: 14px 20px !important;
+}
+
+/* ===============================
+   High Contrast Mode
+=============================== */
+.high-contrast-mode a,
+.high-contrast-mode button {
   color: #f0f0f0 !important;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  min-height: 100vh;
+  background-color: #333 !important;
+  border-color: #bbb !important;
+  box-shadow: none !important;
 }
 
-/* Header e navbar a tema scuro */
-.app-container.high-contrast-mode .app-header,
-.app-container.high-contrast-mode .navbar {
-  background-color: #1a1a1a !important;
-  color: #f0f0f0 !important;
-  border-color: #f0f0f0 !important;
+.high-contrast-mode button:hover,
+.high-contrast-mode button:focus {
+  background-color: #555 !important;
+  color: #fff !important;
 }
 
-/* Rimuove background chiari inutili */
-.app-container.high-contrast-mode .home-container,
-.app-container.high-contrast-mode .services-grid,
-.app-container.high-contrast-mode .service-detail-container,
-.app-container.high-contrast-mode .service-operations-container {
-  background-color: transparent !important;
-  color: inherit !important;
+.high-contrast-mode .navbar {
+  background-color: #333 !important;
+  color: #fff !important;
+  box-shadow: none !important;
 }
 
-/* Home */
+.high-contrast-mode .navbar .footer-btn {
+  background-color: #333 !important;
+  color: #fff !important;
+  border-color: #fff !important;
+}
+
+.high-contrast-mode .navbar .footer-btn:hover,
+.high-contrast-mode .navbar .footer-btn:focus {
+  background-color: #555 !important;
+  color: #fff !important;
+}
+
+/* ===============================
+   Header e Navbar
+=============================== */
+.app-header {
+  width: 100%;
+  position: relative;
+}
+
+.navbar {
+  height: 70px;
+  background-color: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 1100;
+  color: #222;
+  padding: 0 20px;
+  gap: 8px;
+  overflow-x: auto; /* permette scroll orizzontale se i pulsanti sono troppo grandi */
+  scrollbar-width: none; /* Firefox */
+}
+
+.navbar::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+.navbar .footer-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #1E3A62;
+  user-select: none;
+  font-size: 20px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  white-space: nowrap;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.navbar .footer-btn:hover,
+.navbar .footer-btn:focus {
+  color: #D9822B;
+  background-color: #fcebd2;
+  outline: none;
+}
+
+/* ===============================
+   Pulsanti Accessibilità
+=============================== */
+.accessibility-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: fixed;
+  top: 100px;
+  left: 20px;
+  z-index: 9999;
+}
+
+@media (max-width: 768px) {
+  .accessibility-controls {
+    position: static;       
+    flex-direction: column;
+    margin: 10px auto;      
+    gap: 8px;
+  }
+}
+
+/* ===============================
+   Griglia Servizi
+=============================== */
 .home-container {
   flex-grow: 1;
   padding: 30px 20px;
@@ -54,34 +166,20 @@ body, html, #root {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow: visible !important;
 }
 
-/* Griglia servizi */
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(2, auto);
+  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
-  max-width: 100%;
+  max-width: 900px;
   justify-content: center;
-  margin-bottom: 0;
+  margin-bottom: 30px;
 }
 
-/* Nascondi griglia con glossario */
-body.glossary-open .services-grid {
-  display: none !important;
-}
-
-body.glossary-open .glossary-container {
-  display: flex !important;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0 auto;
-}
-
-/* Bottoni base */
+/* ===============================
+   Pulsanti Servizi
+=============================== */
 .button-service {
   min-width: 320px;
   max-width: 400px;
@@ -101,6 +199,7 @@ body.glossary-open .glossary-container {
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: all 0.3s ease;
 }
 
 .button-service img {
@@ -113,81 +212,23 @@ body.glossary-open .glossary-container {
   flex-shrink: 1;
 }
 
-/* Hover/focus */
 .button-service:hover,
 .button-service:focus {
   outline: none;
   opacity: 0.9;
 }
 
-/* Colori bottoni */
-.button-service.inps {
-  background-color: #065183;
-  border: 2px solid #005A8C;
-}
-.button-service.fisco {
-  background-color: #EB641F;
-  border: 2px solid #B34C16;
-}
-.button-service.inail {
-  background-color: #00923F;
-  border: 2px solid #006B2A;
-}
-.button-service.puglia {
-  background-color: #009BDB;
-  border: 2px solid #007A9E;
-}
-.button-service.poste {
-  background-color: #FFE600;
-  border: 2px solid #CCAD00;
-  color: #000;
-}
-.button-service.bcc {
-  background-color: #0C234B;
-  border: 2px solid #081A33;
-}
+/* Colori bottoni servizi */
+.button-service.inps { background-color: #065183; border: 2px solid #005A8C; }
+.button-service.fisco { background-color: #EB641F; border: 2px solid #B34C16; }
+.button-service.inail { background-color: #00923F; border: 2px solid #006B2A; }
+.button-service.puglia { background-color: #003366; border: 2px solid #002244; }
+.button-service.poste { background-color: #FFE600; border: 2px solid #CCAD00; color: #000; }
+.button-service.bcc { background-color: #0C234B; border: 2px solid #081A33; }
 
-/* Navbar sticky in cima con pulsanti sul lato destro, uno accanto all'altro */
-.navbar {
-  height: 70px;
-  background-color: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  display: flex;
-  justify-content: flex-end; /* Pulsanti a destra */
-  align-items: center;
-  font-size: 24px;
-  font-weight: 600;
-  position: sticky;
-  top: 0;
-  width: 100%;
-  z-index: 1100;
-  color: #222;
-  gap: 8px; /* Poco spazio tra i pulsanti */
-  padding-right: 20px;
-}
-
-/* Bottoni dentro la navbar affiancati senza gap e con padding ridotto */
-.navbar .footer-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #1E3A62;
-  user-select: none;
-  font-size: 20px;
-  padding: 6px 12px;
-  border-radius: 8px;
-  transition: color 0.3s ease, background-color 0.3s ease;
-  white-space: nowrap;
-}
-
-.navbar .footer-btn:hover,
-.navbar .footer-btn:focus {
-  color: #D9822B;
-  background-color: #fcebd2;
-  outline: none;
-}
-
-/* Bottone Glossario */
+/* ===============================
+   Bottone Glossario
+=============================== */
 button.open-glossary-btn {
   background-color: #2a9d8f;
   color: white;
@@ -198,125 +239,70 @@ button.open-glossary-btn {
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   user-select: none;
-  position: static !important;
-  margin-top: 10px;
   display: inline-block;
+  z-index: 1100;
+  transition: all 0.3s ease;
 }
 
-/* Responsive per mobile */
+/* Desktop: sempre in basso a sinistra */
+@media (min-width: 769px) {
+  button.open-glossary-btn {
+    position: fixed;
+    bottom: 40px;
+    left: 20px;
+  }
+}
+
+/* Mobile: sotto navbar, sopra servizi */
 @media (max-width: 768px) {
+  button.open-glossary-btn {
+    position: static;
+    margin: 10px auto 20px auto;
+    display: inline-block;
+  }
+
   .services-grid {
-    display: grid !important;
     grid-template-columns: 1fr !important;
     gap: 24px !important;
     max-width: 100% !important;
-    margin-bottom: 0 !important;
-    justify-content: center;
-    grid-template-areas: 
-      "inps"
-      "fisco"
-      "inail"
-      "puglia"
-      "poste"
-      "bcc"
-      "glossario";
-  }
-  .button-service.inps { grid-area: inps !important; }
-  .button-service.fisco { grid-area: fisco !important; }
-  .button-service.inail { grid-area: inail !important; }
-  .button-service.puglia { grid-area: puglia !important; }
-  .button-service.poste { grid-area: poste !important; }
-  .button-service.bcc { grid-area: bcc !important; }
-
-  button.open-glossary-btn {
-    grid-area: glossario !important;
-    position: static !important;
-    bottom: auto !important;
-    left: auto !important;
-    margin-top: 50px !important;
-    z-index: auto !important;
-    display: block !important;
   }
 }
 
-/* Modalità desktop */
-@media (min-width: 769px) {
-  button.open-glossary-btn {
-    position: fixed !important;
-    bottom: 140px !important;
-    left: 20px !important;
-    z-index: 1100 !important;
-  }
-  .services-grid {
-    display: grid !important;
-    grid-template-columns: repeat(2, auto);
-    gap: 24px;
-    max-width: 700px;
-    width: 100%;
-    justify-content: center;
-    margin-bottom: 30px;
-    grid-template-areas: none;
-  }
+/* ===============================
+   Glossario aperto
+=============================== */
+body.glossary-open .services-grid {
+  display: none !important;
 }
 
-/* Accessibilità - Gran testo */
-.large-text-mode {
-  font-size: 1.3rem !important;
-  line-height: 1.6 !important;
+body.glossary-open .glossary-container {
+  display: flex !important;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0 auto;
 }
 
-.large-text-mode .app-header .logo {
-  font-size: 2.8rem !important;
-}
-
-.large-text-mode .button-service {
-  font-size: 28px !important;
-  min-height: 90px !important;
-  min-width: 440px !important;
-  max-width: 95%;
-}
-
-.large-text-mode .navbar {
-  font-size: 28px !important;
-}
-
-.large-text-mode .footer-btn {
-  font-size: 28px !important;
-  padding: 14px 30px !important;
-}
-
-/* Alto contrasto */
-.high-contrast-mode a,
-.high-contrast-mode button {
-  color: #f0f0f0 !important;
-  background-color: #333 !important;
-  border-color: #bbb !important;
-  box-shadow: none !important;
-}
-
-.high-contrast-mode button:hover,
-.high-contrast-mode button:focus {
-  background-color: #555 !important;
-  color: #fff !important;
-}
-
-/* Accessibilità focus mode */
-.focus-mode .accessibility-controls {
-  opacity: 1 !important;
-  pointer-events: auto;
-  position: relative;
-  z-index: 2001;
-}
-
-.accessibility-controls {
-  display: flex;
-  gap: 12px;
-  position: relative;
-  z-index: 2000;
-}
-
-/* Modalità focus scurisce tutto, la barra illumina */
+/* ===============================
+   Modalità focus
+=============================== */
 body.focus-mode,
 .app-container.focus-mode {
   background-color: inherit;
+}
+
+.focus-mode .accessibility-controls {
+  opacity: 1 !important;
+  pointer-events: auto;
+}
+
+/* ===============================
+   Ottimizzazioni generali
+=============================== */
+.home-container,
+.services-grid,
+.button-service,
+button.open-glossary-btn {
+  transition: all 0.3s ease;
 }

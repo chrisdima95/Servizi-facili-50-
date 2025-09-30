@@ -1,6 +1,7 @@
+// src/components/ServiceDetail.tsx
 import React from "react";
 import "../styles/ServiceDetail.css";
-import type { AccessMode } from "../pages/Home";
+import type { AccessMode } from "../types"; 
 
 interface Operation {
   label: string;
@@ -16,7 +17,7 @@ interface Service {
 
 interface ServiceDetailProps {
   service: Service;
-  accessMode: AccessMode; // Passiamo accessMode per gestire High Contrast / Large Text
+  accessMode: AccessMode;
   onShowOperations: () => void;
   onBack: () => void;
 }
