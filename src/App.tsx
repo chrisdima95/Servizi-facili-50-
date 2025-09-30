@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
+import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
-import FooterNav from "./components/FooterNav";
 import DizionarioSlang from "./components/DizionarioSlang";
 import "./App.css";
 
@@ -86,6 +86,7 @@ const App: React.FC = () => {
 
   return (
     <div ref={appContainerRef} className="app-container">
+      <Navbar />
       <Header
         accessMode={accessMode}
         toggleAccessMode={toggleAccessMode}
@@ -93,11 +94,10 @@ const App: React.FC = () => {
         toggleFocusMode={toggleFocusMode}
       />
 
-      {/* Gestione routing */}
       <Routes>
-        <Route
-          path="/"
-          element={<Home accessMode={accessMode} isMobile={isMobile} />}
+        <Route 
+          path="/" 
+          element={<Home accessMode={accessMode} isMobile={isMobile} />} 
         />
         <Route
           path="/glossario"
@@ -109,8 +109,6 @@ const App: React.FC = () => {
           }
         />
       </Routes>
-
-      <FooterNav />
     </div>
   );
 };

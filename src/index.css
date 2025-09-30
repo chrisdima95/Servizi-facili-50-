@@ -30,17 +30,17 @@ body, html, #root {
   height: 100%;
   min-width: 320px;
   min-height: 100vh;
-  display: block; /* ✅ rimosso flex che bloccava */
+  display: block;
   background-color: inherit;
+  overflow-x: hidden;
+  overflow-y: auto; /* scroll attivo sul body */
 }
 
-/* Titoli */
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
 
-/* Bottoni */
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -62,7 +62,6 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-/* Modalità chiara */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
@@ -76,4 +75,15 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.app-wrapper {
+  width: 100vw;
+  margin: 0 auto;
+  background: white;
+  color: black;
+  box-sizing: border-box;
+  height: auto !important;
+  overflow: visible !important;
+  padding-top: 0 !important; 
 }

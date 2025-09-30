@@ -19,7 +19,7 @@ interface Service {
   name: string;
   description: string;
   operations: Operation[];
-  icon: string; // percorso immagine
+  icon: string; 
 }
 
 interface HomeProps {

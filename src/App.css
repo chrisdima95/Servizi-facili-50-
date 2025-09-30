@@ -9,6 +9,7 @@ body, html, #root {
   height: 100%;
   min-height: 100vh;
   overflow-x: hidden;
+  overflow-y: auto; /* scroll globale sul body */
 }
 
 /* Contenitore principale */
@@ -17,7 +18,7 @@ body, html, #root {
   flex-direction: column;
   min-height: 100vh;
   overflow: visible !important;
-  padding-bottom: 170px; 
+  padding-bottom: 0; /* rimosso padding sotto footer */
 }
 
 /* Modalità contrasto elevato */
@@ -28,15 +29,15 @@ body, html, #root {
   min-height: 100vh;
 }
 
-/* Header e footer a tema scuro */
+/* Header e navbar a tema scuro */
 .app-container.high-contrast-mode .app-header,
-.app-container.high-contrast-mode .footer-nav {
+.app-container.high-contrast-mode .navbar {
   background-color: #1a1a1a !important;
   color: #f0f0f0 !important;
   border-color: #f0f0f0 !important;
 }
 
-/* Rimuove background chiari inutili interni */
+/* Rimuove background chiari inutili */
 .app-container.high-contrast-mode .home-container,
 .app-container.high-contrast-mode .services-grid,
 .app-container.high-contrast-mode .service-detail-container,
@@ -56,17 +57,17 @@ body, html, #root {
   overflow: visible !important;
 }
 
-/* Grid servizi */
+/* Griglia servizi */
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(2, auto); 
+  grid-template-columns: repeat(2, auto);
   gap: 24px;
   max-width: 100%;
   justify-content: center;
   margin-bottom: 0;
 }
 
-/* Quando glossario aperto su desktop: centra glossario e nasconde pulsanti */
+/* Nascondi griglia con glossario */
 body.glossary-open .services-grid {
   display: none !important;
 }
@@ -82,34 +83,34 @@ body.glossary-open .glossary-container {
 
 /* Bottoni base */
 .button-service {
-  min-width: 320px;          
-  max-width: 400px;          
+  min-width: 320px;
+  max-width: 400px;
   min-height: 80px;
   font-size: 20px;
   display: flex;
   align-items: center;
-  justify-content: center;   
-  gap: 12px;                 
+  justify-content: center;
+  gap: 12px;
   padding: 0 16px;
   border-radius: 8px;
   cursor: pointer;
   border: none;
   color: #fff;
   font-weight: 600;
-  white-space: nowrap;       
+  white-space: nowrap;
   text-align: center;
   overflow: hidden;
-  text-overflow: ellipsis;  
+  text-overflow: ellipsis;
 }
 
 .button-service img {
   width: 40px;
   height: 40px;
-  flex-shrink: 0;            
+  flex-shrink: 0;
 }
 
 .button-service span {
-  flex-shrink: 1;            
+  flex-shrink: 1;
 }
 
 /* Hover/focus */
@@ -120,44 +121,67 @@ body.glossary-open .glossary-container {
 }
 
 /* Colori bottoni */
-.button-service.inps    { background-color: #065183; border: 2px solid #005A8C; }
-.button-service.fisco   { background-color: #EB641F; border: 2px solid #B34C16; }
-.button-service.inail   { background-color: #00923F; border: 2px solid #006B2A; }
-.button-service.puglia  { background-color: #009BDB; border: 2px solid #007A9E; }
-.button-service.poste   { background-color: #FFE600; border: 2px solid #CCAD00; color: #000; }
-.button-service.bcc     { background-color: #0C234B; border: 2px solid #081A33; }
+.button-service.inps {
+  background-color: #065183;
+  border: 2px solid #005A8C;
+}
+.button-service.fisco {
+  background-color: #EB641F;
+  border: 2px solid #B34C16;
+}
+.button-service.inail {
+  background-color: #00923F;
+  border: 2px solid #006B2A;
+}
+.button-service.puglia {
+  background-color: #009BDB;
+  border: 2px solid #007A9E;
+}
+.button-service.poste {
+  background-color: #FFE600;
+  border: 2px solid #CCAD00;
+  color: #000;
+}
+.button-service.bcc {
+  background-color: #0C234B;
+  border: 2px solid #081A33;
+}
 
-/* Footer */
-.footer-nav {
+/* Navbar sticky in cima con pulsanti sul lato destro, uno accanto all'altro */
+.navbar {
   height: 70px;
   background-color: #fff;
-  box-shadow: 0 -3px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   display: flex;
-  justify-content: space-around;
+  justify-content: flex-end; /* Pulsanti a destra */
   align-items: center;
   font-size: 24px;
   font-weight: 600;
-  position: fixed;
+  position: sticky;
+  top: 0;
   width: 100%;
-  bottom: 0;
-  left: 0;
-  z-index: 1000;
+  z-index: 1100;
   color: #222;
+  gap: 8px; /* Poco spazio tra i pulsanti */
+  padding-right: 20px;
 }
 
-.footer-btn {
+/* Bottoni dentro la navbar affiancati senza gap e con padding ridotto */
+.navbar .footer-btn {
   background: none;
   border: none;
   cursor: pointer;
   color: #1E3A62;
   user-select: none;
-  font-size: 24px;
-  padding: 12px 24px;
+  font-size: 20px;
+  padding: 6px 12px;
   border-radius: 8px;
   transition: color 0.3s ease, background-color 0.3s ease;
+  white-space: nowrap;
 }
 
-.footer-btn:hover, .footer-btn:focus {
+.navbar .footer-btn:hover,
+.navbar .footer-btn:focus {
   color: #D9822B;
   background-color: #fcebd2;
   outline: none;
@@ -174,7 +198,6 @@ button.open-glossary-btn {
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0,0,0,0.3);
   user-select: none;
-  z-index: 1000;
   position: static !important;
   margin-top: 10px;
   display: inline-block;
@@ -189,7 +212,7 @@ button.open-glossary-btn {
     max-width: 100% !important;
     margin-bottom: 0 !important;
     justify-content: center;
-    grid-template-areas:
+    grid-template-areas: 
       "inps"
       "fisco"
       "inail"
@@ -198,12 +221,12 @@ button.open-glossary-btn {
       "bcc"
       "glossario";
   }
-  .button-service.inps  { grid-area: inps !important; }
+  .button-service.inps { grid-area: inps !important; }
   .button-service.fisco { grid-area: fisco !important; }
   .button-service.inail { grid-area: inail !important; }
-  .button-service.puglia{ grid-area: puglia !important; }
+  .button-service.puglia { grid-area: puglia !important; }
   .button-service.poste { grid-area: poste !important; }
-  .button-service.bcc   { grid-area: bcc !important; }
+  .button-service.bcc { grid-area: bcc !important; }
 
   button.open-glossary-btn {
     grid-area: glossario !important;
@@ -250,10 +273,10 @@ button.open-glossary-btn {
   font-size: 28px !important;
   min-height: 90px !important;
   min-width: 440px !important;
-  max-width: 95%;           
+  max-width: 95%;
 }
 
-.large-text-mode .footer-nav {
+.large-text-mode .navbar {
   font-size: 28px !important;
 }
 
@@ -297,4 +320,3 @@ body.focus-mode,
 .app-container.focus-mode {
   background-color: inherit;
 }
-

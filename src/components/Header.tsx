@@ -21,10 +21,6 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <header className="app-header" role="banner">
-      <div className="logo" aria-label="Servizi Facili 50 più">
-        Servizi Facili 50+
-      </div>
-
       <div className="accessibility-controls">
         <HighContrastToggle
           enabled={accessMode.highContrast}
