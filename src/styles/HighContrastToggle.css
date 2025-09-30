@@ -1,0 +1,33 @@
+.high-contrast-toggle-btn {
+  background-color: #37537e;
+  color: #f1faee;
+  border: 2px solid #f1faee;
+  padding: 10px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 700;
+  user-select: none;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  display: inline-block;
+}
+
+/* Hover solo se non attivo */
+.high-contrast-toggle-btn:not(.active):hover {
+  background-color: #466492;
+  border-color: #2a3c5a;
+}
+
+/* Stato attivo */
+.high-contrast-toggle-btn.active {
+  background-color: #f1faee;
+  color: #37537e;
+  border-color: #37537e;
+}
+
+/* Forza a ignorare le regole globali */
+.app-container.high-contrast-mode .high-contrast-toggle-btn,
+.app-container.high-contrast-mode .high-contrast-toggle-btn.active {
+  background-color: inherit;
+  color: inherit;
+}

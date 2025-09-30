@@ -1,0 +1,67 @@
+.accessibility-btn {
+  background-color: #37537e;
+  color: #f1faee;
+  border: 2px solid #f1faee;
+  padding: 10px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 700;
+  user-select: none;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease;
+  display: inline-block;
+}
+
+/* Hover solo se non attivo */
+.accessibility-btn:not(.active):hover {
+  background-color: #466492;
+  border-color: #2a3c5a;
+}
+
+/* Stato attivo */
+.accessibility-btn.active {
+  background-color: #f1faee;
+  color: #37537e;
+  border: 2px solid #37537e;
+}
+
+/* Overlay focus (rimasto invariato) */
+.focus-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  background: transparent;
+
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black calc(var(--mouse-y) - 64px),
+    transparent calc(var(--mouse-y) - 64px),
+    transparent calc(var(--mouse-y) + 64px),
+    black calc(var(--mouse-y) + 64px)
+  );
+
+  mask-image: linear-gradient(
+    to bottom,
+    black calc(var(--mouse-y) - 64px),
+    transparent calc(var(--mouse-y) - 64px),
+    transparent calc(var(--mouse-y) + 64px),
+    black calc(var(--mouse-y) + 64px)
+  );
+
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+
+  background-color: rgba(68, 68, 68, 0.6);
+}
+
+/* Ignora regole globali */
+.app-container.high-contrast-mode .accessibility-btn,
+.app-container.high-contrast-mode .accessibility-btn.active {
+  background-color: inherit;
+  color: inherit;
+}

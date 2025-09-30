@@ -1,0 +1,91 @@
+.service-operations {
+  max-width: 760px;
+  margin: 48px auto;
+  padding: 22px;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  text-align: center;
+  color: #222;
+}
+
+.service-operations h2 {
+  margin: 0 0 20px;
+  font-size: 1.5rem;
+}
+
+.operations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.operation-btn {
+  display: block;
+  width: 100%;
+  max-width: 520px;
+  text-decoration: none;
+  text-align: center;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background-color: #37537e;
+  color: #f1faee;
+  font-weight: 700;
+  border: 2px solid rgba(0,0,0,0.05);
+  transition: background-color 0.2s ease;
+}
+
+.operation-btn:hover,
+.operation-btn:focus {
+  background-color: #466492;
+  outline: none;
+}
+
+.detail-btn.back {
+  background: none;
+  border: 2px solid #cfcfcf;
+  color: #333;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.detail-btn.back:hover,
+.detail-btn.back:focus {
+  border-color: #999;
+  color: #000;
+}
+
+/* Modalità accessibilità */
+.large-text-mode {
+  font-size: 1.2rem;
+}
+
+.high-contrast-mode {
+  background-color: black !important;
+  color: white !important;
+}
+
+.high-contrast-mode .operation-btn {
+  background-color: white;
+  color: black;
+}
+
+.high-contrast-mode .detail-btn.back {
+  border-color: white;
+  color: white;
+}
+
+/* Mobile tweaks */
+@media (max-width: 520px) {
+  .service-operations {
+    margin: 18px;
+    padding: 18px;
+  }
+
+  .operation-btn {
+    max-width: 100%;
+  }
+}
