@@ -1,9 +1,10 @@
 // src/components/ServiceOperations.tsx
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import type { AccessMode } from "../types";
 import type { Service } from "../pages/servicesData";
 import "../styles/ServiceDetail.css";
+import { useUser } from "../context/UserContext";
 
 interface ServiceOperationsProps {
   service: Service;
@@ -12,6 +13,13 @@ interface ServiceOperationsProps {
 
 const ServiceOperations: React.FC<ServiceOperationsProps> = ({ service, accessMode }) => {
   const navigate = useNavigate();
+  const { incrementServiceAccess } = useUser();
+
+  useEffect(() => {
+    incrementServiceAccess(service.id);
+    // only once per mount for this service view
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [service.id]);
 
   return (
     <div
