@@ -42,10 +42,7 @@ interface DizionarioSlangProps {
   largeText?: boolean;
 }
 
-const DizionarioSlang: React.FC<DizionarioSlangProps> = ({
-  highContrast = false,
-  largeText = false,
-}) => {
+const DizionarioSlang: React.FC<DizionarioSlangProps> = ({ highContrast = false, largeText = false }) => {
   const [index, setIndex] = useState(0);
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
@@ -60,74 +57,34 @@ const DizionarioSlang: React.FC<DizionarioSlangProps> = ({
     );
   }, [query]);
 
-  const prevTerm = () =>
-    setIndex((prev) => (filteredTerms.length === 0 ? 0 : prev === 0 ? filteredTerms.length - 1 : prev - 1));
-  const nextTerm = () =>
-    setIndex((prev) => (filteredTerms.length === 0 ? 0 : prev === filteredTerms.length - 1 ? 0 : prev + 1));
-
-  // Aggiungo/rimuovo classe al body per centrare glossario
-  useEffect(() => {
-    document.body.classList.add("glossary-open");
-    return () => {
-      document.body.classList.remove("glossary-open");
-    };
-  }, []);
-
-  // Reset l'indice quando cambia il filtro
-  useEffect(() => {
-    setIndex(0);
-  }, [query]);
+  useEffect(() => setIndex(0), [query]);
 
   return (
-    <aside
-      id="glossary-dialog"
-      role="dialog"
-      aria-modal="true"
-      aria-label="Glossario informatico"
-      tabIndex={-1}
-      className={`${highContrast ? "high-contrast-mode" : ""} ${
-        largeText ? "large-text-mode" : ""
-      }`}
-    >
-      <h2>Glossario informatico</h2>
-      {filteredTerms.length > 0 ? (
-        <div className="term-description">
-          <strong>{filteredTerms[index].slang}:</strong> {filteredTerms[index].description}
+    <main className={`glossary-page ${highContrast ? "high-contrast-mode" : ""} ${largeText ? "large-text-mode" : ""}`}>
+      <section className="glossary-card" aria-label="Glossario informatico">
+        <h2>Glossario informatico</h2>
+        {filteredTerms.length > 0 ? (
+          <div className="term-description">
+            <strong>{filteredTerms[index].slang}:</strong> {filteredTerms[index].description}
+          </div>
+        ) : (
+          <div className="term-description" aria-live="polite">Nessun risultato trovato.</div>
+        )}
+        <div className="navigation">
+          <button onClick={() => setIndex((p) => (filteredTerms.length === 0 ? 0 : p === 0 ? filteredTerms.length - 1 : p - 1))} aria-label="Termine precedente" type="button" disabled={filteredTerms.length === 0}>←</button>
+          <span aria-live="polite">{filteredTerms.length === 0 ? 0 : index + 1} / {filteredTerms.length}</span>
+          <button onClick={() => setIndex((p) => (filteredTerms.length === 0 ? 0 : p === filteredTerms.length - 1 ? 0 : p + 1))} aria-label="Termine successivo" type="button" disabled={filteredTerms.length === 0}>→</button>
         </div>
-      ) : (
-        <div className="term-description" aria-live="polite">Nessun risultato trovato.</div>
-      )}
-      <div className="navigation">
-        <button onClick={prevTerm} aria-label="Termine precedente" type="button" disabled={filteredTerms.length === 0}>
-          ←
-        </button>
-        <span aria-live="polite">{filteredTerms.length === 0 ? 0 : index + 1} / {filteredTerms.length}</span>
-        <button onClick={nextTerm} aria-label="Termine successivo" type="button" disabled={filteredTerms.length === 0}>
-          →
-        </button>
-      </div>
-      <div className="search-container">
-        <label htmlFor="glossary-search" className="visually-hidden">Cerca nel glossario</label>
-        <input
-          id="glossary-search"
-          type="search"
-          className="glossary-search-input"
-          placeholder="Cerca termine o descrizione..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          aria-label="Cerca termine del glossario"
-        />
-      </div>
-      <button
-        onClick={() => navigate("/")}
-        aria-label="Chiudi glossario"
-        className="close-btn"
-        type="button"
-      >
-        Chiudi
-      </button>
-    </aside>
+        <div className="search-container">
+          <label htmlFor="glossary-search" className="visually-hidden">Cerca nel glossario</label>
+          <input id="glossary-search" type="search" className="glossary-search-input" placeholder="Cerca termine o descrizione..." value={query} onChange={(e) => setQuery(e.target.value)} aria-label="Cerca termine del glossario" />
+        </div>
+        <button onClick={() => navigate("/")} aria-label="Chiudi glossario" className="close-btn" type="button">Chiudi</button>
+      </section>
+    </main>
   );
 };
 
 export default DizionarioSlang;
+
+

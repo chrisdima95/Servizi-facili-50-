@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
+import "../styles/Profilo.css";
 
 const Profilo: React.FC = () => {
   const navigate = useNavigate();
@@ -89,96 +90,88 @@ const Profilo: React.FC = () => {
   });
 
   return (
-    <div className="profile-page" style={{ maxWidth: 420, margin: "24px auto" }}>
-      <h2 style={{ marginBottom: 16 }}>{isAuthenticated ? `Ciao, ${user?.username}` : "Profilo"}</h2>
+    <div className="profile-page">
+      <h2 className="profile-title">{isAuthenticated ? `Ciao, ${user?.username}` : "Profilo"}</h2>
 
       {!isAuthenticated && mode === "login" && (
-        <form onSubmit={onSubmitLogin} aria-label="Login" style={{ display: "grid", gap: 12 }}>
-          <label>
-            <div>Indirizzo e-mail o nome utente</div>
+        <form onSubmit={onSubmitLogin} aria-label="Login" className="profile-form">
+          <label className="profile-field">
+            <span className="profile-label">Indirizzo e-mail o nome utente</span>
             <input
               type="text"
+              className="profile-input"
               value={identifier}
               onChange={(e) => setIdentifier(e.target.value)}
               required
             />
           </label>
-          <label>
-            <div>Password</div>
+          <label className="profile-field">
+            <span className="profile-label">Password</span>
             <input
               type="password"
+              className="profile-input"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
             />
           </label>
 
-          {error && <div role="alert" style={{ color: "#c00" }}>{error}</div>}
+          {error && <div role="alert" className="profile-error">{error}</div>}
 
-          <button type="submit" className="detail-btn">Accedi</button>
-          <div>
-            <button
-              type="button"
-              className="linklike"
-              onClick={() => setMode("register")}
-              aria-label="Nuovo utente"
-            >
-              Nuovo utente
-            </button>
-          </div>
+          <button type="submit" className="profile-primary-btn">Accedi</button>
         </form>
       )}
 
       {!isAuthenticated && mode === "register" && (
-        <form onSubmit={onSubmitRegister} aria-label="Registrazione" style={{ display: "grid", gap: 12 }}>
-          <label>
-            <div>Nome</div>
-            <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
+        <form onSubmit={onSubmitRegister} aria-label="Registrazione" className="profile-form">
+          <label className="profile-field">
+            <span className="profile-label">Nome</span>
+            <input className="profile-input" type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
           </label>
-          <label>
-            <div>Cognome</div>
-            <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
+          <label className="profile-field">
+            <span className="profile-label">Cognome</span>
+            <input className="profile-input" type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
           </label>
-          <label>
-            <div>Indirizzo e-mail</div>
-            <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+          <label className="profile-field">
+            <span className="profile-label">Indirizzo e-mail</span>
+            <input className="profile-input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
           </label>
-          <label>
-            <div>Nome utente</div>
-            <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+          <label className="profile-field">
+            <span className="profile-label">Nome utente</span>
+            <input className="profile-input" type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
           </label>
-          <label>
-            <div>Password</div>
-            <input type="password" value={regPassword} onChange={(e) => setRegPassword(e.target.value)} required />
+          <label className="profile-field">
+            <span className="profile-label">Password</span>
+            <input className="profile-input" type="password" value={regPassword} onChange={(e) => setRegPassword(e.target.value)} required />
           </label>
 
-          {error && <div role="alert" style={{ color: "#c00" }}>{error}</div>}
+          {error && <div role="alert" className="profile-error">{error}</div>}
 
-          <div style={{ display: "flex", gap: 8 }}>
-            <button type="submit" className="detail-btn">Crea account</button>
-            <button type="button" className="detail-btn back" onClick={() => setMode("login")}>Torna al login</button>
+          <div className="profile-actions">
+            <button type="submit" className="profile-primary-btn">Crea account</button>
+            <button type="button" className="profile-secondary-btn" onClick={() => setMode("login")}>Torna al login</button>
           </div>
         </form>
       )}
 
       {isAuthenticated && (
-        <div style={{ marginTop: 24 }}>
-          <h3>I tuoi portali</h3>
-          <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-            <svg viewBox="0 0 150 150" width="200" height="200" role="img" aria-label="Grafico a torta accessi">
+        <div className="profile-dashboard">
+          <h3 className="profile-subtitle">I tuoi portali</h3>
+          <div className="profile-stats">
+            <svg viewBox="0 0 150 150" width="220" height="220" role="img" aria-label="Grafico a torta accessi">
               <circle cx={center} cy={center} r={radius} fill="#eee" />
               {arcs}
             </svg>
-            <div>
-              <div>Totale accessi: {totalAccesses}</div>
+            <div className="profile-legend">
+              <div className="profile-total">Totale accessi: {totalAccesses}</div>
               {pieSlices.map((s) => (
-                <div key={s.id}>{s.id}: {s.percent.toFixed(1)}%</div>
+                <div className="profile-legend-item" key={s.id}>{s.id}: {s.percent.toFixed(1)}%</div>
               ))}
-              {totalAccesses === 0 && <div>Nessun accesso registrato</div>}
+              {totalAccesses === 0 && <div className="profile-legend-item">Nessun accesso registrato</div>}
             </div>
           </div>
-          <div style={{ marginTop: 16 }}>
-            <button className="detail-btn back" onClick={() => logout()}>Logout</button>
+          <div className="profile-logout">
+            <button className="profile-secondary-btn" onClick={() => logout()}>Logout</button>
           </div>
         </div>
       )}

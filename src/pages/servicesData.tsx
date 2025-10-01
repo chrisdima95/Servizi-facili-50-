@@ -1,10 +1,10 @@
 // src/pages/servicesData.ts
 export interface Operation {
   name: string;
-  label: string; // aggiunto per compatibilità con ServiceDetail
+  label: string; 
   url: string;
   guide: {
-    description: string; // testo libero, non elenco puntato
+    description: string; 
     tips: string[];
   };
 }

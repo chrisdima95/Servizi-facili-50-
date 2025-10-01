@@ -1,85 +1,91 @@
-/* Contenitore glossario - desktop default */
-#glossary-dialog {
-  position: fixed;
-  bottom: 190px;
-  left: 20px;
-  width: 400px;
-  height: 300px;
-  background: #fff;
-  padding: 16px;
-  border-radius: 10px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.25);
-  font-family: 'Roboto', sans-serif;
-  z-index: 1200;
-  user-select: none;
+/* Layout pagina glossario - armonizzato con il resto dell'app */
+.glossary-page {
+  min-height: calc(100vh - 70px); /* sottrae altezza navbar sticky */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background-color: #fefcf8;
+  font-family: 'Arial', sans-serif;
+}
+
+.glossary-card {
+  width: min(800px, 92vw);
+  max-height: 80vh;
+  background: #ffffff;
+  padding: 32px;
+  border-radius: 18px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.08);
+  border: 2px solid #e7e7e7;
+  overflow: auto;
   display: flex;
   flex-direction: column;
-  justify-content: space-between !important;
-  transition: all 0.25s ease;
-  font-size: 0.92rem;
-  line-height: 1.4;
-  overflow: auto;
+  gap: 20px;
 }
 
 /* Centra glossario su desktop quando aperto */
-body.glossary-open #glossary-dialog {
-  top: 50% !important;
-  left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  bottom: auto !important;
-}
+/* centrato di default; nessun override necessario con .glossary-open */
+
+/* Overlay rimosso: non sfocare il resto della pagina quando il glossario è aperto */
 
 /* Titolo glossario */
-#glossary-dialog h2 {
-  margin-top: 0;
-  margin-bottom: 10px;
-  font-size: 1rem;
-  font-weight: 700;
+.glossary-card h2 {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 800;
   text-align: center;
+  color: #1e3a62;
 }
 
 /* Descrizione termine */
-#glossary-dialog > .term-description {
-  min-height: 60px;
-  margin-bottom: 12px;
-  font-size: 0.95rem;
+.glossary-card .term-description {
+  min-height: 100px;
+  font-size: 1.2rem;
   text-align: left;
+  color: #2a2a2a;
+  line-height: 1.6;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  border-left: 4px solid #2a9d8f;
 }
 
-#glossary-dialog > .term-description strong {
-  font-size: 0.95rem;
+.glossary-card .term-description strong {
+  font-size: 1.3rem;
+  color: #1e3a62;
 }
 
 /* Navigazione */
-#glossary-dialog > .navigation {
+.glossary-card .navigation {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.95rem;
-  gap: 8px;
-  margin-top: auto !important;
+  font-size: 1.1rem;
+  gap: 12px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 12px;
 }
 
-/* Search container sotto le frecce */
-#glossary-dialog > .search-container {
-  margin-top: 10px;
+/* Search container */
+.glossary-card .search-container {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.glossary-search-input {
+.glossary-card .glossary-search-input {
   width: 100%;
-  padding: 8px 10px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  padding: 14px 16px;
+  border: 2px solid #cfd8e3;
+  border-radius: 12px;
+  font-size: 1.1rem;
 }
 
-.glossary-search-input:focus {
+.glossary-card .glossary-search-input:focus {
   outline: none;
   border-color: #2a9d8f;
-  box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.15);
+  box-shadow: 0 0 0 4px rgba(42, 157, 143, 0.22);
 }
 
 /* Utility per label nascosta ma accessibile */
@@ -95,168 +101,148 @@ body.glossary-open #glossary-dialog {
   border: 0 !important;
 }
 
-#glossary-dialog > .navigation > button {
+.glossary-card .navigation button {
   cursor: pointer;
-  font-size: 1rem;
-  background: none;
-  border: none;
-  color: #2a9d8f;
-  font-weight: 700;
+  font-size: 1.3rem;
+  background: #2a9d8f;
+  border: 2px solid transparent;
+  color: #ffffff;
+  font-weight: 800;
   user-select: none;
-  padding: 6px;
+  padding: 10px 16px;
+  border-radius: 10px;
+  transition: background-color 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
 }
 
-#glossary-dialog > .navigation > span {
+.glossary-card .navigation span {
   font-size: 0.9rem;
-  color: #555;
+  color: #1e3a62;
+  font-weight: 700;
   user-select: none;
 }
 
 /* Pulsante chiudi */
-#glossary-dialog > button.close-btn {
+.glossary-card .close-btn {
   align-self: center;
-  margin-top: 10px !important;
-  padding: 8px 14px;
-  font-size: 0.95rem;
+  padding: 14px 24px;
+  font-size: 1.1rem;
   background-color: #e76f51;
   color: white;
-  border: none;
-  border-radius: 8px;
+  border: 2px solid transparent;
+  border-radius: 12px;
   cursor: pointer;
   user-select: none;
-  transition: background 0.25s ease, transform 0.2s ease;
+  transition: background 0.25s ease, transform 0.2s ease, border-color 0.2s ease;
+  font-weight: 800;
 }
 
-#glossary-dialog > button.close-btn:hover {
+.glossary-card .close-btn:hover,
+.glossary-card .close-btn:focus {
   background-color: #f05e3a;
-  transform: scale(1.05);
+  transform: translateY(-1px);
+  outline: none;
+  border-color: #b2412b;
 }
 
 /* Pulsante Glossario Informatico */
 button.open-glossary-btn {
   cursor: pointer;
-  font-size: 1rem;
+  font-size: 1.05rem;
   background-color: #2a9d8f;
   color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 8px 14px;
-  font-weight: 700;
-  transition: background 0.25s ease, transform 0.2s ease;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-weight: 800;
+  transition: background 0.25s ease, transform 0.2s ease, border-color 0.2s ease;
 }
 
-button.open-glossary-btn:hover {
+button.open-glossary-btn:hover,
+button.open-glossary-btn:focus {
   background-color: #21867a;
-  transform: scale(1.05);
+  transform: translateY(-1px);
+  outline: none;
+  border-color: #17695e;
 }
 
 /* Modalità grande testo */
-#glossary-dialog.large-text-mode {
-  font-size: 1.2rem !important;
-  line-height: 1.6 !important;
+.glossary-page.large-text-mode {
+  font-size: 1.3rem !important;
+  line-height: 1.7 !important;
 }
 
-#glossary-dialog.large-text-mode h2 {
+.glossary-page.large-text-mode .glossary-card h2 {
+  font-size: 2.4rem !important;
+}
+
+.glossary-page.large-text-mode .glossary-card .term-description {
   font-size: 1.4rem !important;
 }
 
-#glossary-dialog.large-text-mode .term-description {
-  font-size: 1.15rem !important;
+.glossary-page.large-text-mode .glossary-card .navigation {
+  font-size: 1.3rem !important;
 }
 
-#glossary-dialog.large-text-mode .navigation {
-  font-size: 1.05rem !important;
-}
-
-#glossary-dialog.large-text-mode .close-btn {
-  font-size: 1.05rem !important;
-  padding: 12px 18px !important;
+.glossary-page.large-text-mode .glossary-card .close-btn {
+  font-size: 1.3rem !important;
+  padding: 16px 28px !important;
 }
 
 /* ===== MOBILE ===== */
 @media (max-width: 768px) {
-  body.lock-scroll {
-    overflow: hidden !important;
-    position: fixed !important;
-    width: 100% !important;
-    height: 100vh !important;
-    top: 0;
-    left: 0;
+  .glossary-page {
+    padding: 16px;
   }
-
-  body.lock-scroll #glossary-dialog,
-  .app-container.hide-services #glossary-dialog {
-    position: fixed !important;
-    top: 25% !important;
-    left: 50% !important;
-    transform: translate(-50%, 17%) !important;
-    width: 92vw !important;
-    max-width: 420px !important;
-    height: auto !important;
-    max-height: 95vh !important;
-    overflow: hidden !important;
-    padding: 20px !important;
-    border-radius: 12px !important;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.35) !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: space-between !important;
-    align-items: stretch !important;
-    z-index: 3000 !important;
-    background: #ffffff !important;
+  
+  .glossary-card {
+    width: 100%;
+    max-width: 100%;
+    padding: 24px;
+    max-height: 90vh;
   }
-
-  body.lock-scroll #glossary-dialog > .navigation,
-  .app-container.hide-services #glossary-dialog > .navigation {
-    margin-top: auto !important;
-    margin-bottom: 10px !important;
-  }
-
-  body.lock-scroll #glossary-dialog > .search-container,
-  .app-container.hide-services #glossary-dialog > .search-container {
-    margin-bottom: 10px !important;
-  }
-
-  body.lock-scroll #glossary-dialog > button.close-btn,
-  .app-container.hide-services #glossary-dialog > button.close-btn {
-    margin-top: 10px !important;
-    align-self: center !important;
-  }
-}
-
-/* Nasconde il bottone Glossario quando aperto */
-body.lock-scroll button.open-glossary-btn,
-.app-container.hide-services button.open-glossary-btn,
-.app-container.glossary-open button.open-glossary-btn {
-  display: none !important;
-}
-
-/* Nasconde i pulsanti servizi quando glossario aperto su desktop */
-body.glossary-open .button-service {
-  display: none !important;
 }
 
 /* Contrasto elevato */
-body.high-contrast-mode #glossary-dialog,
-.app-container.high-contrast-mode #glossary-dialog {
+.glossary-page.high-contrast-mode {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.glossary-page.high-contrast-mode .glossary-card {
   background-color: #1a1a1a !important;
   color: #f0f0f0 !important;
-  border-color: #f0f0f0 !important;
-  box-shadow: 0 8px 30px rgba(255,255,255,0.2) !important;
+  border-color: #ffffff !important;
 }
 
-body.high-contrast-mode #glossary-dialog h2,
-.app-container.high-contrast-mode #glossary-dialog h2,
-body.high-contrast-mode #glossary-dialog .term-description,
-.app-container.high-contrast-mode #glossary-dialog .term-description,
-body.high-contrast-mode #glossary-dialog .navigation,
-.app-container.high-contrast-mode #glossary-dialog .navigation {
+.glossary-page.high-contrast-mode .glossary-card h2,
+.glossary-page.high-contrast-mode .glossary-card .term-description,
+.glossary-page.high-contrast-mode .glossary-card .navigation {
   color: #f0f0f0 !important;
 }
 
-body.high-contrast-mode #glossary-dialog > button.close-btn,
-.app-container.high-contrast-mode #glossary-dialog > button.close-btn {
-  background-color: #333 !important;
-  color: #f0f0f0 !important;
-  border-color: #bbb !important;
+.glossary-page.high-contrast-mode .glossary-card .term-description {
+  background-color: #333333 !important;
+  border-left-color: #ffffff !important;
+}
+
+.glossary-page.high-contrast-mode .glossary-card .navigation {
+  background-color: #333333 !important;
+}
+
+.glossary-page.high-contrast-mode .glossary-card .close-btn {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border-color: #ffffff !important;
+}
+
+/* Stato focus evidente per tutti i pulsanti */
+.glossary-card button:focus-visible,
+.glossary-card .glossary-search-input:focus-visible {
+  outline: 3px solid #2a9d8f;
+  outline-offset: 3px;
+}
+
+.glossary-page.high-contrast-mode .glossary-card button:focus-visible,
+.glossary-page.high-contrast-mode .glossary-card .glossary-search-input:focus-visible {
+  outline: 3px solid #ffffff;
 }

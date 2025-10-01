@@ -7,14 +7,15 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Servizi from "./pages/Servizi";
 import ServiceOperations from "./components/ServiceOperations";
-import DizionarioSlang from "./components/DizionarioSlang";
+import DizionarioSlang from "./pages/DizionarioSlang";
 import OperationGuide from "./components/OperationGuide";
 import Profilo from "./components/Profilo";
+import Guide from "./pages/Guide";
 import servicesData from "./pages/servicesData";
 import type { Service } from "./pages/servicesData";
 import type { AccessMode } from "./types"; 
 import "./App.css";
-import { UserProvider } from "./context/UserContext";
+import { useUser } from "./context/UserContext";
 
 function useIsMobile(breakpoint: number = 768): boolean {
   const [isMobile, setIsMobile] = useState(false);
@@ -62,6 +63,7 @@ const App: React.FC = () => {
   const [focusMode, setFocusMode] = useState(false);
   const isMobile = useIsMobile();
   const appContainerRef = useRef<HTMLDivElement>(null);
+  const { isAuthenticated } = useUser();
 
   const toggleAccessMode = (key: keyof AccessMode) => {
     setAccessMode((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -98,35 +100,48 @@ const App: React.FC = () => {
   }, [accessMode, focusMode]);
 
   return (
-    <UserProvider>
-      <div ref={appContainerRef} className="app-container">
-        <Navbar />
-        <Header />
+    <div ref={appContainerRef} className="app-container">
+      <Navbar />
+      <Header />
 
-        <Routes>
-          <Route path="/" element={<Home accessMode={accessMode} isMobile={isMobile} />} />
-          <Route path="/servizi" element={<Servizi accessMode={accessMode} isMobile={isMobile} />} />
-          <Route
-            path="/glossario"
-            element={
-              <DizionarioSlang
-                largeText={accessMode.largeText}
-                highContrast={accessMode.highContrast}
-              />
-            }
-          />
-          <Route path="/service/:serviceId" element={<ServiceOperationsWrapper accessMode={accessMode} />} />
-          <Route path="/operation/:serviceId/:operationId" element={<OperationGuide accessMode={accessMode} />} />
-          <Route path="/profilo" element={<Profilo />} />
-        </Routes>
-        <AccessibilityFab
-          accessMode={accessMode}
-          toggleAccessMode={toggleAccessMode}
-          focusMode={focusMode}
-          toggleFocusMode={toggleFocusMode}
+      <Routes>
+        <Route path="/" element={<Home accessMode={accessMode} isMobile={isMobile} />} />
+        <Route
+          path="/servizi"
+          element={isAuthenticated ? (
+            <Servizi accessMode={accessMode} isMobile={isMobile} />
+          ) : (
+            <Navigate to="/profilo" replace />
+          )}
         />
-      </div>
-    </UserProvider>
+        <Route
+          path="/glossario"
+          element={
+            <DizionarioSlang
+              largeText={accessMode.largeText}
+              highContrast={accessMode.highContrast}
+            />
+          }
+        />
+        <Route
+          path="/service/:serviceId"
+          element={isAuthenticated ? (
+            <ServiceOperationsWrapper accessMode={accessMode} />
+          ) : (
+            <Navigate to="/profilo" replace />
+          )}
+        />
+        <Route path="/operation/:serviceId/:operationId" element={<OperationGuide accessMode={accessMode} />} />
+        <Route path="/guide" element={<Guide accessMode={accessMode} />} />
+        <Route path="/profilo" element={<Profilo />} />
+      </Routes>
+      <AccessibilityFab
+        accessMode={accessMode}
+        toggleAccessMode={toggleAccessMode}
+        focusMode={focusMode}
+        toggleFocusMode={toggleFocusMode}
+      />
+    </div>
   );
 };
 

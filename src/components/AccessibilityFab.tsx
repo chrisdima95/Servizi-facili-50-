@@ -35,7 +35,11 @@ const AccessibilityFab: React.FC<AccessibilityFabProps> = ({
             enabled={accessMode.largeText}
             onToggle={() => toggleAccessMode("largeText")}
           />
-          <FocusModeButton enabled={focusMode} onToggle={toggleFocusMode} />
+          <FocusModeButton 
+            enabled={focusMode} 
+            onToggle={toggleFocusMode} 
+            highContrast={accessMode.highContrast}
+          />
         </div>
       )}
 

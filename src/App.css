@@ -5,7 +5,7 @@ body, html, #root {
   margin: 0;
   padding: 0;
   font-family: "Roboto", sans-serif;
-  background-color: #FFF9F0;
+  background-color: #fefcf8; /* sfondo uniforme per tutta la web app */
   color: #222;
   font-size: 18px;
   height: 100%;
@@ -20,6 +20,16 @@ body, html, #root {
   min-height: 100vh;
   overflow: visible !important;
   padding-bottom: 0;
+  background-color: #fefcf8; /* sfondo uniforme per tutta la web app */
+}
+
+/* Modalità alto contrasto - sovrascrive tutti i background */
+.high-contrast-mode body,
+.high-contrast-mode html,
+.high-contrast-mode #root,
+.high-contrast-mode .app-container {
+  background-color: #000000 !important;
+  color: #ffffff !important;
 }
 
 /* ===============================
@@ -41,46 +51,116 @@ body, html, #root {
   max-width: 95%;
 }
 
-.large-text-mode .navbar,
-.large-text-mode .footer-btn {
-  font-size: 28px !important;
-  padding: 14px 20px !important;
-}
+/* Rimuovo stili navbar - ora gestiti in Navbar.css */
 
 /* ===============================
-   High Contrast Mode
+   High Contrast Mode - REGOLE POTENTI
 =============================== */
-.high-contrast-mode a,
-.high-contrast-mode button {
-  color: #f0f0f0 !important;
-  background-color: #333 !important;
-  border-color: #bbb !important;
+.high-contrast-mode {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Regola universale più potente per tutti gli elementi */
+.high-contrast-mode *,
+.high-contrast-mode *::before,
+.high-contrast-mode *::after {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Regola ancora più specifica per sovrascrivere qualsiasi CSS */
+html.high-contrast-mode *,
+html.high-contrast-mode *::before,
+html.high-contrast-mode *::after,
+body.high-contrast-mode *,
+body.high-contrast-mode *::before,
+body.high-contrast-mode *::after,
+#root.high-contrast-mode *,
+#root.high-contrast-mode *::before,
+#root.high-contrast-mode *::after,
+.app-container.high-contrast-mode *,
+.app-container.high-contrast-mode *::before,
+.app-container.high-contrast-mode *::after {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Regola finale per sovrascrivere qualsiasi CSS esistente */
+.high-contrast-mode .home-container,
+.high-contrast-mode .servizi-container,
+.high-contrast-mode .profile-page,
+.high-contrast-mode .guide-page,
+.high-contrast-mode .glossary-page,
+.high-contrast-mode .guide-container,
+.high-contrast-mode .glossary-card,
+.high-contrast-mode .card,
+.high-contrast-mode .servizi-card,
+.high-contrast-mode .news,
+.high-contrast-mode .how-it-works,
+.high-contrast-mode .featured-guide,
+.high-contrast-mode .guide-section,
+.high-contrast-mode .service-card {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Sovrascrive TUTTI i background specifici */
+.high-contrast-mode body,
+.high-contrast-mode html,
+.high-contrast-mode #root,
+.high-contrast-mode .app-container {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Sovrascrive TUTTI i background delle card e contenitori */
+.high-contrast-mode .operation-btn,
+.high-contrast-mode .detail-btn {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
   box-shadow: none !important;
 }
 
-.high-contrast-mode button:hover,
-.high-contrast-mode button:focus {
-  background-color: #555 !important;
-  color: #fff !important;
-}
-
+/* Eccezioni specifiche per elementi che devono mantenere la loro funzione */
 .high-contrast-mode .navbar {
-  background-color: #333 !important;
-  color: #fff !important;
-  box-shadow: none !important;
+  background: linear-gradient(135deg, #000000 0%, #333333 100%) !important;
+  border-bottom: 2px solid #ffffff !important;
 }
 
 .high-contrast-mode .navbar .footer-btn {
-  background-color: #333 !important;
-  color: #fff !important;
-  border-color: #fff !important;
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+  border: 2px solid rgba(255, 255, 255, 0.2) !important;
 }
 
-.high-contrast-mode .navbar .footer-btn:hover,
-.high-contrast-mode .navbar .footer-btn:focus {
-  background-color: #555 !important;
-  color: #fff !important;
+.high-contrast-mode .footer {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-top: 2px solid #ffffff !important;
 }
+
+.high-contrast-mode .accessibility-fab {
+  background-color: transparent !important;
+}
+
+.high-contrast-mode .accessibility-fab .fab-trigger {
+  background: linear-gradient(135deg, #1e3a62 0%, #2a4a7a 100%) !important;
+  color: #ffffff !important;
+}
+
+.high-contrast-mode .accessibility-fab .accessibility-menu {
+  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
+  color: #1e3a62 !important;
+}
+
+.high-contrast-mode .focus-overlay {
+  background-color: rgba(0, 0, 0, 0.9) !important;
+  z-index: 10000 !important;
+}
+
+/* Rimuovo stili navbar - ora gestiti in Navbar.css */
 
 /* ===============================
    Header e Navbar
@@ -106,55 +186,7 @@ body, html, #root {
   margin: 0;
 }
 
-.navbar {
-  min-height: 70px;
-  background-color: #fff;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  flex-wrap: wrap;
-  font-size: 24px;
-  font-weight: 600;
-  position: sticky;
-  top: 0;
-  width: 100%;
-  z-index: 1100;
-  color: #222;
-  padding: 0 0px; 
-  gap: 8px;
-  overflow-x: visible; /* evita tagli a destra, consente wrap su nuova riga */
-  scrollbar-width: none; /* Firefox */
-}
-
-.navbar::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
-}
-
-.navbar .footer-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: #1E3A62;
-  user-select: none;
-  font-size: 20px;
-  padding: 6px 12px;
-  border-radius: 8px;
-  white-space: nowrap;
-  transition: color 0.3s ease, background-color 0.3s ease;
-}
-
-/* Evita che il pulsante profilo venga compresso o tagliato sul lato destro */
-.navbar .footer-btn:last-child {
-  flex-shrink: 0;
-}
-
-.navbar .footer-btn:hover,
-.navbar .footer-btn:focus {
-  color: #D9822B;
-  background-color: #fcebd2;
-  outline: none;
-}
+/* Rimuovo stili navbar - ora gestiti in Navbar.css */
 
 /* ===============================
    Pulsanti Accessibilità
@@ -335,6 +367,23 @@ body.focus-mode,
 .focus-mode .accessibility-controls {
   opacity: 1 !important;
   pointer-events: auto;
+}
+
+/* Assicura che l'overlay della modalità focus funzioni correttamente */
+.focus-mode .focus-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  pointer-events: none !important;
+  z-index: 999999 !important;
+  background-color: rgba(0, 0, 0, 0.8) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  transform: none !important;
 }
 
 /* ===============================

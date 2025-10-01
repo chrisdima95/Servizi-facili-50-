@@ -1,0 +1,132 @@
+.servizi-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 20px;
+  min-height: calc(100vh - 70px);
+}
+
+.servizi-title {
+  margin: 0 0 20px;
+  font-size: 2rem;
+  color: #1e3a62;
+  text-align: center;
+}
+
+.servizi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 992px) {
+  .servizi-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .servizi-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.servizi-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 2px solid #e7e7e7;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  padding: 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-height: 240px;
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+
+.servizi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.12);
+  border-color: #cfd8e3;
+}
+
+.servizi-card:focus-within {
+  outline: 3px solid #2a9d8f;
+  outline-offset: 3px;
+}
+
+.servizi-card .servizi-icon {
+  width: 84px;
+  height: 84px;
+  object-fit: contain;
+  margin-bottom: 14px;
+}
+
+.servizi-card h3 {
+  margin: 0 0 8px;
+  font-size: 1.3rem;
+  color: #1e3a62;
+}
+
+.servizi-card p {
+  margin: 0 0 16px;
+  color: #444;
+  line-height: 1.6;
+}
+
+.servizi-card .servizi-enter {
+  margin-top: auto;
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-color: #37537e;
+  color: #f1faee;
+  font-weight: 700;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease, border-color 0.2s ease;
+}
+
+.servizi-card .servizi-enter:hover,
+.servizi-card .servizi-enter:focus {
+  background-color: #466492;
+  transform: translateY(-1px);
+  outline: none;
+}
+
+.servizi-card .servizi-enter:focus {
+  border-color: #2a9d8f;
+}
+
+/* Accessibilità */
+.large-text-mode .servizi-card {
+  font-size: 1.2rem;
+}
+
+.high-contrast-mode .servizi-card {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-color: #ffffff !important;
+}
+
+.high-contrast-mode .servizi-card h3 {
+  color: #ffffff !important;
+}
+
+.high-contrast-mode .servizi-card .servizi-enter {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+.high-contrast-mode .servizi-card:focus-within {
+  outline-color: #ffffff !important;
+}
+
+/* Over 50 UX tweaks */
+.servizi-card,
+.servizi-card .servizi-enter {
+  border-radius: 14px;
+}
+
+
