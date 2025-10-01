@@ -107,12 +107,13 @@ body, html, #root {
 }
 
 .navbar {
-  height: 70px;
+  min-height: 70px;
   background-color: #fff;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  flex-wrap: wrap;
   font-size: 24px;
   font-weight: 600;
   position: sticky;
@@ -120,9 +121,9 @@ body, html, #root {
   width: 100%;
   z-index: 1100;
   color: #222;
-  padding: 0 20px;
+  padding: 0 0px; 
   gap: 8px;
-  overflow-x: auto; /* permette scroll orizzontale se i pulsanti sono troppo grandi */
+  overflow-x: visible; /* evita tagli a destra, consente wrap su nuova riga */
   scrollbar-width: none; /* Firefox */
 }
 
@@ -141,6 +142,11 @@ body, html, #root {
   border-radius: 8px;
   white-space: nowrap;
   transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+/* Evita che il pulsante profilo venga compresso o tagliato sul lato destro */
+.navbar .footer-btn:last-child {
+  flex-shrink: 0;
 }
 
 .navbar .footer-btn:hover,
