@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/DizionarioSlang.css";
 
@@ -47,10 +47,23 @@ const DizionarioSlang: React.FC<DizionarioSlangProps> = ({
   largeText = false,
 }) => {
   const [index, setIndex] = useState(0);
+  const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
-  const prevTerm = () => setIndex((prev) => (prev === 0 ? termini.length - 1 : prev - 1));
-  const nextTerm = () => setIndex((prev) => (prev === termini.length - 1 ? 0 : prev + 1));
+  const normalized = (value: string) => value.toLowerCase();
+
+  const filteredTerms = useMemo(() => {
+    const q = normalized(query).trim();
+    if (!q) return termini;
+    return termini.filter((t) =>
+      normalized(t.slang).includes(q) || normalized(t.description).includes(q)
+    );
+  }, [query]);
+
+  const prevTerm = () =>
+    setIndex((prev) => (filteredTerms.length === 0 ? 0 : prev === 0 ? filteredTerms.length - 1 : prev - 1));
+  const nextTerm = () =>
+    setIndex((prev) => (filteredTerms.length === 0 ? 0 : prev === filteredTerms.length - 1 ? 0 : prev + 1));
 
   // Aggiungo/rimuovo classe al body per centrare glossario
   useEffect(() => {
@@ -59,6 +72,11 @@ const DizionarioSlang: React.FC<DizionarioSlangProps> = ({
       document.body.classList.remove("glossary-open");
     };
   }, []);
+
+  // Reset l'indice quando cambia il filtro
+  useEffect(() => {
+    setIndex(0);
+  }, [query]);
 
   return (
     <aside
@@ -72,17 +90,33 @@ const DizionarioSlang: React.FC<DizionarioSlangProps> = ({
       }`}
     >
       <h2>Glossario informatico</h2>
-      <div className="term-description">
-        <strong>{termini[index].slang}:</strong> {termini[index].description}
-      </div>
+      {filteredTerms.length > 0 ? (
+        <div className="term-description">
+          <strong>{filteredTerms[index].slang}:</strong> {filteredTerms[index].description}
+        </div>
+      ) : (
+        <div className="term-description" aria-live="polite">Nessun risultato trovato.</div>
+      )}
       <div className="navigation">
-        <button onClick={prevTerm} aria-label="Termine precedente" type="button">
+        <button onClick={prevTerm} aria-label="Termine precedente" type="button" disabled={filteredTerms.length === 0}>
           ←
         </button>
-        <span aria-live="polite">{index + 1} / {termini.length}</span>
-        <button onClick={nextTerm} aria-label="Termine successivo" type="button">
+        <span aria-live="polite">{filteredTerms.length === 0 ? 0 : index + 1} / {filteredTerms.length}</span>
+        <button onClick={nextTerm} aria-label="Termine successivo" type="button" disabled={filteredTerms.length === 0}>
           →
         </button>
+      </div>
+      <div className="search-container">
+        <label htmlFor="glossary-search" className="visually-hidden">Cerca nel glossario</label>
+        <input
+          id="glossary-search"
+          type="search"
+          className="glossary-search-input"
+          placeholder="Cerca termine o descrizione..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          aria-label="Cerca termine del glossario"
+        />
       </div>
       <button
         onClick={() => navigate("/")}

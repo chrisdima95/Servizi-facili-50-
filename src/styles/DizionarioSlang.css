@@ -60,6 +60,41 @@ body.glossary-open #glossary-dialog {
   margin-top: auto !important;
 }
 
+/* Search container sotto le frecce */
+#glossary-dialog > .search-container {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.glossary-search-input {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.glossary-search-input:focus {
+  outline: none;
+  border-color: #2a9d8f;
+  box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.15);
+}
+
+/* Utility per label nascosta ma accessibile */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
 #glossary-dialog > .navigation > button {
   cursor: pointer;
   font-size: 1rem;
@@ -174,6 +209,11 @@ button.open-glossary-btn:hover {
   body.lock-scroll #glossary-dialog > .navigation,
   .app-container.hide-services #glossary-dialog > .navigation {
     margin-top: auto !important;
+    margin-bottom: 10px !important;
+  }
+
+  body.lock-scroll #glossary-dialog > .search-container,
+  .app-container.hide-services #glossary-dialog > .search-container {
     margin-bottom: 10px !important;
   }
 
