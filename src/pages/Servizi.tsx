@@ -4,6 +4,7 @@ import ButtonService from "../components/ButtonService";
 import servicesData from "./servicesData";
 import type { Service } from "./servicesData";
 import type { AccessMode } from "../types";
+import { useUser } from "../context/UserContext";
 
 interface ServiziProps {
   accessMode: AccessMode;
@@ -12,6 +13,7 @@ interface ServiziProps {
 
 const Servizi: React.FC<ServiziProps> = ({ accessMode, isMobile }) => {
   const navigate = useNavigate();
+  const { incrementServiceAccess } = useUser();
 
   return (
     <div className={`home-container ${isMobile ? "mobile" : "desktop"}`}>
@@ -22,7 +24,10 @@ const Servizi: React.FC<ServiziProps> = ({ accessMode, isMobile }) => {
             icon={service.icon ?? ""}
             label={service.name}
             extraClassName={service.id}
-            onClick={() => navigate(`/service/${service.id}`)}
+            onClick={() => {
+              incrementServiceAccess(service.id);
+              navigate(`/service/${service.id}`);
+            }}
           />
         ))}
       </div>

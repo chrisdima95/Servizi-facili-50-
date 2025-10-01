@@ -12,6 +12,7 @@ interface ServiceOperationsProps {
 
 const ServiceOperations: React.FC<ServiceOperationsProps> = ({ service, accessMode }) => {
   const navigate = useNavigate();
+  
 
   return (
     <div
@@ -32,7 +33,7 @@ const ServiceOperations: React.FC<ServiceOperationsProps> = ({ service, accessMo
           </li>
         ))}
       </ul>
-      <button className="detail-btn back" onClick={() => navigate("/")}>
+      <button className="detail-btn back" onClick={() => navigate("/servizi")}>
         Torna ai servizi
       </button>
     </div>

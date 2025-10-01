@@ -255,6 +255,11 @@ body, html, #root {
 .button-service.poste { background-color: #FFE600; border: 2px solid #CCAD00; color: #000; }
 .button-service.bcc { background-color: #0C234B; border: 2px solid #081A33; }
 
+/* High-contrast override for Sanità button label color */
+.high-contrast-mode .button-service.sanita {
+  color: #fff !important;
+}
+
 /* ===============================
    Bottone Glossario
 =============================== */
