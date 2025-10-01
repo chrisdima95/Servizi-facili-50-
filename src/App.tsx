@@ -5,9 +5,11 @@ import Header from "./components/Header";
 import AccessibilityFab from "./components/AccessibilityFab";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
+import Servizi from "./pages/Servizi";
 import ServiceOperations from "./components/ServiceOperations";
 import DizionarioSlang from "./components/DizionarioSlang";
 import OperationGuide from "./components/OperationGuide";
+import Profilo from "./pages/Profilo";
 import servicesData from "./pages/servicesData";
 import type { Service } from "./pages/servicesData";
 import type { AccessMode } from "./types"; // Import corretto dal nuovo file types.ts
@@ -97,15 +99,11 @@ const App: React.FC = () => {
   return (
     <div ref={appContainerRef} className="app-container">
       <Navbar />
-      <Header
-        accessMode={accessMode}
-        toggleAccessMode={toggleAccessMode}
-        focusMode={focusMode}
-        toggleFocusMode={toggleFocusMode}
-      />
+      <Header />
 
       <Routes>
         <Route path="/" element={<Home accessMode={accessMode} isMobile={isMobile} />} />
+        <Route path="/servizi" element={<Servizi accessMode={accessMode} isMobile={isMobile} />} />
         <Route
           path="/glossario"
           element={
@@ -117,6 +115,7 @@ const App: React.FC = () => {
         />
         <Route path="/service/:serviceId" element={<ServiceOperationsWrapper accessMode={accessMode} />} />
         <Route path="/operation/:serviceId/:operationId" element={<OperationGuide accessMode={accessMode} />} />
+        <Route path="/profilo" element={<Profilo />} />
       </Routes>
       <AccessibilityFab
         accessMode={accessMode}

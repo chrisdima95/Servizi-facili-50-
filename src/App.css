@@ -90,6 +90,22 @@ body, html, #root {
   position: relative;
 }
 
+/* Azioni header: bottone glossario sotto la navbar, a sinistra */
+.header-actions {
+  position: sticky;
+  top: 70px; /* altezza navbar */
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  padding: 10px 20px 0 20px;
+  z-index: 1000;
+}
+
+.header-actions .header-glossary-btn {
+  position: static;
+  margin: 0;
+}
+
 .navbar {
   height: 70px;
   background-color: #fff;

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import HighContrastToggle from "./HighContrastToggle";
 import LargeTextToggle from "./LargeTextToggle";
 import FocusModeButton from "./FocusModeButton";
-import { useNavigate } from "react-router-dom";
 import "../styles/AccessibilityFab.css";
 
 interface AccessibilityFabProps {
@@ -22,12 +21,7 @@ const AccessibilityFab: React.FC<AccessibilityFabProps> = ({
   toggleFocusMode,
 }) => {
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
-
-  const handleGlossary = () => {
-    setOpen(false);
-    navigate("/glossario");
-  };
+  
 
   return (
     <div className={`accessibility-fab ${open ? "open" : ""}`}>
@@ -42,13 +36,6 @@ const AccessibilityFab: React.FC<AccessibilityFabProps> = ({
             onToggle={() => toggleAccessMode("largeText")}
           />
           <FocusModeButton enabled={focusMode} onToggle={toggleFocusMode} />
-          <button
-            className="glossary-btn"
-            type="button"
-            onClick={handleGlossary}
-          >
-            Glossario informatico
-          </button>
         </div>
       )}
 
