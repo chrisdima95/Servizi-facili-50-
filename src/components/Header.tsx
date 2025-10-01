@@ -1,7 +1,5 @@
 import React from "react";
-import HighContrastToggle from "../components/HighContrastToggle";
-import LargeTextToggle from "../components/LargeTextToggle";
-import FocusModeButton from "../components/FocusModeButton";
+// I controlli vengono spostati nel FAB di accessibilità
 
 interface HeaderProps {
   accessMode: {
@@ -20,19 +18,7 @@ const Header: React.FC<HeaderProps> = ({
   toggleFocusMode,
 }) => {
   return (
-    <header className="app-header" role="banner">
-      <div className="accessibility-controls">
-        <HighContrastToggle
-          enabled={accessMode.highContrast}
-          onToggle={() => toggleAccessMode("highContrast")}
-        />
-        <LargeTextToggle
-          enabled={accessMode.largeText}
-          onToggle={() => toggleAccessMode("largeText")}
-        />
-        <FocusModeButton enabled={focusMode} onToggle={toggleFocusMode} />
-      </div>
-    </header>
+    <header className="app-header" role="banner" />
   );
 };
 

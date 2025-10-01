@@ -14,12 +14,7 @@ interface HomeProps {
 
 const Home: React.FC<HomeProps> = ({ accessMode, isMobile }) => {
   const navigate = useNavigate();
-  const [glossaryVisible, setGlossaryVisible] = useState(true);
-
-  const handleGlossaryClick = () => {
-    setGlossaryVisible(false);
-    navigate("/glossario");
-  };
+  const [glossaryVisible] = useState(false);
 
   return (
     <div className={`home-container ${isMobile ? "mobile" : "desktop"}`}>
@@ -36,19 +31,7 @@ const Home: React.FC<HomeProps> = ({ accessMode, isMobile }) => {
         ))}
       </div>
 
-      {/* Bottone Glossario fuori dalla griglia */}
-      {glossaryVisible && (
-        <div className="glossary-container-button">
-          <button
-            className={`open-glossary-btn ${
-              accessMode.largeText ? "large-text-mode" : ""
-            } ${accessMode.highContrast ? "high-contrast-mode" : ""}`}
-            onClick={handleGlossaryClick}
-          >
-            Glossario informatico
-          </button>
-        </div>
-      )}
+      {/* Bottone Glossario standalone rimosso: ora incluso nel FAB di accessibilità */}
     </div>
   );
 };

@@ -1,0 +1,89 @@
+.accessibility-fab {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 1500;
+}
+
+.accessibility-fab .fab-trigger {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: #2a9d8f;
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  cursor: pointer;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+}
+
+.accessibility-fab .fab-trigger:hover {
+  transform: translateY(-1px) scale(1.04);
+  box-shadow: 0 10px 22px rgba(0,0,0,0.28);
+  background-color: #21867a;
+}
+
+.accessibility-fab .accessibility-menu {
+  position: absolute;
+  bottom: 70px;
+  left: 0;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 260px;
+}
+
+/* Uniforma stile dei pulsanti nel menu */
+.accessibility-fab .high-contrast-toggle-btn,
+.accessibility-fab .large-text-toggle-btn,
+.accessibility-fab .accessibility-btn,
+.accessibility-fab .glossary-btn {
+  background-color: #2a9d8f;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.15s ease;
+}
+
+.accessibility-fab .high-contrast-toggle-btn:hover,
+.accessibility-fab .large-text-toggle-btn:hover,
+.accessibility-fab .accessibility-btn:hover,
+.accessibility-fab .glossary-btn:hover {
+  background-color: #21867a;
+  transform: translateY(-1px);
+}
+
+.accessibility-fab .high-contrast-toggle-btn.active,
+.accessibility-fab .large-text-toggle-btn.active,
+.accessibility-fab .accessibility-btn.active {
+  background-color: #ffffff;
+  color: #2a9d8f;
+  border: 2px solid #2a9d8f;
+}
+
+/* Tema contrasto elevato per il menu */
+body.high-contrast-mode .accessibility-fab .accessibility-menu {
+  background: #1a1a1a;
+  color: #f0f0f0;
+}
+
+@media (max-width: 768px) {
+  .accessibility-fab {
+    left: 14px;
+    bottom: 14px;
+  }
+}
+
+

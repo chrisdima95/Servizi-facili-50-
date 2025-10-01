@@ -1,7 +1,7 @@
 .high-contrast-toggle-btn {
-  background-color: #37537e;
-  color: #f1faee;
-  border: 2px solid #f1faee;
+  background-color: #2a9d8f;
+  color: #ffffff;
+  border: none;
   padding: 10px 22px;
   border-radius: 8px;
   cursor: pointer;
@@ -14,15 +14,14 @@
 
 /* Hover solo se non attivo */
 .high-contrast-toggle-btn:not(.active):hover {
-  background-color: #466492;
-  border-color: #2a3c5a;
+  background-color: #21867a;
 }
 
 /* Stato attivo */
 .high-contrast-toggle-btn.active {
-  background-color: #f1faee;
-  color: #37537e;
-  border-color: #37537e;
+  background-color: #ffffff;
+  color: #2a9d8f;
+  border: 2px solid #2a9d8f;
 }
 
 /* Forza a ignorare le regole globali */

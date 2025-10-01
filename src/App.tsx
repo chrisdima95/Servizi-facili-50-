@@ -2,6 +2,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Routes, Route, useParams, Navigate } from "react-router-dom";
 import Header from "./components/Header";
+import AccessibilityFab from "./components/AccessibilityFab";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import ServiceOperations from "./components/ServiceOperations";
@@ -117,6 +118,12 @@ const App: React.FC = () => {
         <Route path="/service/:serviceId" element={<ServiceOperationsWrapper accessMode={accessMode} />} />
         <Route path="/operation/:serviceId/:operationId" element={<OperationGuide accessMode={accessMode} />} />
       </Routes>
+      <AccessibilityFab
+        accessMode={accessMode}
+        toggleAccessMode={toggleAccessMode}
+        focusMode={focusMode}
+        toggleFocusMode={toggleFocusMode}
+      />
     </div>
   );
 };

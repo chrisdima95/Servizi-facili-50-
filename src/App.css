@@ -222,7 +222,20 @@ body, html, #root {
 .button-service.inps { background-color: #065183; border: 2px solid #005A8C; }
 .button-service.fisco { background-color: #EB641F; border: 2px solid #B34C16; }
 .button-service.inail { background-color: #00923F; border: 2px solid #006B2A; }
-.button-service.puglia { background-color: #003366; border: 2px solid #002244; }
+.button-service.puglia { background-color: #003366; border: 2px solid #002244; color: #000; }
+/* Sanità (id: sanita) — colori ispirati a PugliaSalute */
+.button-service.sanita {
+  background-color: #e6f1fb; /* tinta chiara per testo nero leggibile */
+  border: 2px solid #0056a3; /* blu brand */
+  color: #000 !important;
+}
+
+.button-service.sanita:hover,
+.button-service.sanita:focus {
+  background-color: #d6e9ff;
+  border-color: #004a8f;
+  color: #000 !important;
+}
 .button-service.poste { background-color: #FFE600; border: 2px solid #CCAD00; color: #000; }
 .button-service.bcc { background-color: #0C234B; border: 2px solid #081A33; }
 
