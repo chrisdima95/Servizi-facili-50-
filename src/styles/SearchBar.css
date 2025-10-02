@@ -5,24 +5,20 @@
 */
 
 .search-trigger {
-    /* CHIAVE: Comportamento DESKTOP - Fisso in alto a destra */
-    position: fixed; 
-    top: 20px;       
-    right: 20px;     
-    z-index: 9999;   
-    
-    /* Allineamento con la navbar (altezza navbar = 80px + padding = ~104px totale) */
-    /* Centrato verticalmente rispetto alla navbar */
-    top: 28px; /* (80px navbar - 45px search bar) / 2 + 12px padding = 28px */
+    /* INTEGRATO NELLA NAVBAR - Non più position fixed */
+    position: relative; 
     
     /* LAYOUT INTERNO */
     display: flex;
     align-items: center; 
-    gap: 10px;           
+    gap: 8px;           
     cursor: pointer; 
     
-    max-width: 350px;
-    width: 90vw;
+    /* Dimensioni ottimizzate per la navbar - più flessibili */
+    width: 250px;
+    max-width: 250px;
+    min-width: 200px;
+    flex-shrink: 0; /* Impedisce che si rimpicciolisca troppo */
 }
 
 .search-trigger-placeholder {
@@ -390,37 +386,68 @@ RESPONSIVE: Allineamento search bar con navbar
 /* Tablet e mobile */
 @media (max-width: 768px) {
     .search-trigger {
-        /* Allineamento con navbar mobile (min-height: 70px + padding: 10px) */
-        top: 23px; /* (70px - 45px) / 2 + 10px = 23px */
+        width: 220px;
+        max-width: 220px;
+        min-width: 180px;
+    }
+    
+    .navbar-search {
+        margin-left: 10px;
     }
 }
 
 /* Mobile piccolo */
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     .search-trigger {
-        /* Su mobile molto piccolo, la navbar diventa verticale, 
-           quindi manteniamo la search bar in alto */
-        top: 15px;
-        right: 15px;
-        max-width: 280px;
+        width: 90%;
+        max-width: 300px;
+        min-width: 250px;
     }
     
     .search-trigger-placeholder {
         height: 40px;
         font-size: 15px;
-        padding: 8px 12px;
+        padding: 8px 12px 8px 18px;
+    }
+    
+    .search-icon {
+        font-size: 20px;
     }
 }
 
-/* Modalità grande testo - allineamento con navbar */
+/* Desktop grande - più spazio per la search bar */
+@media (min-width: 1200px) {
+    .search-trigger {
+        width: 280px;
+        max-width: 280px;
+    }
+}
+
+/* Desktop medio - dimensioni ottimizzate */
+@media (min-width: 769px) and (max-width: 1199px) {
+    .search-trigger {
+        width: 220px;
+        max-width: 220px;
+        min-width: 180px;
+    }
+    
+    .search-trigger-placeholder {
+        font-size: 15px;
+        padding: 8px 12px 8px 16px;
+    }
+    
+    .search-icon {
+        font-size: 20px;
+    }
+}
+
+/* Modalità grande testo - dimensioni aumentate */
 .large-text-mode .search-trigger {
-    /* Allineamento con navbar in modalità grande testo (min-height: 90px + padding: 16px) */
-    top: 35px; /* (90px - 45px) / 2 + 16px = 35px */
+    width: 300px;
+    max-width: 300px;
 }
 
-/* Modalità grande testo + mobile */
-@media (max-width: 768px) {
-    .large-text-mode .search-trigger {
-        top: 28px; /* Aggiustamento per mobile con testo grande */
-    }
+.large-text-mode .search-trigger-placeholder {
+    font-size: 18px;
+    padding: 12px 18px 12px 22px;
 }

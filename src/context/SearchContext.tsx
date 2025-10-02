@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useMemo, useState } from "react";
-import servicesData, { type Service } from "../pages/servicesData";
+import servicesData, { type Service } from "../data/servicesData";
 // *** IMPORTAZIONE FONDAMENTALE ***
 import { termini } from '../pages/DizionarioSlang';
 

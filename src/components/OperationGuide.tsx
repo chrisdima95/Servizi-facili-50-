@@ -1,8 +1,8 @@
 // src/components/OperationGuide.tsx
 import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import servicesData from "../pages/servicesData";
-import type { Service, Operation } from "../pages/servicesData";
+import servicesData from "../data/servicesData";
+import type { Service, Operation } from "../data/servicesData";
 import type { AccessMode } from "../types";
 import "../styles/ServiceDetail.css";
 
