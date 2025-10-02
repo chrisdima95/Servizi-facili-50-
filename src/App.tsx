@@ -16,6 +16,8 @@ import type { Service } from "./pages/servicesData";
 import type { AccessMode } from "./types"; 
 import "./App.css";
 import { useUser } from "./context/UserContext";
+import { SearchProvider } from "./context/SearchContext";
+import SearchBar from "./components/SearchBar";
 
 function useIsMobile(breakpoint: number = 768): boolean {
   const [isMobile, setIsMobile] = useState(false);
@@ -100,9 +102,11 @@ const App: React.FC = () => {
   }, [accessMode, focusMode]);
 
   return (
+    <SearchProvider>
     <div ref={appContainerRef} className="app-container">
       <Navbar />
       <Header />
+      <SearchBar isMobile={isMobile} />
 
       <Routes>
         <Route path="/" element={<Home accessMode={accessMode} isMobile={isMobile} />} />
@@ -142,6 +146,7 @@ const App: React.FC = () => {
         toggleFocusMode={toggleFocusMode}
       />
     </div>
+    </SearchProvider>
   );
 };
 
