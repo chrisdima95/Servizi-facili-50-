@@ -566,6 +566,38 @@
   background: #ffa600;
 }
 
+/* FORM VALIDATION STYLES */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.footer-form input.error,
+.footer-form textarea.error {
+  border: 2px solid #e74c3c;
+  background-color: #fdf2f2;
+}
+
+.error-message {
+  color: #e74c3c;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+/* Stili per campi obbligatori */
+.footer-form input[required],
+.footer-form textarea[required] {
+  position: relative;
+}
+
+.footer-form input[required]:focus,
+.footer-form textarea[required]:focus {
+  outline: 2px solid #2a9d8f;
+  outline-offset: 2px;
+}
+
 /* INFO */
 .footer-info {
   flex: 1;

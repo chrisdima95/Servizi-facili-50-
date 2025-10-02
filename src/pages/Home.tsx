@@ -1,5 +1,5 @@
 // src/pages/Home.tsx
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { AccessMode } from "../types";
 import "../styles/Home.css";
@@ -12,6 +12,94 @@ interface HomeProps {
 
 const Home: React.FC<HomeProps> = ({ accessMode, isMobile }) => {
   const navigate = useNavigate();
+  
+  // State per il form di contatto
+  const [formData, setFormData] = useState({
+    nome: '',
+    cognome: '',
+    telefono: '',
+    email: '',
+    oggetto: '',
+    messaggio: '',
+    privacy: false
+  });
+  
+  const [errors, setErrors] = useState({
+    email: '',
+    messaggio: ''
+  });
+
+  // Validazione email
+  const validateEmail = (email: string) => {
+    if (!email) {
+      return 'L\'email è obbligatoria';
+    }
+    if (!email.includes('@')) {
+      return 'Inserisci un\'email valida (deve contenere @)';
+    }
+    return '';
+  };
+
+  // Gestione cambiamenti nei campi del form
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
+    
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+
+    // Validazione in tempo reale per email
+    if (name === 'email') {
+      setErrors(prev => ({
+        ...prev,
+        email: validateEmail(value)
+      }));
+    }
+    
+    // Validazione in tempo reale per messaggio
+    if (name === 'messaggio') {
+      setErrors(prev => ({
+        ...prev,
+        messaggio: value.trim() === '' ? 'Il messaggio è obbligatorio' : ''
+      }));
+    }
+  };
+
+  // Gestione invio form
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    // Validazione finale
+    const emailError = validateEmail(formData.email);
+    const messaggioError = formData.messaggio.trim() === '' ? 'Il messaggio è obbligatorio' : '';
+    
+    setErrors({
+      email: emailError,
+      messaggio: messaggioError
+    });
+    
+    // Se ci sono errori, non inviare il form
+    if (emailError || messaggioError) {
+      return;
+    }
+    
+    // Qui si può aggiungere la logica per inviare il form
+    console.log('Form inviato:', formData);
+    alert('Messaggio inviato con successo!');
+    
+    // Reset del form
+    setFormData({
+      nome: '',
+      cognome: '',
+      telefono: '',
+      email: '',
+      oggetto: '',
+      messaggio: '',
+      privacy: false
+    });
+  };
 
   return (
     <div
@@ -112,15 +200,71 @@ const Home: React.FC<HomeProps> = ({ accessMode, isMobile }) => {
           {/* FORM */}
           <div className="footer-form">
             <h2>Contattaci</h2>
-            <form>
-              <input type="text" placeholder="Nome" required />
-              <input type="text" placeholder="Cognome" required />
-              <input type="tel" placeholder="Telefono" />
-              <input type="text" placeholder="Oggetto" required />
-              <textarea placeholder="Messaggio" rows={4} required></textarea>
+            <form onSubmit={handleSubmit}>
+              <input 
+                type="text" 
+                name="nome"
+                placeholder="Nome" 
+                value={formData.nome}
+                onChange={handleInputChange}
+                required 
+              />
+              <input 
+                type="text" 
+                name="cognome"
+                placeholder="Cognome" 
+                value={formData.cognome}
+                onChange={handleInputChange}
+                required 
+              />
+              <input 
+                type="tel" 
+                name="telefono"
+                placeholder="Telefono" 
+                value={formData.telefono}
+                onChange={handleInputChange}
+              />
+              <div className="form-field">
+                <input 
+                  type="email" 
+                  name="email"
+                  placeholder="Email *" 
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                  className={errors.email ? 'error' : ''}
+                />
+                {errors.email && <span className="error-message">{errors.email}</span>}
+              </div>
+              <input 
+                type="text" 
+                name="oggetto"
+                placeholder="Oggetto" 
+                value={formData.oggetto}
+                onChange={handleInputChange}
+                required 
+              />
+              <div className="form-field">
+                <textarea 
+                  name="messaggio"
+                  placeholder="Messaggio *" 
+                  rows={4} 
+                  value={formData.messaggio}
+                  onChange={handleInputChange}
+                  required
+                  className={errors.messaggio ? 'error' : ''}
+                ></textarea>
+                {errors.messaggio && <span className="error-message">{errors.messaggio}</span>}
+              </div>
 
               <label className="privacy-check">
-                <input type="checkbox" required />
+                <input 
+                  type="checkbox" 
+                  name="privacy"
+                  checked={formData.privacy}
+                  onChange={handleInputChange}
+                  required 
+                />
                 Con l'invio del presente modulo autorizzo il trattamento dei
                 miei dati personali (ai sensi del GDPR 2016/679/UE).
               </label>

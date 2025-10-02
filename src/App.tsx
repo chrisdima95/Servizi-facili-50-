@@ -6,19 +6,18 @@ import AccessibilityFab from "./components/AccessibilityFab";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Servizi from "./pages/Servizi";
-import ServiceOperations from "./components/ServiceOperations";
+import ServiceOperations from "./pages/ServiceOperations";
 import DizionarioSlang from "./pages/DizionarioSlang";
 import OperationGuide from "./components/OperationGuide";
-import Profilo from "./components/Profilo";
+import Profilo from "./pages/Profilo";
 import Guide from "./pages/Guide";
-import servicesData from "./pages/servicesData";
-import type { Service } from "./pages/servicesData";
+import servicesData from "./data/servicesData";
+import type { Service } from "./data/servicesData";
 import type { AccessMode } from "./types"; 
 import "./App.css";
 import { useUser } from "./context/UserContext";
 import { SearchProvider } from "./context/SearchContext";
 import SearchBar from "./components/SearchBar";
-import ChatbotWidget from "./components/ChatbotWidget";
 
 function useIsMobile(breakpoint: number = 768): boolean {
   const [isMobile, setIsMobile] = useState(false);
@@ -105,9 +104,8 @@ const App: React.FC = () => {
   return (
     <SearchProvider>
     <div ref={appContainerRef} className="app-container">
-      <Navbar />
+      <Navbar isMobile={isMobile} />
       <Header />
-      <SearchBar isMobile={isMobile} />
 
       <Routes>
         <Route path="/" element={<Home accessMode={accessMode} isMobile={isMobile} />} />

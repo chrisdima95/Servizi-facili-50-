@@ -66,6 +66,9 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const isEmail = /@/.test(identifier);
     const username = isEmail ? identifier.split("@")[0] : identifier;
 
+    // Reset access stats when user logs in to start with empty pie chart
+    setAccessStats({});
+
     setUser({
       firstName: username,
       lastName: "",
@@ -78,6 +81,10 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const register = async (input: RegistrationInput): Promise<boolean> => {
     const { firstName, lastName, email, username, password } = input;
     if (!firstName || !lastName || !email || !username || !password) return false;
+    
+    // Reset access stats when user registers to start with empty pie chart
+    setAccessStats({});
+    
     setUser({ firstName, lastName, email, username });
     return true;
   };

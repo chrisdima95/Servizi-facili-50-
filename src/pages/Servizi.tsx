@@ -3,8 +3,8 @@
 import React, { useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/Servizi.css";
-import servicesData from "./servicesData";
-import type { Service } from "./servicesData";
+import servicesData from "../data/servicesData";
+import type { Service } from "../data/servicesData";
 import type { AccessMode } from "../types";
 import { useUser } from "../context/UserContext";
 // Importa l'hook useSearch per accedere alla query globale

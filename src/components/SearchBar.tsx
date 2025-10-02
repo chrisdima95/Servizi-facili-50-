@@ -110,10 +110,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ isMobile = false }) => {
     // Logica di apertura/chiusura
     const openModal = () => setIsModalOpen(true);
     
-    const closeModal = () => {
-        setIsModalOpen(false);
-        setGlobalQuery('');
-    };
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setGlobalQuery('');
+    };
 
     // Svuota la query se il modale è chiuso, e viceversa
     useEffect(() => {
@@ -127,34 +127,36 @@ const SearchBar: React.FC<SearchBarProps> = ({ isMobile = false }) => {
         }
     }, [isModalOpen, globalQuery, setGlobalQuery]);
     
-    // Il testo mostrato nel trigger
-    const triggerText = globalQuery || "Cerca nel sito...";
+    // Il testo mostrato nel trigger
+    const triggerText = globalQuery || "Cerca nel sito...";
 
-    return (
-        // Manteniamo il trigger semplice (senza posizionamento fisso)
-        <div className="search-trigger-container"> 
-            {/* 1. TRIGGER: Lente e testo */}
-            <div className="search-trigger" onClick={openModal} role="button" aria-label="Apri ricerca nel sito">
-                
-                <div className="search-trigger-placeholder">
-                    {triggerText} 
-                </div>
-                
-                <svg className="search-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-                </svg>
-            </div>
+    return (
+        <>
+            {/* 1. TRIGGER: Lente a SINISTRA e testo sincronizzato */}
+            <div className="search-trigger" onClick={openModal} role="button" aria-label="Apri ricerca nel sito">
+                
+                {/* 1. Lente (Andrà a sinistra) */}
+                <svg className="search-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
+                    <path fill="currentColor" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                </svg>
+                
+                {/* 2. Placeholder / Testo SINCRONIZZATO (Andrà a destra) */}
+                <div className="search-trigger-placeholder">
+                    {/* Mostra il testo della query O il placeholder */}
+                    {triggerText} 
+                </div>
+            </div>
 
-            {/* 2. MODALE (Posizionato in overlay tramite CSS) */}
-            {isModalOpen && (
-                <SearchModal 
-                    filteredResults={filteredGlobalResults} 
-                    onClose={closeModal} 
-                    isMobile={isMobile} 
-                />
-            )}
-        </div>
-    );
+            {/* 2. MODALE (Mostrato solo quando isModalOpen è true) */}
+            {isModalOpen && (
+                <SearchModal 
+                    filteredResults={filteredGlobalResults} 
+                    onClose={closeModal} 
+                    isMobile={isMobile} 
+                />
+            )}
+        </>
+    );
 };
 
 export default SearchBar;

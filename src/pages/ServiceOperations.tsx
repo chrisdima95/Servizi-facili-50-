@@ -1,8 +1,8 @@
-// src/components/ServiceOperations.tsx
+// src/pages/ServiceOperations.tsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import type { AccessMode } from "../types";
-import type { Service } from "../pages/servicesData";
+import type { Service } from "../data/servicesData";
 import "../styles/ServiceDetail.css";
 
 interface ServiceOperationsProps {
