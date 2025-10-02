@@ -343,6 +343,12 @@ export const useChatbot = () => {
     if (lowerInput.includes('spid') && (lowerInput.includes('come') || lowerInput.includes('ottenere'))) {
       return 'spid_setup';
     }
+    if (lowerInput.includes('730') || (lowerInput.includes('dichiarazione') && lowerInput.includes('redditi'))) {
+      return 'tax_declaration';
+    }
+    if (lowerInput.includes('tasse') || lowerInput.includes('agenzia') && lowerInput.includes('entrate')) {
+      return 'tax_declaration';
+    }
     
     return null;
   }, []);

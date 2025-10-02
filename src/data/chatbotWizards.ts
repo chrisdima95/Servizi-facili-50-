@@ -109,20 +109,52 @@ export const chatbotWizards: Record<string, Wizard> = {
       
       go_to_inps: {
         id: 'go_to_inps',
-        question: 'Perfetto! Ora ti porto alla sezione INPS. Una volta lì, clicca su "Domanda pensione" e segui la procedura guidata. Sei pronto?',
-        options: ['Sì, andiamo!', 'Aspetta, ho altre domande', 'Preferisco farlo più tardi'],
+        question: 'Perfetto! Ti guido passo passo nella domanda di pensione INPS:',
+        options: ['Iniziamo!', 'Ho altre domande', 'Fallo più tardi'],
         responses: {
-          'Sì, andiamo!': 'Eccellente! Ti porto alla pagina INPS. Ricorda: usa SPID per accedere e segui passo passo le istruzioni.',
-          'Aspetta, ho altre domande': 'Certo! Dimmi pure cosa vuoi sapere.',
-          'Preferisco farlo più tardi': 'Va benissimo! Quando sei pronto, torna qui e ripartiamo da dove abbiamo lasciato.'
+          'Iniziamo!': 'Ottimo! Ti spiego esattamente cosa fare su INPS.',
+          'Ho altre domande': 'Certo! Dimmi pure cosa vuoi sapere.',
+          'Fallo più tardi': 'Va bene! Torna quando sei pronto.'
         },
         actions: {
-          'Sì, andiamo!': ['navigateToINPS', 'highlightPensionButton']
+          'Iniziamo!': ['navigateToINPS', 'highlightPensionButton']
         },
         nextStep: {
-          'Sì, andiamo!': 'end_success',
-          'Aspetta, ho altre domande': 'more_questions',
-          'Preferisco farlo più tardi': 'end_later'
+          'Iniziamo!': 'inps_detailed_guide',
+          'Ho altre domande': 'more_questions',
+          'Fallo più tardi': 'end_later'
+        }
+      },
+      
+      inps_detailed_guide: {
+        id: 'inps_detailed_guide',
+        question: 'Ecco la procedura completa per la domanda di pensione:\n\n1️⃣ Clicca "Accedi con SPID" sul sito INPS\n2️⃣ Inserisci le tue credenziali SPID\n3️⃣ Cerca "Domanda di pensione" nel menu\n4️⃣ Clicca "Nuova domanda"\n5️⃣ Compila i dati anagrafici (già precompilati)\n\nSei riuscito ad accedere con SPID?',
+        options: ['Sì, sono dentro', 'Non riesco ad accedere', 'Non trovo "Domanda pensione"'],
+        responses: {
+          'Sì, sono dentro': 'Perfetto! Ora ti guido nella compilazione della domanda.',
+          'Non riesco ad accedere': 'Nessun problema! Ti aiuto con l\'accesso SPID.',
+          'Non trovo "Domanda pensione"': 'Te lo mostro! Guarda nella sezione "Prestazioni e Servizi" o usa la ricerca.'
+        },
+        nextStep: {
+          'Sì, sono dentro': 'pension_form_guide',
+          'Non riesco ad accedere': 'spid_access_help',
+          'Non trovo "Domanda pensione"': 'find_pension_section'
+        }
+      },
+      
+      pension_form_guide: {
+        id: 'pension_form_guide',
+        question: 'Ora compila la domanda:\n\n6️⃣ Controlla i dati anagrafici (nome, cognome, CF)\n7️⃣ Inserisci i dati contributivi (anni di lavoro)\n8️⃣ Seleziona il tipo di pensione (vecchiaia/anticipata)\n9️⃣ Allega documenti se richiesti (PDF)\n🔟 Controlla tutto e invia\n\nA che punto sei?',
+        options: ['Sto compilando', 'Non capisco i dati contributivi', 'Come allego documenti?'],
+        responses: {
+          'Sto compilando': 'Ottimo! Prenditi il tempo necessario. Se hai dubbi, torna qui.',
+          'Non capisco i dati contributivi': 'I dati contributivi sono gli anni che hai lavorato e versato contributi. Li trovi nell\'estratto conto.',
+          'Come allego documenti?': 'Clicca "Allega file", seleziona il PDF dal computer e caricalo. Massimo 5MB per file.'
+        },
+        nextStep: {
+          'Sto compilando': 'final_submission',
+          'Non capisco i dati contributivi': 'contributory_data_help',
+          'Come allego documenti?': 'document_upload_help'
         }
       },
       
@@ -171,20 +203,108 @@ export const chatbotWizards: Record<string, Wizard> = {
         question: 'Che tipo di visita devi prenotare?',
         options: ['Visita specialistica', 'Esami diagnostici', 'Non sono sicuro'],
         responses: {
-          'Visita specialistica': 'Ottimo! Ti porto a Puglia Salute nella sezione prenotazioni.',
-          'Esami diagnostici': 'Perfetto! Ti guido alla sezione esami di Puglia Salute.',
-          'Non sono sicuro': 'Nessun problema! Su Puglia Salute puoi cercare per sintomo o specialista.'
-        },
-        actions: {
-          'Visita specialistica': ['navigateToHealth', 'highlightBooking'],
-          'Esami diagnostici': ['navigateToHealth', 'highlightBooking'],
-          'Non sono sicuro': ['navigateToHealth', 'highlightBooking']
+          'Visita specialistica': 'Perfetto! Ti guido passo passo per prenotare una visita specialistica su Puglia Salute.',
+          'Esami diagnostici': 'Ottimo! Ti spiego esattamente come prenotare esami diagnostici su Puglia Salute.',
+          'Non sono sicuro': 'Nessun problema! Ti mostro come cercare quello che ti serve su Puglia Salute.'
         },
         nextStep: {
-          'Visita specialistica': 'end_health_success',
-          'Esami diagnostici': 'end_health_success',
-          'Non sono sicuro': 'end_health_success'
+          'Visita specialistica': 'specialist_visit_guide',
+          'Esami diagnostici': 'diagnostic_exams_guide',
+          'Non sono sicuro': 'general_search_guide'
         }
+      },
+      
+      specialist_visit_guide: {
+        id: 'specialist_visit_guide',
+        question: 'Ecco come prenotare una visita specialistica:\n\n1️⃣ Vai su Puglia Salute\n2️⃣ Clicca "Accedi con SPID"\n3️⃣ Inserisci le tue credenziali SPID\n4️⃣ Cerca "Prenotazioni"\n5️⃣ Seleziona "Nuova prenotazione"\n\nHai già l\'impegnativa del medico?',
+        options: ['Sì, ce l\'ho', 'No, non ce l\'ho', 'Non so cos\'è'],
+        responses: {
+          'Sì, ce l\'ho': 'Perfetto! L\'impegnativa è fondamentale. Ora ti spiego i prossimi passi.',
+          'No, non ce l\'ho': 'Ti serve l\'impegnativa del medico di base. Ti spiego come ottenerla.',
+          'Non so cos\'è': 'L\'impegnativa è il "foglio rosa" che ti dà il medico per prescrivere la visita.'
+        },
+        actions: {
+          'Sì, ce l\'ho': ['navigateToHealth', 'highlightBooking']
+        },
+        nextStep: {
+          'Sì, ce l\'ho': 'booking_with_prescription',
+          'No, non ce l\'ho': 'get_prescription',
+          'Non so cos\'è': 'explain_prescription'
+        }
+      },
+      
+      booking_with_prescription: {
+        id: 'booking_with_prescription',
+        question: 'Ottimo! Ora segui questi passi:\n\n6️⃣ Inserisci il codice dell\'impegnativa (numero lungo)\n7️⃣ Seleziona la prestazione dall\'elenco\n8️⃣ Scegli la struttura sanitaria più vicina\n9️⃣ Seleziona data e orario disponibili\n🔟 Conferma la prenotazione\n\nRiceverai SMS con i dettagli. Tutto chiaro?',
+        options: ['Sì, procedo', 'Ho bisogno di aiuto', 'Dove trovo il codice impegnativa?'],
+        responses: {
+          'Sì, procedo': 'Perfetto! Sei nella pagina giusta. Se hai problemi durante la prenotazione, torna qui.',
+          'Ho bisogno di aiuto': 'Nessun problema! Posso spiegarti ogni singolo passaggio nel dettaglio.',
+          'Dove trovo il codice impegnativa?': 'Il codice è sul foglio rosa del medico, di solito in alto a destra. È un numero lungo tipo "123456789".'
+        },
+        nextStep: {
+          'Sì, procedo': 'end_booking_success',
+          'Ho bisogno di aiuto': 'detailed_booking_help',
+          'Dove trovo il codice impegnativa?': 'prescription_code_help'
+        }
+      },
+      
+      diagnostic_exams_guide: {
+        id: 'diagnostic_exams_guide',
+        question: 'Ti guido per prenotare esami diagnostici:\n\n1️⃣ Accedi a Puglia Salute con SPID\n2️⃣ Vai su "Prenotazioni" → "Esami diagnostici"\n3️⃣ Inserisci il codice dell\'impegnativa\n4️⃣ Seleziona il tipo di esame (es. analisi sangue, ecografia, TAC)\n\nChe tipo di esame devi prenotare?',
+        options: ['Analisi del sangue', 'Ecografia', 'Radiografia', 'Altro esame'],
+        responses: {
+          'Analisi del sangue': 'Per le analisi del sangue: seleziona "Laboratorio" e poi il tipo specifico di analisi.',
+          'Ecografia': 'Per l\'ecografia: scegli "Diagnostica per immagini" e poi la parte del corpo da esaminare.',
+          'Radiografia': 'Per la radiografia: vai su "Radiologia" e seleziona la zona da radiografare.',
+          'Altro esame': 'Nessun problema! Cerca il nome dell\'esame nell\'elenco o usa la barra di ricerca.'
+        },
+        nextStep: {
+          'Analisi del sangue': 'blood_test_booking',
+          'Ecografia': 'ultrasound_booking',
+          'Radiografia': 'xray_booking',
+          'Altro esame': 'other_exam_booking'
+        }
+      },
+      
+      blood_test_booking: {
+        id: 'blood_test_booking',
+        question: 'Per le analisi del sangue:\n\n5️⃣ Seleziona "Laboratorio Analisi"\n6️⃣ Scegli il laboratorio più vicino\n7️⃣ Controlla gli orari (di solito mattina a digiuno)\n8️⃣ Prenota il primo slot disponibile\n9️⃣ Conferma e salva il promemoria\n\n💡 Ricorda: digiuno da 8-12 ore prima del prelievo!',
+        options: ['Ho prenotato', 'Non trovo slot liberi', 'Devo essere a digiuno?'],
+        responses: {
+          'Ho prenotato': 'Perfetto! Riceverai SMS di conferma. Ricorda di essere a digiuno e portare documento + tessera sanitaria.',
+          'Non trovo slot liberi': 'Prova a guardare in laboratori un po\' più lontani o nei giorni successivi. Spesso si liberano posti.',
+          'Devo essere a digiuno?': 'Sì, per la maggior parte delle analisi serve digiuno di 8-12 ore. Solo acqua è permessa.'
+        },
+        nextStep: {
+          'Ho prenotato': 'end_booking_success',
+          'Non trovo slot liberi': 'no_slots_help',
+          'Devo essere a digiuno?': 'fasting_info'
+        }
+      },
+      
+      get_prescription: {
+        id: 'get_prescription',
+        question: 'Per ottenere l\'impegnativa:\n\n1️⃣ Prenota visita dal tuo medico di base\n2️⃣ Spiega che sintomi hai o che visita ti serve\n3️⃣ Il medico ti darà l\'impegnativa (foglio rosa)\n4️⃣ Torna qui quando ce l\'hai!\n\nAlternativamente puoi chiamare il medico e spiegare la situazione.',
+        options: ['Come prenoto dal medico?', 'Posso chiamarlo?', 'Ho capito, torno dopo'],
+        responses: {
+          'Come prenoto dal medico?': 'Chiama il numero del tuo medico di base o vai direttamente nello studio negli orari di ricevimento.',
+          'Posso chiamarlo?': 'Sì! Molti medici danno impegnative anche per telefono se ti conoscono e la richiesta è semplice.',
+          'Ho capito, torno dopo': 'Perfetto! Quando hai l\'impegnativa, torna qui e ti guido nella prenotazione.'
+        },
+        nextStep: {
+          'Come prenoto dal medico?': 'doctor_booking_help',
+          'Posso chiamarlo?': 'phone_prescription_help',
+          'Ho capito, torno dopo': 'end_later'
+        }
+      },
+      
+      end_booking_success: {
+        id: 'end_booking_success',
+        question: '🎉 Perfetto! Hai completato la prenotazione su Puglia Salute.\n\n📱 Riceverai SMS di conferma\n📋 Porta documento + tessera sanitaria\n⏰ Arriva 10 minuti prima\n💰 Ricorda di pagare il ticket se dovuto\n\nSe hai problemi, torna qui e chiedimi aiuto!',
+        isEnd: true,
+        responses: {},
+        options: []
       },
       
       end_health_success: {
@@ -289,6 +409,109 @@ export const chatbotWizards: Record<string, Wizard> = {
       end_poste_success: {
         id: 'end_poste_success',
         question: 'Perfetto! Qui trovi tutte le info per PosteID. Vai in un ufficio postale con documento e tessera sanitaria, e in 10 minuti hai SPID!',
+        isEnd: true,
+        responses: {},
+        options: []
+      }
+    }
+  },
+
+  tax_declaration: {
+    id: 'tax_declaration',
+    name: 'Dichiarazione 730',
+    description: 'Ti guido passo passo per fare il 730 precompilato',
+    startStep: 'tax_start',
+    steps: {
+      tax_start: {
+        id: 'tax_start',
+        question: 'Ti aiuto con la dichiarazione dei redditi 730. Prima di tutto, hai già lo SPID per accedere all\'Agenzia delle Entrate?',
+        options: ['Sì, ce l\'ho', 'No, non ce l\'ho', 'Cos\'è il 730?'],
+        responses: {
+          'Sì, ce l\'ho': 'Perfetto! Ora ti guido passo passo nel 730 precompilato.',
+          'No, non ce l\'ho': 'Ti serve lo SPID per accedere. Ti spiego come ottenerlo.',
+          'Cos\'è il 730?': 'Il 730 è la dichiarazione dei redditi semplificata. Ti permette di avere rimborsi o pagare tasse dovute.'
+        },
+        nextStep: {
+          'Sì, ce l\'ho': 'tax_guide_start',
+          'No, non ce l\'ho': 'get_spid_tax',
+          'Cos\'è il 730?': 'explain_730'
+        }
+      },
+      
+      tax_guide_start: {
+        id: 'tax_guide_start',
+        question: 'Ecco come fare il 730 precompilato:\n\n1️⃣ Vai sul sito Agenzia delle Entrate\n2️⃣ Clicca "Accedi con SPID"\n3️⃣ Cerca "730 precompilato"\n4️⃣ Clicca "Accetta" per visualizzare la dichiarazione\n5️⃣ Controlla i dati precompilati\n\nHai mai fatto il 730 prima?',
+        options: ['Sì, altre volte', 'No, è la prima volta', 'Cosa devo controllare?'],
+        responses: {
+          'Sì, altre volte': 'Ottimo! Allora sai già cosa aspettarti. Ti guido nei controlli principali.',
+          'No, è la prima volta': 'Nessun problema! Ti spiego tutto passo passo, è più semplice di quanto pensi.',
+          'Cosa devo controllare?': 'Devi verificare stipendi, spese mediche, mutuo casa, e altre detrazioni. Te lo spiego nel dettaglio.'
+        },
+        actions: {
+          'Sì, altre volte': ['navigateToTaxes'],
+          'No, è la prima volta': ['navigateToTaxes'],
+          'Cosa devo controllare?': ['navigateToTaxes']
+        },
+        nextStep: {
+          'Sì, altre volte': 'tax_experienced_guide',
+          'No, è la prima volta': 'tax_beginner_guide',
+          'Cosa devo controllare?': 'tax_check_guide'
+        }
+      },
+      
+      tax_beginner_guide: {
+        id: 'tax_beginner_guide',
+        question: 'Prima volta con il 730? Ti guido passo passo:\n\n6️⃣ Controlla i tuoi dati anagrafici\n7️⃣ Verifica lo stipendio (Quadro C)\n8️⃣ Aggiungi spese mediche se ne hai\n9️⃣ Inserisci spese per la casa (mutuo/affitto)\n🔟 Controlla il risultato (rimborso o debito)\n\nCosa vuoi controllare per primo?',
+        options: ['Dati anagrafici', 'Stipendio', 'Spese mediche', 'Spese casa'],
+        responses: {
+          'Dati anagrafici': 'Controlla nome, cognome, codice fiscale, indirizzo. Se sono sbagliati, correggili.',
+          'Stipendio': 'Nel Quadro C trovi lo stipendio dell\'anno scorso. Controlla che corrisponda alle tue buste paga.',
+          'Spese mediche': 'Puoi detrarre visite mediche, farmaci, dentista. Inserisci l\'importo totale speso.',
+          'Spese casa': 'Se hai mutuo o affitto, puoi avere detrazioni. Inserisci gli importi pagati.'
+        },
+        nextStep: {
+          'Dati anagrafici': 'check_personal_data',
+          'Stipendio': 'check_salary',
+          'Spese mediche': 'add_medical_expenses',
+          'Spese casa': 'add_house_expenses'
+        }
+      },
+      
+      add_medical_expenses: {
+        id: 'add_medical_expenses',
+        question: 'Per aggiungere spese mediche:\n\n📋 Raccogli tutte le ricevute mediche dell\'anno\n💊 Includi: visite, farmaci, dentista, oculista\n💰 Somma tutti gli importi\n📝 Inserisci il totale nel campo "Spese sanitarie"\n\n💡 Ricorda: si detraggono solo spese sopra i 129,11€',
+        options: ['Ho inserito le spese', 'Non ho ricevute', 'Quanto posso detrarre?'],
+        responses: {
+          'Ho inserito le spese': 'Perfetto! Il sistema calcolerà automaticamente la detrazione del 19%.',
+          'Non ho ricevute': 'Senza ricevute non puoi detrarre. Per il futuro, conserva sempre gli scontrini medici.',
+          'Quanto posso detrarre?': 'Detrai il 19% delle spese sopra 129,11€. Es: 1000€ di spese = 19% di 870,89€ = 165€ di detrazione.'
+        },
+        nextStep: {
+          'Ho inserito le spese': 'final_tax_check',
+          'Non ho ricevute': 'no_receipts_advice',
+          'Quanto posso detrarre?': 'deduction_calculation'
+        }
+      },
+      
+      final_tax_check: {
+        id: 'final_tax_check',
+        question: 'Controllo finale del 730:\n\n✅ Dati anagrafici corretti\n✅ Stipendio verificato\n✅ Spese inserite\n\nOra guarda il risultato:\n🟢 Se è positivo = RIMBORSO\n🔴 Se è negativo = DEVI PAGARE\n\nSei soddisfatto del risultato?',
+        options: ['Sì, invio la dichiarazione', 'Voglio controllare ancora', 'Non capisco il risultato'],
+        responses: {
+          'Sì, invio la dichiarazione': 'Perfetto! Clicca "Invia dichiarazione" e riceverai la ricevuta. Il rimborso arriva in 2-3 mesi.',
+          'Voglio controllare ancora': 'Saggia decisione! Ricontrolla tutto con calma. Puoi sempre tornare qui.',
+          'Non capisco il risultato': 'Te lo spiego! Il numero finale indica se ricevi soldi (positivo) o devi pagarli (negativo).'
+        },
+        nextStep: {
+          'Sì, invio la dichiarazione': 'tax_submission_success',
+          'Voglio controllare ancora': 'recheck_tax',
+          'Non capisco il risultato': 'explain_tax_result'
+        }
+      },
+      
+      tax_submission_success: {
+        id: 'tax_submission_success',
+        question: '🎉 Complimenti! Hai inviato il 730 con successo!\n\n📧 Riceverai email di conferma\n📋 Salva la ricevuta di invio\n💰 Se hai rimborso, arriva in 2-3 mesi\n💳 Se devi pagare, hai tempo fino a novembre\n\nBravo! Hai completato la dichiarazione dei redditi!',
         isEnd: true,
         responses: {},
         options: []
