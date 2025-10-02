@@ -9,7 +9,7 @@ import Servizi from "./pages/Servizi";
 import ServiceOperations from "./components/ServiceOperations";
 import DizionarioSlang from "./pages/DizionarioSlang";
 import OperationGuide from "./components/OperationGuide";
-import Profilo from "./components/Profilo";
+import Profilo from "./pages/Profilo";
 import Guide from "./pages/Guide";
 import servicesData from "./pages/servicesData";
 import type { Service } from "./pages/servicesData";
