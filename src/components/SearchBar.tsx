@@ -1,45 +1,33 @@
-import React, { useState, useMemo } from 'react';
-import { useSearch } from '../context/SearchContext';
+// src/components/searchbar.tsx (MODIFICATO)
+
+import React, { useState, useMemo, useEffect } from 'react';
+// Importiamo i nuovi campi
+import { useSearch, type SearchResult } from '../context/SearchContext'; 
 import '../styles/SearchBar.css'; 
 
-// **********************************************
-// 1. DEFINIZIONI DI TIPO 
-// **********************************************
-
-interface SearchResult {
-    id: string | number;
-    title: string;
-    text: string;
-    path: string;
-}
+// ... (SearchModalProps e SearchModal rimangono invariati, MA SearchModal deve accettare/aggiornare la query globale)
 
 interface SearchModalProps {
-    query: string;
-    setQuery: (q: string) => void;
+    // Rimosso query e setQuery come props, ora prendiamo da useSearch
     filteredResults: SearchResult[];
     onClose: () => void;
-    // Nuova prop: Passata dal componente App
     isMobile: boolean; 
 }
 
-// **********************************************
-// 2. COMPONENTE MODALE (SearchModal)
-// **********************************************
-
 const SearchModal: React.FC<SearchModalProps> = ({ 
-    query, 
-    setQuery, 
     filteredResults, 
     onClose,
-    isMobile // Ricevuta la prop isMobile
+    isMobile 
 }) => {
-    
+    // Usiamo il contesto per la query
+    const { globalQuery, setGlobalQuery } = useSearch();
+
     // La ricerca e la visibilità iniziano dalla prima lettera (length >= 1)
-    const isListVisible = query.length >= 1 && filteredResults.length > 0;
-    const noResults = query.length >= 1 && filteredResults.length === 0;
+    const isListVisible = globalQuery.length >= 1 && filteredResults.length > 0;
+    const noResults = globalQuery.length >= 1 && filteredResults.length === 0;
 
     const handleLinkClick = () => {
-        setQuery('');
+        setGlobalQuery(''); // Resetta la query alla navigazione
         onClose(); 
     }
 
@@ -50,7 +38,6 @@ const SearchModal: React.FC<SearchModalProps> = ({
                 {/* Barra di ricerca all'interno del modale */}
                 <div className="search-input-wrapper-modal">
                     
-                    {/* Lente a sinistra nel modale */}
                     <svg className="search-icon-modal" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
                         <path fill="currentColor" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
                     </svg>
@@ -58,10 +45,8 @@ const SearchModal: React.FC<SearchModalProps> = ({
                     <input
                         type="text"
                         placeholder="Cerca nel sito..."
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        // L'attributo "rows" non è necessario per un input type="text"
-                        // ma gli stili CSS in SearchBar.css forzeranno l'altezza su mobile.
+                        value={globalQuery} // Usa la query globale
+                        onChange={(e) => setGlobalQuery(e.target.value)} // Aggiorna la query globale
                         autoFocus 
                     />
                 </div>
@@ -89,41 +74,39 @@ const SearchModal: React.FC<SearchModalProps> = ({
                     </div>
                 )}
                 {noResults && (
-                    <div className="no-results">Nessun risultato trovato per "{query}".</div>
+                    <div className="no-results">Nessun risultato trovato per "{globalQuery}".</div>
                 )}
             </div>
         </div>
     );
 }
 
+
 // **********************************************
 // 3. COMPONENTE PRINCIPALE (SearchBar - Trigger)
 // **********************************************
 
 interface SearchBarProps {
-    isMobile: boolean; // Ricevuta da App.tsx
+    isMobile: boolean; 
 }
 
 const SearchBar: React.FC<SearchBarProps> = ({ isMobile }) => {
-    const [query, setQuery] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
+    
+    // Usiamo il contesto
+    const { globalQuery, setGlobalQuery, filteredGlobalResults } = useSearch(); 
 
-    const { searchableContent } = useSearch(); 
-
-    const filteredResults = useMemo(() => {
-        // CHIAVE: Inizia il filtro quando la query è lunga 1 o più
-        if (query.length < 1) return []; 
-
-        const lowerCaseQuery = query.toLowerCase();
-
-        return searchableContent.filter(item => 
-            item.title.toLowerCase().includes(lowerCaseQuery) || 
-            item.text.toLowerCase().includes(lowerCaseQuery)
-        );
-    }, [query, searchableContent]); 
-
+    // Al click sul trigger, apriamo il modale E svuotiamo la query se era chiusa
     const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
+    
+    // Alla chiusura del modale, svuotiamo la query
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setGlobalQuery('');
+    };
+    
+    // Il testo mostrato nel trigger
+    const triggerText = globalQuery || "Cerca nel sito...";
 
     return (
         <>
@@ -133,7 +116,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ isMobile }) => {
                 {/* 1. Placeholder / Testo SINCRONIZZATO (Andrà a sinistra) */}
                 <div className="search-trigger-placeholder">
                     {/* Mostra il testo della query O il placeholder */}
-                    {query || "Cerca nel sito..."} 
+                    {triggerText} 
                 </div>
                 
                 {/* 2. Lente (Andrà a destra) */}
@@ -145,11 +128,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ isMobile }) => {
             {/* 2. MODALE (Mostrato solo quando isModalOpen è true) */}
             {isModalOpen && (
                 <SearchModal 
-                    query={query} 
-                    setQuery={setQuery} 
-                    filteredResults={filteredResults}
+                    // query={query} 
+                    // setQuery={setQuery} 
+                    filteredResults={filteredGlobalResults} // Passiamo i risultati globali
                     onClose={closeModal} 
-                    isMobile={isMobile} // Passiamo la prop isMobile
+                    isMobile={isMobile} 
                 />
             )}
         </>
