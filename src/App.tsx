@@ -4,6 +4,8 @@ import { Routes, Route, useParams, Navigate } from "react-router-dom";
 import Header from "./components/Header";
 import AccessibilityFab from "./components/AccessibilityFab";
 import Navbar from "./components/Navbar";
+import { ChatbotFab, ChatbotWindow } from "./components/Chatbot";
+import { useChatbot } from "./hooks/useChatbot";
 import Home from "./pages/Home";
 import Servizi from "./pages/Servizi";
 import ServiceOperations from "./pages/ServiceOperations";
@@ -55,7 +57,8 @@ const ServiceOperationsWrapper: React.FC<{ accessMode: AccessMode }> = ({ access
   return <ServiceOperations service={service} accessMode={accessMode} />;
 };
 
-const App: React.FC = () => {
+// Componente interno che usa i provider
+const AppContent: React.FC = () => {
   const [accessMode, setAccessMode] = useState<AccessMode>({
     largeText: false,
     highContrast: false,
@@ -65,6 +68,19 @@ const App: React.FC = () => {
   const isMobile = useIsMobile();
   const appContainerRef = useRef<HTMLDivElement>(null);
   const { isAuthenticated } = useUser();
+  
+  // Chatbot hook completo - ora dentro il SearchProvider
+  const {
+    messages,
+    isOpen,
+    isTyping,
+    processUserInput,
+    toggleChatbot,
+    closeChatbot,
+    clearChat,
+    handleQuickReply
+  } = useChatbot();
+  
 
   const toggleAccessMode = (key: keyof AccessMode) => {
     setAccessMode((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -101,7 +117,6 @@ const App: React.FC = () => {
   }, [accessMode, focusMode]);
 
   return (
-    <SearchProvider>
     <div ref={appContainerRef} className="app-container">
       <Navbar isMobile={isMobile} />
       <Header />
@@ -143,7 +158,33 @@ const App: React.FC = () => {
         focusMode={focusMode}
         toggleFocusMode={toggleFocusMode}
       />
+      
+      {/* CHATBOT COMPLETO - Principale */}
+      <ChatbotFab
+        isOpen={isOpen}
+        onClick={toggleChatbot}
+      />
+      
+      {isOpen && (
+        <ChatbotWindow
+          messages={messages}
+          isTyping={isTyping}
+          onSendMessage={processUserInput}
+          onQuickReply={handleQuickReply}
+          onClose={closeChatbot}
+          onClear={clearChat}
+        />
+      )}
+      
     </div>
+  );
+};
+
+// Componente App principale con provider
+const App: React.FC = () => {
+  return (
+    <SearchProvider>
+      <AppContent />
     </SearchProvider>
   );
 };

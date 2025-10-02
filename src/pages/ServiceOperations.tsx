@@ -26,6 +26,7 @@ const ServiceOperations: React.FC<ServiceOperationsProps> = ({ service, accessMo
           <li key={index} style={{ marginBottom: "8px" }}>
             <button
               className="detail-btn"
+              data-operation={op.name.toLowerCase().replace(/\s+/g, '-')}
               onClick={() => navigate(`/operation/${service.id}/${index}`)}
             >
               {op.name}

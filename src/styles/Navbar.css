@@ -17,10 +17,22 @@
   box-sizing: border-box;
 }
 
-/* Elemento invisibile per bilanciare il layout */
-.navbar-spacer {
+/* Brand area - parte sinistra */
+.navbar-brand {
   width: 250px; /* Stessa larghezza della search bar per bilanciare */
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 10px;
+}
+
+.brand-text {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 700;
+  font-family: 'Arial', sans-serif;
+  white-space: nowrap;
 }
 
 /* Container per i pulsanti - centrato */
@@ -128,6 +140,10 @@
   padding: 16px 24px;
 }
 
+.large-text-mode .brand-text {
+  font-size: 22px;
+}
+
 .large-text-mode .navbar .footer-btn {
   font-size: 22px;
   padding: 16px 32px;
@@ -146,6 +162,11 @@
   border-bottom: 3px solid #ffffff;
 }
 
+.high-contrast-mode .brand-text {
+  color: #ffffff;
+  font-weight: 900;
+}
+
 .high-contrast-mode .navbar .footer-btn {
   background: rgba(255, 255, 255, 0.1);
   border-color: #ffffff;
@@ -161,7 +182,7 @@
 
 /* Desktop - Ottimizzazione spazio per search bar */
 @media (min-width: 1200px) {
-  .navbar-spacer {
+  .navbar-brand {
     width: 280px; /* Bilancia la search bar più larga */
   }
   
@@ -180,7 +201,7 @@
     font-size: 16px;
   }
   
-  .navbar-spacer {
+  .navbar-brand {
     width: 220px; /* Bilancia la search bar più piccola */
   }
   
@@ -202,9 +223,13 @@
     flex-direction: column; /* Layout verticale su mobile */
   }
   
-  /* Nascondi lo spacer su mobile */
-  .navbar-spacer {
-    display: none;
+  /* Brand su mobile */
+  .navbar-brand {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    order: 0; /* Brand per primo */
+    margin-bottom: 10px;
   }
   
   .navbar-buttons {

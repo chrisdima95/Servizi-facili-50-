@@ -21,7 +21,9 @@ const Navbar: React.FC<NavbarProps> = React.memo(({ isMobile = false }) => {
 
   return (
     <nav className="navbar" aria-label="Navigazione principale">
-      <div className="navbar-spacer"></div>
+      <div className="navbar-brand">
+        <span className="brand-text">Servizi facili 50+</span>
+      </div>
       <div className="navbar-buttons">
         <button className="footer-btn" aria-label="Home" onClick={navigateHome}> Home</button>
         <button className="footer-btn" aria-label="Servizi" onClick={navigateServizi}> Servizi</button>

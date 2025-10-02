@@ -65,7 +65,7 @@ const Servizi: React.FC<ServiziProps> = ({ accessMode: _accessMode, isMobile: _i
             {/* Mostra i servizi filtrati (o tutti se non c'è ricerca) */}
             <section className="servizi-grid" aria-label="Elenco servizi disponibili">
                 {filteredServices.map((service: Service) => (
-                    <article key={service.id} className="servizi-card" aria-labelledby={`svc-${service.id}-title`}>
+                    <article key={service.id} className="servizi-card" aria-labelledby={`svc-${service.id}-title`} data-service={service.id}>
                         <img src={service.icon ?? ""} alt="" className="servizi-icon" aria-hidden />
                         <h3 id={`svc-${service.id}-title`}>{service.name}</h3>
                         <p>{service.description}</p>
