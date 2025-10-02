@@ -18,6 +18,7 @@ import "./App.css";
 import { useUser } from "./context/UserContext";
 import { SearchProvider } from "./context/SearchContext";
 import SearchBar from "./components/SearchBar";
+import ChatbotWidget from "./components/ChatbotWidget";
 
 function useIsMobile(breakpoint: number = 768): boolean {
   const [isMobile, setIsMobile] = useState(false);
@@ -145,6 +146,8 @@ const App: React.FC = () => {
         focusMode={focusMode}
         toggleFocusMode={toggleFocusMode}
       />
+            {/* 🎯🎯 POSIZIONE DEL CHATBOT WIDGET 🎯🎯 */}
+      <ChatbotWidget /> 
     </div>
     </SearchProvider>
   );

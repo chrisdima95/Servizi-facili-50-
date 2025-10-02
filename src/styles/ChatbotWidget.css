@@ -1,0 +1,24 @@
+/* src/components/ChatbotWidget.css */
+
+df-messenger {
+  /* 👇 RIDUCI L'ALTEZZA QUI (valore cruciale) 👇 */
+  --df-messenger-chat-window-height: 380px; /* Riduci l'altezza a 380px o meno */
+  
+  /* Riduci la larghezza per sicurezza, se necessario */
+  --df-messenger-chat-window-width: 340px; 
+  
+  /* Posizionamento dal fondo (assicurati che sia sufficiente, es. 40px) */
+  --df-messenger-button-titlebar-bottom: 40px; 
+  
+  /* ... (altre variabili) ... */
+}
+
+/* ⚠️ Ricorda di controllare anche la Media Query per Mobile */
+@media (max-width: 768px) {
+  df-messenger {
+    /* Per mobile, usa una percentuale più piccola, es. 65vh, per lasciare spazio */
+    --df-messenger-chat-window-height: 65vh; 
+    
+    /* ... (altre variabili mobile) ... */
+  }
+}
