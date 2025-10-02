@@ -1,109 +1,131 @@
-// src/components/searchbar.tsx (MODIFICATO)
-
 import React, { useState, useMemo, useEffect } from 'react';
-// Importiamo i nuovi campi
+import { useNavigate } from 'react-router-dom'; // Importa useNavigate
+// Importiamo i tipi e l'hook (usando 'type' per l'interfaccia)
 import { useSearch, type SearchResult } from '../context/SearchContext'; 
 import '../styles/SearchBar.css'; 
 
-// ... (SearchModalProps e SearchModal rimangono invariati, MA SearchModal deve accettare/aggiornare la query globale)
+// **********************************************
+// 1. COMPONENTE MODALE
+// **********************************************
 
 interface SearchModalProps {
-    // Rimosso query e setQuery come props, ora prendiamo da useSearch
-    filteredResults: SearchResult[];
-    onClose: () => void;
-    isMobile: boolean; 
+    filteredResults: SearchResult[];
+    onClose: () => void;
+    isMobile: boolean; 
 }
 
 const SearchModal: React.FC<SearchModalProps> = ({ 
-    filteredResults, 
-    onClose,
-    isMobile 
+    filteredResults, 
+    onClose,
+    isMobile 
 }) => {
-    // Usiamo il contesto per la query
-    const { globalQuery, setGlobalQuery } = useSearch();
+    const { globalQuery, setGlobalQuery } = useSearch();
+    const navigate = useNavigate(); // Hook di navigazione
 
-    // La ricerca e la visibilità iniziano dalla prima lettera (length >= 1)
-    const isListVisible = globalQuery.length >= 1 && filteredResults.length > 0;
-    const noResults = globalQuery.length >= 1 && filteredResults.length === 0;
+    const isListVisible = globalQuery.length >= 1 && filteredResults.length > 0;
+    const noResults = globalQuery.length >= 1 && filteredResults.length === 0;
 
-    const handleLinkClick = () => {
-        setGlobalQuery(''); // Resetta la query alla navigazione
-        onClose(); 
-    }
+    const handleLinkClick = (path: string, e: React.MouseEvent) => {
+        e.preventDefault();
+        
+        setGlobalQuery(''); // Resetta la query globale
+        onClose(); // Chiude il modale
+        navigate(path); // Naviga al percorso (con ?q= se è glossario)
+    };
 
-    return (
-        <div className="search-modal">
-            <div className="modal-header">
-                
-                {/* Barra di ricerca all'interno del modale */}
-                <div className="search-input-wrapper-modal">
-                    
-                    <svg className="search-icon-modal" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
-                        <path fill="currentColor" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-                    </svg>
-                    
-                    <input
-                        type="text"
-                        placeholder="Cerca nel sito..."
-                        value={globalQuery} // Usa la query globale
-                        onChange={(e) => setGlobalQuery(e.target.value)} // Aggiorna la query globale
-                        autoFocus 
-                    />
-                </div>
+    return (
+        // Questo div gestirà il posizionamento a schermo intero (vedi CSS)
+        <div className="search-modal-overlay"> 
+            <div className="search-modal" role="dialog" aria-modal="true" aria-label="Finestra di ricerca globale">
+                <div className="modal-header">
+                    
+                    {/* Barra di ricerca all'interno del modale */}
+                    <div className="search-input-wrapper-modal">
+                        
+                        <svg className="search-icon-modal" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
+                            <path fill="currentColor" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                        </svg>
+                        
+                        <input
+                            type="text"
+                            placeholder="Cerca nel sito..."
+                            value={globalQuery} 
+                            onChange={(e) => setGlobalQuery(e.target.value)} 
+                            autoFocus 
+                        />
+                    </div>
 
-                {/* Pulsante di chiusura del Modale (X) */}
-                <button className="close-modal-btn" onClick={onClose} aria-label="Chiudi ricerca">
-                    &times;
-                </button>
-            </div>
-            
-            {/* 2. Risultati sotto la barra di ricerca */}
-            <div className="modal-results-area">
-                {isListVisible && (
-                    <div className="results-container">
-                        <ul className="results-list-modal">
-                            {filteredResults.map((item) => (
-                                <li key={item.id}>
-                                    <a href={item.path} onClick={handleLinkClick}>
-                                        <strong>{item.title}</strong>
-                                        <p>{item.text.substring(0, 120)}...</p>
-                                    </a>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                )}
-                {noResults && (
-                    <div className="no-results">Nessun risultato trovato per "{globalQuery}".</div>
-                )}
-            </div>
-        </div>
-    );
-}
+                    {/* Pulsante di chiusura del Modale (X) */}
+                    <button className="close-modal-btn" onClick={onClose} aria-label="Chiudi ricerca">
+                        &times;
+                    </button>
+                </div>
+                
+                {/* 2. Risultati sotto la barra di ricerca */}
+                <div className="modal-results-area">
+                    {isListVisible && (
+                        <div className="results-container">
+                            <ul className="results-list-modal">
+                                {filteredResults.map((item) => (
+                                    <li key={item.id}>
+                                        <a href={item.path} onClick={(e) => handleLinkClick(item.path, e)}>
+                                            <span style={{ fontSize: '0.8em', color: '#999', marginRight: '8px' }}>
+                                                {item.type === 'glossary' ? '[GLOSSARIO]' : item.type === 'service' ? '[SERVIZIO]' : '[GUIDA]'}
+                                            </span>
+                                            <strong>{item.title}</strong>
+                                            <p>{item.text.substring(0, 120)}...</p>
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                    {noResults && (
+                        <div className="no-results">Nessun risultato trovato per "{globalQuery}".</div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+};
 
 
 // **********************************************
-// 3. COMPONENTE PRINCIPALE (SearchBar - Trigger)
+// 2. COMPONENTE PRINCIPALE (SearchBar - Trigger)
 // **********************************************
 
 interface SearchBarProps {
-    isMobile: boolean; 
+    // Qui puoi aggiungere le props che il tuo componente parent (App/Layout) gli passa
+    isMobile?: boolean; 
+    highContrast?: boolean;
+    largeText?: boolean;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ isMobile }) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    
-    // Usiamo il contesto
-    const { globalQuery, setGlobalQuery, filteredGlobalResults } = useSearch(); 
+const SearchBar: React.FC<SearchBarProps> = ({ isMobile = false }) => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    
+    const { globalQuery, setGlobalQuery, filteredGlobalResults } = useSearch(); 
+    const navigate = useNavigate(); // Hook di navigazione (già importato)
 
-    // Al click sul trigger, apriamo il modale E svuotiamo la query se era chiusa
-    const openModal = () => setIsModalOpen(true);
-    
-    // Alla chiusura del modale, svuotiamo la query
+    // Logica di apertura/chiusura
+    const openModal = () => setIsModalOpen(true);
+    
     const closeModal = () => {
         setIsModalOpen(false);
         setGlobalQuery('');
     };
+
+    // Svuota la query se il modale è chiuso, e viceversa
+    useEffect(() => {
+        if (isModalOpen) {
+            // Se apri il modale con il tasto, non svuotare la query
+        } else {
+            // Quando il modale si chiude, pulisci la query globale
+            if (globalQuery !== '') {
+                setGlobalQuery('');
+            }
+        }
+    }, [isModalOpen, globalQuery, setGlobalQuery]);
     
     // Il testo mostrato nel trigger
     const triggerText = globalQuery || "Cerca nel sito...";
@@ -128,9 +150,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ isMobile }) => {
             {/* 2. MODALE (Mostrato solo quando isModalOpen è true) */}
             {isModalOpen && (
                 <SearchModal 
-                    // query={query} 
-                    // setQuery={setQuery} 
-                    filteredResults={filteredGlobalResults} // Passiamo i risultati globali
+                    filteredResults={filteredGlobalResults} 
                     onClose={closeModal} 
                     isMobile={isMobile} 
                 />

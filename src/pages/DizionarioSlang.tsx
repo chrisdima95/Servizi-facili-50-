@@ -1,5 +1,8 @@
+// src/pages/DizionarioSlang.tsx (MODIFICATO)
+
 import React, { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+// Importa useSearchParams e useLocation per leggere i parametri URL
+import { useNavigate, useSearchParams } from "react-router-dom";
 import "../styles/DizionarioSlang.css";
 
 interface Term {
@@ -7,9 +10,11 @@ interface Term {
   description: string;
 }
 
-const termini: Term[] = [
+// *** 1. ESPORTIAMO L'ARRAY PER IL CONTESTO GLOBALE ***
+export const termini: Term[] = [
   { slang: "Antivirus", description: "Software che rileva e rimuove virus e minacce dal computer." },
   { slang: "Backup", description: "Copia di sicurezza dei dati per proteggerli da perdita o danni." },
+  // ... (tutti gli altri termini)
   { slang: "Browser", description: "Programma per navigare su internet (es. Chrome, Firefox)." },
   { slang: "CAPTCHA", description: "Test per distinguere umani da robot." },
   { slang: "Cookie", description: "Piccolo file usato per ricordare informazioni su un sito." },
@@ -37,48 +42,95 @@ const termini: Term[] = [
   { slang: "Worm (verme)", description: "Tipo di virus informatico che si propaga da solo attraverso la rete." },
 ];
 
+
 interface DizionarioSlangProps {
   highContrast?: boolean;
   largeText?: boolean;
 }
 
 const DizionarioSlang: React.FC<DizionarioSlangProps> = ({ highContrast = false, largeText = false }) => {
+  // 2. Legge la query dai parametri URL (per la ricerca globale)
+  const [searchParams] = useSearchParams();
+  const urlQuery = searchParams.get('q') || '';
+
+  // Usa la query locale per l'input di ricerca, ma impostala con quella dell'URL se esiste
+  const [localQuery, setLocalQuery] = useState(urlQuery);
   const [index, setIndex] = useState(0);
-  const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
   const normalized = (value: string) => value.toLowerCase();
 
+  // Sincronizza lo stato interno con la query URL se cambia esternamente
+  useEffect(() => {
+    if (urlQuery && urlQuery !== localQuery) {
+      setLocalQuery(urlQuery);
+    }
+  }, [urlQuery]);
+
+  // 3. Logica di filtraggio unificata (usa la query locale sincronizzata)
+  const currentQuery = localQuery; // usa lo stato locale che è sincronizzato
+
   const filteredTerms = useMemo(() => {
-    const q = normalized(query).trim();
+    const q = normalized(currentQuery).trim();
     if (!q) return termini;
+
     return termini.filter((t) =>
       normalized(t.slang).includes(q) || normalized(t.description).includes(q)
     );
-  }, [query]);
+  }, [currentQuery]);
 
-  useEffect(() => setIndex(0), [query]);
+  // 4. Imposta l'indice a 0 ogni volta che la query cambia
+  useEffect(() => setIndex(0), [currentQuery]);
+
+  // Cleanup: se l'utente digita nell'input locale, rimuovi il parametro 'q' dall'URL.
+  // Questo è un dettaglio avanzato per mantenere pulito l'URL, ma è facoltativo.
+  useEffect(() => {
+    if (searchParams.get('q')) {
+      // Rimuove il parametro 'q' dall'URL ma MANTIENE il filtro interno
+      navigate('/glossario', { replace: true });
+    }
+  }, [navigate]);
 
   return (
     <main className={`glossary-page ${highContrast ? "high-contrast-mode" : ""} ${largeText ? "large-text-mode" : ""}`}>
       <section className="glossary-card" aria-label="Glossario informatico">
         <h2>Glossario informatico</h2>
+
+        {currentQuery && filteredTerms.length > 0 && (
+          <p style={{ textAlign: 'center', color: '#6c757d', fontStyle: 'italic' }}>
+            Risultati per la ricerca: **"{currentQuery}"**
+          </p>
+        )}
+
         {filteredTerms.length > 0 ? (
           <div className="term-description">
             <strong>{filteredTerms[index].slang}:</strong> {filteredTerms[index].description}
           </div>
         ) : (
-          <div className="term-description" aria-live="polite">Nessun risultato trovato.</div>
+          <div className="term-description" aria-live="polite">
+            Nessun risultato trovato per **"{currentQuery}"**.
+          </div>
         )}
+
         <div className="navigation">
           <button onClick={() => setIndex((p) => (filteredTerms.length === 0 ? 0 : p === 0 ? filteredTerms.length - 1 : p - 1))} aria-label="Termine precedente" type="button" disabled={filteredTerms.length === 0}>←</button>
           <span aria-live="polite">{filteredTerms.length === 0 ? 0 : index + 1} / {filteredTerms.length}</span>
           <button onClick={() => setIndex((p) => (filteredTerms.length === 0 ? 0 : p === filteredTerms.length - 1 ? 0 : p + 1))} aria-label="Termine successivo" type="button" disabled={filteredTerms.length === 0}>→</button>
         </div>
+
         <div className="search-container">
           <label htmlFor="glossary-search" className="visually-hidden">Cerca nel glossario</label>
-          <input id="glossary-search" type="search" className="glossary-search-input" placeholder="Cerca termine o descrizione..." value={query} onChange={(e) => setQuery(e.target.value)} aria-label="Cerca termine del glossario" />
+          <input
+            id="glossary-search"
+            type="search"
+            className="glossary-search-input"
+            placeholder="Cerca termine o descrizione..."
+            value={localQuery} // Usa la query LOCALE sincronizzata
+            onChange={(e) => setLocalQuery(e.target.value)} // Aggiorna la query LOCALE
+            aria-label="Cerca termine del glossario"
+          />
         </div>
+
         <button onClick={() => navigate("/")} aria-label="Chiudi glossario" className="close-btn" type="button">Chiudi</button>
       </section>
     </main>
@@ -86,5 +138,3 @@ const DizionarioSlang: React.FC<DizionarioSlangProps> = ({ highContrast = false,
 };
 
 export default DizionarioSlang;
-
-
