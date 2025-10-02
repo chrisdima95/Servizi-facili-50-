@@ -175,7 +175,6 @@ const AppContent: React.FC = () => {
           onClear={clearChat}
         />
       )}
-      
     </div>
   );
 };
