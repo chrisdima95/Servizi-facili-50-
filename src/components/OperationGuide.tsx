@@ -3,7 +3,7 @@ import React from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import servicesData from "../data/servicesData";
 import type { Service, Operation } from "../data/servicesData";
-import type { AccessMode } from "../types";
+import type { AccessMode } from "../types/accessibility";
 import "../styles/ServiceDetail.css";
 
 interface OperationGuideProps {
@@ -58,20 +58,19 @@ const OperationGuide: React.FC<OperationGuideProps> = ({ accessMode }) => {
       </section>
 
       <div style={{ display: "flex", gap: 12, justifyContent: "center", marginTop: 16 }}>
+        <button className="detail-btn back" onClick={() => navigate(`/service/${service.id}`)}>
+          Torna indietro
+        </button>
+
         <a
-          className="detail-btn"
+          className="detail-btn official-site"
           href={operation.url}
           target="_blank"
           rel="noopener noreferrer"
           aria-label={`Apri il sito ufficiale per ${operation.name}`}
-          style={{ textDecoration: "none" }}
         >
           Vai al sito ufficiale
         </a>
-
-        <button className="detail-btn back" onClick={() => navigate(`/service/${service.id}`)}>
-          Torna indietro
-        </button>
       </div>
     </div>
   );

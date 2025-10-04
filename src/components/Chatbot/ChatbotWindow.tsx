@@ -2,7 +2,7 @@
 import React, { useRef, useEffect } from 'react';
 import ChatbotMessage from './ChatbotMessage';
 import ChatbotInput from './ChatbotInput';
-import type { ChatMessage } from '../../types/chatbot-types';
+import type { ChatMessage } from './chatbot-types';
 import '../../styles/Chatbot.css';
 
 interface ChatbotWindowProps {
@@ -14,7 +14,7 @@ interface ChatbotWindowProps {
   onClear: () => void;
 }
 
-const ChatbotWindow: React.FC<ChatbotWindowProps> = ({
+const ChatbotWindow: React.FC<ChatbotWindowProps> = React.memo(({
   messages,
   isTyping,
   onSendMessage,
@@ -25,15 +25,28 @@ const ChatbotWindow: React.FC<ChatbotWindowProps> = ({
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messagesContainerRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll ai nuovi messaggi
+  // Auto-scroll ai nuovi messaggi - ottimizzato per ridurre re-render
   useEffect(() => {
-    if (messagesEndRef.current) {
+    if (messages.length === 0) {
+      // Se non ci sono messaggi, scrolla verso l'alto per mostrare il benvenuto
+      if (messagesContainerRef.current) {
+        messagesContainerRef.current.scrollTop = 0;
+      }
+    } else if (messagesEndRef.current) {
+      // Se ci sono messaggi, scrolla verso l'ultimo messaggio
       messagesEndRef.current.scrollIntoView({ 
         behavior: 'smooth',
         block: 'end'
       });
     }
-  }, [messages, isTyping]);
+  }, [messages.length, isTyping]); // Solo quando cambia il numero di messaggi, non tutto l'array
+
+  // Assicurati che il chatbot si apra sempre dall'alto
+  useEffect(() => {
+    if (messagesContainerRef.current) {
+      messagesContainerRef.current.scrollTop = 0;
+    }
+  }, []);
 
   // Gestione tasti per accessibilità
   useEffect(() => {
@@ -90,6 +103,15 @@ const ChatbotWindow: React.FC<ChatbotWindowProps> = ({
               🗑️
             </button>
           )}
+          <button
+            className="chatbot-close-btn"
+            onClick={onClose}
+            aria-label="Chiudi assistente"
+            title="Chiudi assistente"
+            type="button"
+          >
+            ×
+          </button>
         </div>
       </div>
 
@@ -137,10 +159,17 @@ const ChatbotWindow: React.FC<ChatbotWindowProps> = ({
                 </button>
                 <button 
                   className="chatbot-suggestion-btn"
-                  onClick={() => onQuickReply('Come funziona questo sito?')}
+                  onClick={() => onQuickReply('Mostrami come navigare')}
                   type="button"
                 >
-                  ❓ Come funziona
+                  🧭 Come navigare
+                </button>
+                <button 
+                  className="chatbot-suggestion-btn"
+                  onClick={() => onQuickReply('Mail scam')}
+                  type="button"
+                >
+                  🛡️ Mail scam
                 </button>
               </div>
             </div>
@@ -181,6 +210,6 @@ const ChatbotWindow: React.FC<ChatbotWindowProps> = ({
       <ChatbotInput onSendMessage={onSendMessage} disabled={isTyping} />
     </div>
   );
-};
+});
 
 export default ChatbotWindow;

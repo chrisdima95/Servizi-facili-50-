@@ -5,10 +5,10 @@ import { useNavigate } from "react-router-dom";
 import "../styles/Servizi.css";
 import servicesData from "../data/servicesData";
 import type { Service } from "../data/servicesData";
-import type { AccessMode } from "../types";
-import { useUser } from "../context/UserContext";
+import type { AccessMode } from "../types/accessibility";
+import { useUser } from "../contexts/UserContext";
 // Importa l'hook useSearch per accedere alla query globale
-import { useSearch } from "../context/SearchContext"; 
+import { useSearch } from "../contexts/SearchContext"; 
 
 
 interface ServiziProps {
@@ -16,7 +16,7 @@ interface ServiziProps {
     isMobile: boolean;
 }
 
-const Servizi: React.FC<ServiziProps> = ({ accessMode: _accessMode, isMobile: _isMobile }) => {
+const Servizi: React.FC<ServiziProps> = React.memo(({ accessMode: _accessMode, isMobile: _isMobile }) => {
     const navigate = useNavigate();
     const { incrementServiceAccess } = useUser();
     
@@ -94,6 +94,6 @@ const Servizi: React.FC<ServiziProps> = ({ accessMode: _accessMode, isMobile: _i
             </section>
         </div>
     );
-};
+});
 
 export default Servizi;

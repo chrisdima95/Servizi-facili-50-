@@ -10,17 +10,50 @@ body, html, #root {
   font-size: 18px;
   height: 100%;
   min-height: 100vh;
-  overflow-x: hidden;
+  overflow-x: hidden !important;
   overflow-y: auto;
+  scroll-behavior: auto !important; /* Forza scroll istantaneo */
+  box-sizing: border-box;
+}
+
+
+/* Forza scroll verso l'alto su tutti gli elementi scrollabili */
+* {
+  scroll-behavior: auto !important;
+}
+
+/* Forza scroll verso l'alto su ogni cambio di route */
+html, body {
+  scroll-behavior: auto !important;
+  scroll-padding-top: 0 !important;
+}
+
+/* Disabilita qualsiasi scroll restoration */
+html {
+  scroll-behavior: auto !important;
+}
+
+body {
+  scroll-behavior: auto !important;
+  scroll-padding-top: 0 !important;
+}
+
+#root {
+  scroll-behavior: auto !important;
+  scroll-padding-top: 0 !important;
 }
 
 .app-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  overflow: visible !important;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden !important;
+  overflow-y: visible;
   padding-bottom: 0;
   background-color: #fefcf8; /* sfondo uniforme per tutta la web app */
+  box-sizing: border-box;
 }
 
 /* Modalità alto contrasto - sovrascrive tutti i background */
@@ -30,6 +63,57 @@ body, html, #root {
 .high-contrast-mode .app-container {
   background-color: #000000 !important;
   color: #ffffff !important;
+}
+
+/* Contrasto elevato su mobile - rimuovo background neri per evitare rettangoli visibili */
+@media (max-width: 768px) {
+  .high-contrast-mode .navbar-brand,
+  .high-contrast-mode .navbar-mobile-actions,
+  .high-contrast-mode .navbar-search,
+  .high-contrast-mode .logo-container {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* Regole con specificità più alta per sovrascrivere la regola universale */
+  .high-contrast-mode .navbar .navbar-brand,
+  .high-contrast-mode .navbar .navbar-mobile-actions,
+  .high-contrast-mode .navbar .navbar-search,
+  .high-contrast-mode .navbar .logo-container,
+  .high-contrast-mode .navbar-brand .logo-container,
+  .high-contrast-mode .navbar-mobile-actions .navbar-search {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* Regole specifiche per il logo SVG - ripristino il cerchio di background bianco */
+  .high-contrast-mode .logo-svg circle[fill="url(#backgroundGradient)"] {
+    background-color: #ffffff !important;
+    fill: #ffffff !important;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  
+  /* Rimuovo il background nero dal logo-svg nel contrasto elevato su mobile */
+  .high-contrast-mode .logo-svg {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* Mantengo visibili tutti gli altri elementi del logo */
+  .high-contrast-mode .logo-svg path,
+  .high-contrast-mode .logo-svg text {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
 }
 
 /* ===============================
@@ -54,53 +138,320 @@ body, html, #root {
 /* Rimuovo stili navbar - ora gestiti in Navbar.css */
 
 /* ===============================
-   High Contrast Mode - REGOLE POTENTI
+   High Contrast Mode - SISTEMA RAFFINATO
 =============================== */
 .high-contrast-mode {
   background-color: #000000 !important;
   color: #ffffff !important;
 }
 
-/* Regola universale più potente per tutti gli elementi */
+/* ===============================
+   SISTEMA CONTRASTO ADATTIVO
+=============================== */
+
+/* Livello Basso - Bordi sottili (1px) */
+.contrast-low {
+  --border-thickness-content: 1px;
+  --border-thickness-interactive: 1px;
+  --border-thickness-critical: 1.5px;
+  --border-opacity: 0.6;
+}
+
+/* Livello Medio - Bordi medi (1.5px) - Default */
+.contrast-medium {
+  --border-thickness-content: 1.5px;
+  --border-thickness-interactive: 1.5px;
+  --border-thickness-critical: 2px;
+  --border-opacity: 0.8;
+}
+
+/* Livello Alto - Bordi marcati (2px) */
+.contrast-high {
+  --border-thickness-content: 2px;
+  --border-thickness-interactive: 2px;
+  --border-thickness-critical: 3px;
+  --border-opacity: 1;
+}
+
+/* Bordi contestuali per elementi di contenuto */
+.contrast-low .card,
+.contrast-low .servizi-card,
+.contrast-low .operation-card,
+.contrast-low .service-card,
+.contrast-low .glossary-card,
+.contrast-low .step,
+.contrast-low .feature,
+.contrast-low .tip,
+.contrast-low .problem,
+.contrast-low .support-item,
+.contrast-low .guide-container,
+.contrast-low .profile-page {
+  border: var(--border-thickness-content) solid rgba(255, 255, 255, var(--border-opacity)) !important;
+}
+
+.contrast-medium .card,
+.contrast-medium .servizi-card,
+.contrast-medium .operation-card,
+.contrast-medium .service-card,
+.contrast-medium .glossary-card,
+.contrast-medium .step,
+.contrast-medium .feature,
+.contrast-medium .tip,
+.contrast-medium .problem,
+.contrast-medium .support-item,
+.contrast-medium .guide-container,
+.contrast-medium .profile-page {
+  border: var(--border-thickness-content) solid rgba(255, 255, 255, var(--border-opacity)) !important;
+}
+
+.contrast-high .card,
+.contrast-high .servizi-card,
+.contrast-high .operation-card,
+.contrast-high .service-card,
+.contrast-high .glossary-card,
+.contrast-high .step,
+.contrast-high .feature,
+.contrast-high .tip,
+.contrast-high .problem,
+.contrast-high .support-item,
+.contrast-high .guide-container,
+.contrast-high .profile-page {
+  border: var(--border-thickness-content) solid rgba(255, 255, 255, var(--border-opacity)) !important;
+}
+
+/* Bordi contestuali per elementi interattivi */
+.contrast-low .button-service,
+.contrast-low .hero-buttons button,
+.contrast-low .glossary-btn,
+.contrast-low .operation-btn,
+.contrast-low .detail-btn,
+.contrast-low .servizi-enter,
+.contrast-low .profile-primary-btn,
+.contrast-low .profile-secondary-btn,
+.contrast-low .back-button,
+.contrast-low .navbar .footer-btn,
+.contrast-low .accessibility-fab .fab-trigger {
+  border: var(--border-thickness-interactive) solid rgba(255, 255, 255, var(--border-opacity)) !important;
+}
+
+.contrast-medium .button-service,
+.contrast-medium .hero-buttons button,
+.contrast-medium .glossary-btn,
+.contrast-medium .operation-btn,
+.contrast-medium .detail-btn,
+.contrast-medium .servizi-enter,
+.contrast-medium .profile-primary-btn,
+.contrast-medium .profile-secondary-btn,
+.contrast-medium .back-button,
+.contrast-medium .navbar .footer-btn,
+.contrast-medium .accessibility-fab .fab-trigger {
+  border: var(--border-thickness-interactive) solid rgba(255, 255, 255, var(--border-opacity)) !important;
+}
+
+.contrast-high .button-service,
+.contrast-high .hero-buttons button,
+.contrast-high .glossary-btn,
+.contrast-high .operation-btn,
+.contrast-high .detail-btn,
+.contrast-high .servizi-enter,
+.contrast-high .profile-primary-btn,
+.contrast-high .profile-secondary-btn,
+.contrast-high .back-button,
+.contrast-high .navbar .footer-btn,
+.contrast-high .accessibility-fab .fab-trigger {
+  border: var(--border-thickness-interactive) solid rgba(255, 255, 255, var(--border-opacity)) !important;
+}
+
+/* Bordi contestuali per elementi critici */
+.contrast-low .navbar,
+.contrast-low .accessibility-fab .accessibility-menu,
+.contrast-low .profile-error {
+  border: var(--border-thickness-critical) solid rgba(255, 255, 255, var(--border-opacity)) !important;
+}
+
+.contrast-medium .navbar,
+.contrast-medium .accessibility-fab .accessibility-menu,
+.contrast-medium .profile-error {
+  border: var(--border-thickness-critical) solid rgba(255, 255, 255, var(--border-opacity)) !important;
+}
+
+.contrast-high .navbar,
+.contrast-high .accessibility-fab .accessibility-menu,
+.contrast-high .profile-error {
+  border: var(--border-thickness-critical) solid rgba(255, 255, 255, var(--border-opacity)) !important;
+}
+
+/* Bordi contestuali per input fields */
+.contrast-low .profile-input,
+.contrast-low .glossary-search-input,
+.contrast-low .search-trigger {
+  border: var(--border-thickness-interactive) solid rgba(255, 255, 255, var(--border-opacity)) !important;
+}
+
+.contrast-medium .profile-input,
+.contrast-medium .glossary-search-input,
+.contrast-medium .search-trigger {
+  border: var(--border-thickness-interactive) solid rgba(255, 255, 255, var(--border-opacity)) !important;
+}
+
+.contrast-high .profile-input,
+.contrast-high .glossary-search-input,
+.contrast-high .search-trigger {
+  border: var(--border-thickness-interactive) solid rgba(255, 255, 255, var(--border-opacity)) !important;
+}
+
+/* Stati dinamici - bordi più marcati su hover/focus */
+.contrast-low .button-service:hover,
+.contrast-low .button-service:focus,
+.contrast-low .hero-buttons button:hover,
+.contrast-low .hero-buttons button:focus,
+.contrast-low .glossary-btn:hover,
+.contrast-low .glossary-btn:focus,
+.contrast-low .operation-btn:hover,
+.contrast-low .operation-btn:focus,
+.contrast-low .detail-btn:hover,
+.contrast-low .detail-btn:focus,
+.contrast-low .servizi-enter:hover,
+.contrast-low .servizi-enter:focus,
+.contrast-low .profile-primary-btn:hover,
+.contrast-low .profile-primary-btn:focus,
+.contrast-low .profile-secondary-btn:hover,
+.contrast-low .profile-secondary-btn:focus,
+.contrast-low .back-button:hover,
+.contrast-low .back-button:focus {
+  border-width: calc(var(--border-thickness-interactive) + 0.5px) !important;
+}
+
+.contrast-medium .button-service:hover,
+.contrast-medium .button-service:focus,
+.contrast-medium .hero-buttons button:hover,
+.contrast-medium .hero-buttons button:focus,
+.contrast-medium .glossary-btn:hover,
+.contrast-medium .glossary-btn:focus,
+.contrast-medium .operation-btn:hover,
+.contrast-medium .operation-btn:focus,
+.contrast-medium .detail-btn:hover,
+.contrast-medium .detail-btn:focus,
+.contrast-medium .servizi-enter:hover,
+.contrast-medium .servizi-enter:focus,
+.contrast-medium .profile-primary-btn:hover,
+.contrast-medium .profile-primary-btn:focus,
+.contrast-medium .profile-secondary-btn:hover,
+.contrast-medium .profile-secondary-btn:focus,
+.contrast-medium .back-button:hover,
+.contrast-medium .back-button:focus {
+  border-width: calc(var(--border-thickness-interactive) + 0.5px) !important;
+}
+
+.contrast-high .button-service:hover,
+.contrast-high .button-service:focus,
+.contrast-high .hero-buttons button:hover,
+.contrast-high .hero-buttons button:focus,
+.contrast-high .glossary-btn:hover,
+.contrast-high .glossary-btn:focus,
+.contrast-high .operation-btn:hover,
+.contrast-high .operation-btn:focus,
+.contrast-high .detail-btn:hover,
+.contrast-high .detail-btn:focus,
+.contrast-high .servizi-enter:hover,
+.contrast-high .servizi-enter:focus,
+.contrast-high .profile-primary-btn:hover,
+.contrast-high .profile-primary-btn:focus,
+.contrast-high .profile-secondary-btn:hover,
+.contrast-high .profile-secondary-btn:focus,
+.contrast-high .back-button:hover,
+.contrast-high .back-button:focus {
+  border-width: calc(var(--border-thickness-interactive) + 0.5px) !important;
+}
+
+/* Transizioni smooth per i cambiamenti di contrasto */
+.contrast-low *,
+.contrast-medium *,
+.contrast-high * {
+  transition: border-width 0.3s ease, border-color 0.3s ease, border-opacity 0.3s ease;
+}
+
+/* ===============================
+   ECCEZIONI SPECIFICHE PER ELEMENTI SPECIALI
+=============================== */
+
+/* Logo e elementi trasparenti */
+.high-contrast-mode .logo-container,
+.high-contrast-mode .logo-container *,
+.high-contrast-mode .logo-svg,
+.high-contrast-mode .logo-svg * {
+  background-color: transparent !important;
+  background: transparent !important;
+}
+
+.high-contrast-mode .logo-svg circle[fill="url(#backgroundGradient)"] {
+  background-color: #ffffff !important;
+  fill: #ffffff !important;
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Icone e elementi speciali */
+.high-contrast-mode .accessibility-fab .fab-icon {
+  background-color: transparent !important;
+  color: #ffffff !important;
+  filter: brightness(0) invert(1) !important;
+}
+
+.high-contrast-mode .hamburger-menu-button {
+  background: #000000 !important;
+  border: 2px solid #ffffff !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3) !important;
+}
+
+.high-contrast-mode .hamburger-menu-button:hover {
+  background: #333333 !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4) !important;
+}
+
+.high-contrast-mode .hamburger-line {
+  background: #ffffff !important;
+}
+
+.high-contrast-mode .arrow-left {
+  color: #ffffff !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Navbar e elementi di navigazione */
+.high-contrast-mode .navbar .footer-btn::after {
+  background-color: transparent !important;
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+.high-contrast-mode .navbar-buttons,
+.high-contrast-mode .navbar-search {
+  background-color: transparent !important;
+}
+
+.high-contrast-mode .search-icon {
+  background-color: transparent !important;
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  filter: none !important;
+}
+
+.high-contrast-mode .search-trigger {
+  background-color: transparent !important;
+}
+
+/* ===============================
+   REGOLE UNIVERSALI PER CONTRASTO ELEVATO
+=============================== */
+
+/* Applica background nero e testo bianco a tutti gli elementi */
 .high-contrast-mode *,
 .high-contrast-mode *::before,
 .high-contrast-mode *::after {
-  background-color: #000000 !important;
-  color: #ffffff !important;
-}
-
-/* Regola ancora più specifica per sovrascrivere qualsiasi CSS */
-html.high-contrast-mode *,
-html.high-contrast-mode *::before,
-html.high-contrast-mode *::after,
-body.high-contrast-mode *,
-body.high-contrast-mode *::before,
-body.high-contrast-mode *::after,
-#root.high-contrast-mode *,
-#root.high-contrast-mode *::before,
-#root.high-contrast-mode *::after,
-.app-container.high-contrast-mode *,
-.app-container.high-contrast-mode *::before,
-.app-container.high-contrast-mode *::after {
-  background-color: #000000 !important;
-  color: #ffffff !important;
-}
-
-/* Regola finale per sovrascrivere qualsiasi CSS esistente */
-.high-contrast-mode .home-container,
-.high-contrast-mode .servizi-container,
-.high-contrast-mode .profile-page,
-.high-contrast-mode .guide-page,
-.high-contrast-mode .glossary-page,
-.high-contrast-mode .guide-container,
-.high-contrast-mode .glossary-card,
-.high-contrast-mode .card,
-.high-contrast-mode .servizi-card,
-.high-contrast-mode .news,
-.high-contrast-mode .how-it-works,
-.high-contrast-mode .featured-guide,
-.high-contrast-mode .guide-section,
-.high-contrast-mode .service-card {
   background-color: #000000 !important;
   color: #ffffff !important;
 }
@@ -115,24 +466,33 @@ body.high-contrast-mode *::after,
 }
 
 /* Sovrascrive TUTTI i background delle card e contenitori */
+.high-contrast-mode .home-container,
+.high-contrast-mode .servizi-container,
+.high-contrast-mode .profile-page,
+.high-contrast-mode .guide-page,
+.high-contrast-mode .glossary-page,
+.high-contrast-mode .guide-container,
+.high-contrast-mode .glossary-card,
+.high-contrast-mode .card,
+.high-contrast-mode .servizi-card,
+.high-contrast-mode .operation-card,
+.high-contrast-mode .service-card {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+/* Sovrascrive TUTTI i background dei bottoni */
 .high-contrast-mode .operation-btn,
 .high-contrast-mode .detail-btn {
   background-color: #000000 !important;
   color: #ffffff !important;
-  border: 2px solid #ffffff !important;
   box-shadow: none !important;
 }
 
-/* Eccezioni specifiche per elementi che devono mantenere la loro funzione */
+/* Navbar e footer */
 .high-contrast-mode .navbar {
   background: linear-gradient(135deg, #000000 0%, #333333 100%) !important;
   border-bottom: 2px solid #ffffff !important;
-}
-
-.high-contrast-mode .navbar .footer-btn {
-  background: rgba(255, 255, 255, 0.1) !important;
-  color: #ffffff !important;
-  border: 2px solid rgba(255, 255, 255, 0.2) !important;
 }
 
 .high-contrast-mode .footer {
@@ -141,18 +501,19 @@ body.high-contrast-mode *::after,
   border-top: 2px solid #ffffff !important;
 }
 
+/* Accessibility Fab */
 .high-contrast-mode .accessibility-fab {
   background-color: transparent !important;
 }
 
 .high-contrast-mode .accessibility-fab .fab-trigger {
-  background: linear-gradient(135deg, #1e3a62 0%, #2a4a7a 100%) !important;
+  background: #000000 !important;
   color: #ffffff !important;
 }
 
 .high-contrast-mode .accessibility-fab .accessibility-menu {
-  background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%) !important;
-  color: #1e3a62 !important;
+  background: #000000 !important;
+  color: #ffffff !important;
 }
 
 .high-contrast-mode .focus-overlay {
@@ -272,26 +633,26 @@ body.high-contrast-mode *::after,
   opacity: 0.9;
 }
 
-/* Colori bottoni servizi */
-.button-service.inps { background-color: #065183; border: 2px solid #005A8C; }
-.button-service.fisco { background-color: #EB641F; border: 2px solid #B34C16; }
-.button-service.inail { background-color: #00923F; border: 2px solid #006B2A; }
+/* Colori bottoni servizi - abbinati ai colori ufficiali dei brand */
+.button-service.inps { background-color: #0073E6; border: 2px solid #0056B8; } /* Azzurro INPS */
+.button-service.fisco { background-color: #FF6600; border: 2px solid #CC5200; } /* Arancione Agenzia delle Entrate */
+.button-service.inail { background-color: #0033A0; border: 2px solid #002880; } /* Blu INAIL */
 .button-service.puglia { background-color: #003366; border: 2px solid #002244; color: #000; }
 /* Sanità (id: sanita) — colori ispirati a PugliaSalute */
 .button-service.sanita {
-  background-color: #e6f1fb; /* tinta chiara per testo nero leggibile */
-  border: 2px solid #0056a3; /* blu brand */
-  color: #000 !important;
+  background-color: #00A651; /* Verde PugliaSalute */
+  border: 2px solid #008A42;
+  color: #fff !important;
 }
 
 .button-service.sanita:hover,
 .button-service.sanita:focus {
-  background-color: #d6e9ff;
-  border-color: #004a8f;
-  color: #000 !important;
+  background-color: #009A4A;
+  border-color: #007A3A;
+  color: #fff !important;
 }
-.button-service.poste { background-color: #FFE600; border: 2px solid #CCAD00; color: #000; }
-.button-service.bcc { background-color: #0C234B; border: 2px solid #081A33; }
+.button-service.poste { background-color: #FFCC00; border: 2px solid #CC9900; color: #000; } /* Giallo Poste Italiane */
+.button-service.bcc { background-color: #1B365D; border: 2px solid #142A47; } /* Blu scuro BCC */
 
 /* High-contrast override for Sanità button label color */
 .high-contrast-mode .button-service.sanita {
@@ -302,18 +663,23 @@ body.high-contrast-mode *::after,
    Bottone Glossario
 =============================== */
 button.open-glossary-btn {
-  background-color: #2a9d8f;
+  background-color: #1e3a62;
   color: white;
   font-size: 18px;
   padding: 12px 16px;
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 8px rgba(30, 58, 98, 0.3);
   user-select: none;
   display: inline-block;
   z-index: 1100;
   transition: all 0.3s ease;
+}
+
+button.open-glossary-btn:hover {
+  background-color: #2a4a7a;
+  box-shadow: 0 4px 12px rgba(30, 58, 98, 0.4);
 }
 
 /* Desktop: sempre in basso a sinistra */

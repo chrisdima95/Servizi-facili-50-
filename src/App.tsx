@@ -1,24 +1,48 @@
-// src/App.tsx
-import React, { useState, useEffect, useRef } from "react";
-import { Routes, Route, useParams, Navigate } from "react-router-dom";
+import React, { useState, useEffect, useRef, lazy, Suspense } from "react";
+import { Routes, Route, useParams, Navigate, useLocation } from "react-router-dom";
 import Header from "./components/Header";
 import AccessibilityFab from "./components/AccessibilityFab";
 import Navbar from "./components/Navbar";
-import { ChatbotFab, ChatbotWindow } from "./components/Chatbot";
-import { useChatbot } from "./hooks/useChatbot";
-import Home from "./pages/Home";
-import Servizi from "./pages/Servizi";
-import ServiceOperations from "./pages/ServiceOperations";
-import DizionarioSlang from "./pages/DizionarioSlang";
-import OperationGuide from "./components/OperationGuide";
-import Profilo from "./pages/Profilo";
-import Guide from "./pages/Guide";
+import ChatbotFab from "./components/Chatbot/ChatbotFab";
+import ChatbotWindow from "./components/Chatbot/ChatbotWindow";
+import ErrorBoundary from "./components/ErrorBoundary";
+import { useChatbot } from "./components/Chatbot/useChatbot";
+import { UserProvider, useUser } from "./contexts/UserContext";
+import { SearchProvider } from "./contexts/SearchContext";
+// Funzione di retry per il lazy loading
+const retryImport = (importFn: () => Promise<any>, retries = 3): Promise<any> => {
+  return importFn().catch((error) => {
+    if (retries > 0) {
+      console.warn(`Tentativo di ricaricamento fallito, riprovo... (${retries} tentativi rimasti)`);
+      return new Promise((resolve) => {
+        setTimeout(() => resolve(retryImport(importFn, retries - 1)), 1000);
+      });
+    }
+    throw error;
+  });
+};
+
+// Lazy loading dei componenti con retry
+const Home = lazy(() => retryImport(() => import("./pages/Home")));
+const Servizi = lazy(() => retryImport(() => import("./pages/Servizi")));
+const ServiceOperations = lazy(() => retryImport(() => import("./pages/ServiceOperations")));
+const DizionarioSlang = lazy(() => retryImport(() => import("./pages/DizionarioSlang")));
+const OperationGuide = lazy(() => retryImport(() => import("./components/OperationGuide")));
+const Profilo = lazy(() => retryImport(() => import("./pages/Profilo")));
+const Guide = lazy(() => retryImport(() => import("./pages/Guide")));
 import servicesData from "./data/servicesData";
 import type { Service } from "./data/servicesData";
-import type { AccessMode } from "./types"; 
+import type { AccessMode } from "./types/accessibility";
 import "./App.css";
-import { useUser } from "./context/UserContext";
-import { SearchProvider } from "./context/SearchContext";
+import "./styles/Critical.css";
+// Componente di loading per Suspense
+const LoadingSpinner = () => (
+  <div className="loading-spinner">
+    Caricamento...
+  </div>
+);
+
+// ===== UTILITY FUNCTIONS =====
 
 function useIsMobile(breakpoint: number = 768): boolean {
   const [isMobile, setIsMobile] = useState(false);
@@ -47,6 +71,8 @@ function useIsMobile(breakpoint: number = 768): boolean {
   return isMobile;
 }
 
+// ===== PROVIDER COMPONENTS =====
+
 // Wrapper per gestire la route /service/:serviceId
 const ServiceOperationsWrapper: React.FC<{ accessMode: AccessMode }> = ({ accessMode }) => {
   const { serviceId } = useParams<{ serviceId: string }>();
@@ -64,10 +90,12 @@ const AppContent: React.FC = () => {
     highContrast: false,
   });
 
+
   const [focusMode, setFocusMode] = useState(false);
   const isMobile = useIsMobile();
   const appContainerRef = useRef<HTMLDivElement>(null);
   const { isAuthenticated } = useUser();
+  const location = useLocation();
   
   // Chatbot hook completo - ora dentro il SearchProvider
   const {
@@ -86,6 +114,7 @@ const AppContent: React.FC = () => {
     setAccessMode((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
+
   const toggleFocusMode = () => {
     setFocusMode((prev) => !prev);
   };
@@ -98,6 +127,7 @@ const AppContent: React.FC = () => {
 
     if (accessMode.highContrast) body.classList.add("high-contrast-mode");
     else body.classList.remove("high-contrast-mode");
+
 
     if (focusMode) body.classList.add("focus-mode");
     else body.classList.remove("focus-mode");
@@ -113,8 +143,15 @@ const AppContent: React.FC = () => {
 
       if (focusMode) container.classList.add("focus-mode");
       else container.classList.remove("focus-mode");
+
     }
   }, [accessMode, focusMode]);
+
+  // Scroll verso l'alto quando cambia la route - OTTIMIZZATO
+  useEffect(() => {
+    // Scroll semplice e efficiente
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  }, [location.pathname]);
 
   return (
     <div ref={appContainerRef} className="app-container">
@@ -122,11 +159,17 @@ const AppContent: React.FC = () => {
       <Header />
 
       <Routes>
-        <Route path="/" element={<Home accessMode={accessMode} isMobile={isMobile} />} />
+        <Route path="/" element={
+          <Suspense fallback={<LoadingSpinner />}>
+            <Home accessMode={accessMode} isMobile={isMobile} />
+          </Suspense>
+        } />
         <Route
           path="/servizi"
           element={isAuthenticated ? (
-            <Servizi accessMode={accessMode} isMobile={isMobile} />
+            <Suspense fallback={<LoadingSpinner />}>
+              <Servizi accessMode={accessMode} isMobile={isMobile} />
+            </Suspense>
           ) : (
             <Navigate to="/profilo" replace />
           )}
@@ -134,23 +177,41 @@ const AppContent: React.FC = () => {
         <Route
           path="/glossario"
           element={
-            <DizionarioSlang
-              largeText={accessMode.largeText}
-              highContrast={accessMode.highContrast}
-            />
+            <ErrorBoundary>
+              <Suspense fallback={<LoadingSpinner />}>
+                <DizionarioSlang
+                  largeText={accessMode.largeText}
+                  highContrast={accessMode.highContrast}
+                />
+              </Suspense>
+            </ErrorBoundary>
           }
         />
         <Route
           path="/service/:serviceId"
           element={isAuthenticated ? (
-            <ServiceOperationsWrapper accessMode={accessMode} />
+            <Suspense fallback={<LoadingSpinner />}>
+              <ServiceOperationsWrapper accessMode={accessMode} />
+            </Suspense>
           ) : (
             <Navigate to="/profilo" replace />
           )}
         />
-        <Route path="/operation/:serviceId/:operationId" element={<OperationGuide accessMode={accessMode} />} />
-        <Route path="/guide" element={<Guide accessMode={accessMode} />} />
-        <Route path="/profilo" element={<Profilo />} />
+        <Route path="/operation/:serviceId/:operationId" element={
+          <Suspense fallback={<LoadingSpinner />}>
+            <OperationGuide accessMode={accessMode} />
+          </Suspense>
+        } />
+        <Route path="/guide" element={
+          <Suspense fallback={<LoadingSpinner />}>
+            <Guide accessMode={accessMode} />
+          </Suspense>
+        } />
+        <Route path="/profilo" element={
+          <Suspense fallback={<LoadingSpinner />}>
+            <Profilo />
+          </Suspense>
+        } />
       </Routes>
       <AccessibilityFab
         accessMode={accessMode}
@@ -160,10 +221,12 @@ const AppContent: React.FC = () => {
       />
       
       {/* CHATBOT COMPLETO - Principale */}
-      <ChatbotFab
-        isOpen={isOpen}
-        onClick={toggleChatbot}
-      />
+      {!isOpen && (
+        <ChatbotFab
+          isOpen={isOpen}
+          onClick={toggleChatbot}
+        />
+      )}
       
       {isOpen && (
         <ChatbotWindow
@@ -182,9 +245,11 @@ const AppContent: React.FC = () => {
 // Componente App principale con provider
 const App: React.FC = () => {
   return (
-    <SearchProvider>
-      <AppContent />
-    </SearchProvider>
+    <UserProvider>
+      <SearchProvider>
+        <AppContent />
+      </SearchProvider>
+    </UserProvider>
   );
 };
 

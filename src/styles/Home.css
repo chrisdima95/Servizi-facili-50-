@@ -6,14 +6,23 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px 20px;
+  padding: 40px 20px 0 20px;
   background-color: #fefcf8;
   color: #2a2a2a;
   gap: 60px;
   font-family: "Arial", sans-serif;
   width: 100%;
-  flex: 1 0 auto; /* occupa lo spazio disponibile senza forzare 100vh */
+  min-height: calc(100vh - 70px); /* Altezza minima meno navbar */
+  overflow-x: hidden;
+  box-sizing: border-box;
 }
+
+/* Modalità alto contrasto per il container principale */
+.high-contrast-mode .home-container {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
 
 /* Variante desktop: evita di superare l'altezza del contenitore padre per non creare banda sotto il footer */
 .home-container.desktop {
@@ -48,10 +57,39 @@
   font-weight: bold;
 }
 
-.hero p {
+
+.hero h2 {
+  font-size: 1.6rem;
+  margin-bottom: 12px;
+  color: #1e3a62;
+  font-weight: 600;
+}
+
+.hero h3 {
   font-size: 1.4rem;
   margin-bottom: 28px;
   color: #444;
+  font-weight: normal;
+}
+
+/* Modalità alto contrasto per i titoli hero */
+.high-contrast-mode .hero h1,
+.high-contrast-mode .hero h2,
+.high-contrast-mode .hero h3 {
+  color: #ffffff !important;
+}
+
+/* Modalità testo grande per gli elementi hero */
+.large-text-mode .hero h1 {
+  font-size: 3.6rem;
+}
+
+.large-text-mode .hero h2 {
+  font-size: 2.1rem;
+}
+
+.large-text-mode .hero h3 {
+  font-size: 1.8rem;
 }
 
 .hero-buttons {
@@ -66,7 +104,7 @@
   border: none;
   border-radius: 14px;
   cursor: pointer;
-  background: linear-gradient(135deg, #2a9d8f, #21867a);
+  background: linear-gradient(135deg, #1e3a62, #2a4a7a);
   color: white;
   font-weight: bold;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
@@ -75,7 +113,38 @@
 
 .hero-buttons button:hover {
   transform: translateY(-2px);
-  background: linear-gradient(135deg, #21867a, #176457);
+  background: linear-gradient(135deg, #2a4a7a, #1e3a62);
+}
+
+/* Bottone Glossario con colore blu navbar - MASSIMA SPECIFICITÀ */
+.home-container .hero .hero-text .hero-buttons button.glossario-btn {
+  background: linear-gradient(135deg, #1e3a62, #2a4a7a) !important;
+  background-color: #1e3a62 !important;
+  color: white !important;
+  border: none !important;
+  box-shadow: 0 4px 10px rgba(30, 58, 98, 0.3) !important;
+}
+
+.home-container .hero .hero-text .hero-buttons button.glossario-btn:hover {
+  background: linear-gradient(135deg, #2a4a7a, #1e3a62) !important;
+  background-color: #2a4a7a !important;
+  color: white !important;
+}
+
+.home-container .hero .hero-text .hero-buttons button.glossario-btn:focus,
+.home-container .hero .hero-text .hero-buttons button.glossario-btn:active {
+  background: linear-gradient(135deg, #1e3a62, #2a4a7a) !important;
+  background-color: #1e3a62 !important;
+  color: white !important;
+  outline: 2px solid #ffffff !important;
+  outline-offset: 2px !important;
+}
+
+/* Override per tutti i possibili conflitti */
+button.glossario-btn {
+  background: linear-gradient(135deg, #1e3a62, #2a4a7a) !important;
+  background-color: #1e3a62 !important;
+  color: white !important;
 }
 
 .hero-image {
@@ -102,6 +171,8 @@
   gap: 24px;
   max-width: 1000px;
   width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 .card {
@@ -113,6 +184,11 @@
   box-shadow: 0 6px 20px rgba(30, 58, 98, 0.1);
   transition: all 0.3s ease;
   border: 2px solid rgba(30, 58, 98, 0.1);
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
 }
 
 .card h2 {
@@ -120,18 +196,26 @@
   margin-bottom: 12px;
   color: #1e3a62;
   font-weight: 700;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.card p {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
 }
 
 .card-icon {
   font-size: 2.5rem;
   margin-bottom: 10px;
-  color: #2a9d8f;
+  color: #1e3a62;
 }
 
 .card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 12px 30px rgba(30, 58, 98, 0.2);
-  border-color: rgba(42, 157, 143, 0.3);
+  box-shadow: 0 6px 20px rgba(30, 58, 98, 0.1);
+  border-color: rgba(30, 58, 98, 0.1);
 }
 
 /* Modalità grande testo per le card */
@@ -164,8 +248,10 @@
 }
 
 .high-contrast-mode .card:hover {
-  background: #333333 !important;
+  background: #000000 !important;
   border-color: #ffffff !important;
+  transform: none !important;
+  box-shadow: 0 6px 20px rgba(30, 58, 98, 0.1) !important;
 }
 
 /* FEATURED GUIDE */
@@ -182,8 +268,8 @@
 
 .featured-guide:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(30, 58, 98, 0.2);
-  border-color: rgba(42, 157, 143, 0.3);
+  box-shadow: 0 6px 20px rgba(30, 58, 98, 0.1);
+  border-color: rgba(30, 58, 98, 0.1);
 }
 
 .featured-content {
@@ -210,7 +296,7 @@
   margin-top: 14px;
   font-size: 1.2rem;
   padding: 16px 28px;
-  background: linear-gradient(135deg, #2a9d8f, #21867a);
+  background: linear-gradient(135deg, #1e3a62, #2a4a7a);
   color: white;
   border: 2px solid transparent;
   border-radius: 12px;
@@ -222,14 +308,14 @@
 
 .featured-guide button:hover {
   transform: translateY(-2px);
-  background: linear-gradient(135deg, #21867a, #176457);
-  box-shadow: 0 6px 16px rgba(42, 157, 143, 0.4);
+  background: linear-gradient(135deg, #2a4a7a, #1e3a62);
+  box-shadow: 0 6px 16px rgba(30, 58, 98, 0.4);
 }
 
 .featured-guide button:focus {
   outline: none;
-  border-color: #2a9d8f;
-  box-shadow: 0 0 0 4px rgba(42, 157, 143, 0.3);
+  border-color: #1e3a62;
+  box-shadow: 0 0 0 4px rgba(30, 58, 98, 0.3);
 }
 
 /* Responsive per hero image */
@@ -246,6 +332,40 @@
   
   .hero-content {
     flex-direction: column;
+  }
+  
+  /* Fix per le card su mobile */
+  .info-cards {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 15px;
+    width: 100%;
+  }
+  
+  .card {
+    padding: 20px;
+    margin: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  /* Fix per il footer su mobile */
+  .footer {
+    padding: 30px 15px 0;
+  }
+  
+  .footer-bottom {
+    padding: 15px 0 0 0;
+  }
+  
+  .footer-container {
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .home-container {
+    padding: 30px 15px 0 15px;
+    gap: 40px;
   }
 }
 
@@ -292,8 +412,10 @@
 }
 
 .high-contrast-mode .featured-guide:hover {
-  background: #333333 !important;
+  background: #000000 !important;
   border-color: #ffffff !important;
+  transform: none !important;
+  box-shadow: 0 6px 20px rgba(30, 58, 98, 0.1) !important;
 }
 
 .featured-image {
@@ -322,8 +444,8 @@
 
 .how-it-works:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(30, 58, 98, 0.2);
-  border-color: rgba(42, 157, 143, 0.3);
+  box-shadow: 0 6px 20px rgba(30, 58, 98, 0.1);
+  border-color: rgba(30, 58, 98, 0.1);
 }
 
 .how-it-works h2 {
@@ -372,8 +494,10 @@
 }
 
 .high-contrast-mode .how-it-works:hover {
-  background: #333333 !important;
+  background: #000000 !important;
   border-color: #ffffff !important;
+  transform: none !important;
+  box-shadow: 0 6px 20px rgba(30, 58, 98, 0.1) !important;
 }
 
 /* NEWS */
@@ -390,8 +514,8 @@
 
 .news:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(30, 58, 98, 0.2);
-  border-color: rgba(42, 157, 143, 0.3);
+  box-shadow: 0 6px 20px rgba(30, 58, 98, 0.1);
+  border-color: rgba(30, 58, 98, 0.1);
 }
 
 .news h2 {
@@ -414,7 +538,7 @@
   margin-bottom: 16px;
   border-radius: 12px;
   font-size: 1.2rem;
-  border-left: 4px solid #2a9d8f;
+  border-left: 4px solid #1e3a62;
   box-shadow: 0 4px 12px rgba(30, 58, 98, 0.08);
   transition: all 0.3s ease;
   position: relative;
@@ -426,6 +550,8 @@
   border-left-color: #1e3a62;
 }
 
+/* Icona rimossa per richiesta utente */
+/*
 .news li::before {
   content: "📢";
   position: absolute;
@@ -433,7 +559,7 @@
   top: 50%;
   transform: translateY(-50%);
   font-size: 1.2rem;
-  background: #2a9d8f;
+  background: #1e3a62;
   color: #ffffff;
   width: 24px;
   height: 24px;
@@ -442,6 +568,7 @@
   align-items: center;
   justify-content: center;
 }
+*/
 
 /* Modalità grande testo per news */
 .large-text-mode .news {
@@ -458,11 +585,14 @@
   margin-bottom: 20px;
 }
 
+/* Icona rimossa per richiesta utente */
+/*
 .large-text-mode .news li::before {
   width: 28px;
   height: 28px;
   font-size: 1.4rem;
 }
+*/
 
 /* Modalità alto contrasto per news */
 .high-contrast-mode .news {
@@ -482,22 +612,96 @@
 }
 
 .high-contrast-mode .news li:hover {
-  background: #555555 !important;
+  background: #333333 !important;
   border-left-color: #ffffff !important;
+  transform: none !important;
+  box-shadow: 0 4px 12px rgba(30, 58, 98, 0.08) !important;
 }
 
+/* Modalità alto contrasto per i bottoni hero */
+.high-contrast-mode .hero-buttons button {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.3) !important;
+}
+
+.high-contrast-mode .hero-buttons button:hover {
+  background: #333333 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: 0 6px 16px rgba(255, 255, 255, 0.4) !important;
+}
+
+.high-contrast-mode .hero-buttons button:focus,
+.high-contrast-mode .hero-buttons button:active {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #ffffff !important;
+  outline: 2px solid #ffffff !important;
+  outline-offset: 2px !important;
+}
+
+/* Modalità alto contrasto per il bottone glossario con stili inline - MASSIMA SPECIFICITÀ */
+.high-contrast-mode.home-container .hero .hero-text .hero-buttons button.glossario-btn {
+  background: #ffffff !important;
+  background-image: none !important;
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.3) !important;
+}
+
+.high-contrast-mode.home-container .hero .hero-text .hero-buttons button.glossario-btn:hover {
+  background: #333333 !important;
+  background-image: none !important;
+  background-color: #333333 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: 0 6px 16px rgba(255, 255, 255, 0.4) !important;
+}
+
+.high-contrast-mode.home-container .hero .hero-text .hero-buttons button.glossario-btn:focus,
+.high-contrast-mode.home-container .hero .hero-text .hero-buttons button.glossario-btn:active {
+  background: #ffffff !important;
+  background-image: none !important;
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #ffffff !important;
+  outline: 2px solid #ffffff !important;
+  outline-offset: 2px !important;
+}
+
+/* Regole aggiuntive per massima specificità */
+.high-contrast-mode button.glossario-btn {
+  background: #ffffff !important;
+  background-image: none !important;
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Icona rimossa per richiesta utente */
+/*
 .high-contrast-mode .news li::before {
   background: #ffffff !important;
   color: #000000 !important;
 }
+*/
 
 /* FOOTER */
 .footer {
   background: #1e3a62;
   color: white;
-  padding: 60px 20px 20px;
+  padding: 40px 20px 0;
   width: 100%;
-  margin-top: auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  box-sizing: border-box;
+  min-height: calc(100vh - 70px); /* Occupa tutto lo spazio rimanente */
+  display: flex;
+  flex-direction: column;
 }
 
 .footer-container {
@@ -594,8 +798,50 @@
 
 .footer-form input[required]:focus,
 .footer-form textarea[required]:focus {
-  outline: 2px solid #2a9d8f;
+  outline: 2px solid #1e3a62;
   outline-offset: 2px;
+}
+
+/* Modalità alto contrasto per il form */
+.high-contrast-mode .footer-form input,
+.high-contrast-mode .footer-form textarea {
+  border: 2px solid #ffffff !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.high-contrast-mode .footer-form input::placeholder,
+.high-contrast-mode .footer-form textarea::placeholder {
+  color: #cccccc !important;
+}
+
+.high-contrast-mode .footer-form input:focus,
+.high-contrast-mode .footer-form textarea:focus {
+  border: 2px solid #ffffff !important;
+  outline: 2px solid #ffffff !important;
+  outline-offset: 2px !important;
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.high-contrast-mode .footer-form button {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #ffffff !important;
+}
+
+.high-contrast-mode .footer-form button:hover {
+  background: #333333 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+}
+
+.high-contrast-mode .footer-form button:focus {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #ffffff !important;
+  outline: 2px solid #ffffff !important;
+  outline-offset: 2px !important;
 }
 
 /* INFO */
@@ -620,9 +866,9 @@
 }
 
 .footer-bottom {
-  margin-top: 40px;
+  margin-top: auto; /* Spinge il footer-bottom in fondo */
   text-align: center;
   font-size: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.3);
-  padding-top: 20px;
+  padding: 20px 0 0 0; /* Solo padding top, niente bottom */
 }

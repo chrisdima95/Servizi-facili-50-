@@ -1,7 +1,7 @@
 // src/pages/ServiceOperations.tsx
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import type { AccessMode } from "../types";
+import type { AccessMode } from "../types/accessibility";
 import type { Service } from "../data/servicesData";
 import "../styles/ServiceDetail.css";
 
@@ -20,20 +20,20 @@ const ServiceOperations: React.FC<ServiceOperationsProps> = ({ service, accessMo
         accessMode.highContrast ? "high-contrast-mode" : ""
       } ${accessMode.largeText ? "large-text-mode" : ""}`}
     >
-      <h2>Operazioni di {service.name}</h2>
-      <ul style={{ listStyle: "none", paddingLeft: 0 }}>
+      <h2>Operazioni {service.id === 'inps' ? '(INPS)' : service.id === 'inail' ? 'INAIL' : service.id === 'poste' ? 'Poste Italiane' : service.id === 'fisco' ? 'Agenzia delle Entrate' : service.id === 'sanita' ? 'Sanità (Puglia Salute)' : service.id === 'bcc' ? 'BCC Bari e Taranto' : `di ${service.name}`}</h2>
+      <div className={`operations-grid ${service.operations.length === 2 ? 'two-cards' : ''}`}>
         {service.operations.map((op, index) => (
-          <li key={index} style={{ marginBottom: "8px" }}>
+          <div key={index} className="operation-card">
+            <h3>{op.name}</h3>
             <button
-              className="detail-btn"
-              data-operation={op.name.toLowerCase().replace(/\s+/g, '-')}
+              className="operation-button"
               onClick={() => navigate(`/operation/${service.id}/${index}`)}
             >
-              {op.name}
+              Vedi operazione
             </button>
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
       <button className="detail-btn back" onClick={() => navigate("/servizi")}>
         Torna ai servizi
       </button>

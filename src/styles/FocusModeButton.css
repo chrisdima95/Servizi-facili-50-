@@ -1,7 +1,7 @@
 .accessibility-btn {
-  background: rgba(30, 58, 98, 0.1);
-  color: #1e3a62;
-  border: 2px solid rgba(30, 58, 98, 0.2);
+  background: #1e3a62;
+  color: #ffffff;
+  border: 2px solid #1e3a62;
   padding: 12px 16px;
   border-radius: 12px;
   cursor: pointer;
@@ -15,10 +15,10 @@
 
 /* Hover solo se non attivo */
 .accessibility-btn:not(.active):hover {
-  background: rgba(30, 58, 98, 0.2);
-  border-color: rgba(30, 58, 98, 0.4);
+  background: #2a4a7a;
+  border-color: #2a4a7a;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(30, 58, 98, 0.2);
+  box-shadow: 0 6px 16px rgba(30, 58, 98, 0.3);
 }
 
 /* Stato attivo */
@@ -132,20 +132,20 @@ body > .focus-overlay {
 
 /* Modalità alto contrasto */
 body.high-contrast-mode .accessibility-btn {
-  background: rgba(255, 255, 255, 0.1);
+  background: #1e3a62;
   color: #ffffff;
-  border-color: #ffffff;
+  border-color: #1e3a62;
 }
 
 body.high-contrast-mode .accessibility-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
-  border-color: #ffffff;
+  background: #2a4a7a;
+  border-color: #2a4a7a;
 }
 
 body.high-contrast-mode .accessibility-btn.active {
-  background: #ffffff;
-  color: #000000;
-  border-color: #ffffff;
+  background: #2a4a7a;
+  color: #ffffff;
+  border-color: #2a4a7a;
 }
 
 body.high-contrast-mode .focus-overlay {

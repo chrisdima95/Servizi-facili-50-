@@ -29,4 +29,5 @@ export interface ChatbotState {
   currentContext: string;
   preferences: ChatbotPreferences;
   wizard: WizardState;
+  pendingAccessMessage?: string;
 }

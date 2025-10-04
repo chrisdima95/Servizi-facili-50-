@@ -1,5 +1,5 @@
 .large-text-toggle-btn {
-  background-color: #2a9d8f;
+  background-color: #1e3a62;
   color: #ffffff;
   border: none;
   padding: 10px 22px;
@@ -14,14 +14,14 @@
 
 /* Hover solo se non attivo */
 .large-text-toggle-btn:not(.active):hover {
-  background-color: #21867a;
+  background-color: #2a4a7a;
 }
 
 /* Stato attivo */
 .large-text-toggle-btn.active {
-  background-color: #ffffff;
-  color: #2a9d8f;
-  border: 2px solid #2a9d8f;
+  background-color: #2a4a7a;
+  color: #ffffff;
+  border: 2px solid #2a4a7a;
 }
 
 /* Ignora regole globali */

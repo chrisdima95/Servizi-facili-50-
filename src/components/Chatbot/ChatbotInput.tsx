@@ -30,12 +30,10 @@ const ChatbotInput: React.FC<ChatbotInputProps> = ({
       onSendMessage(trimmedMessage);
       setMessage('');
       
-      // Mantieni il focus sull'input
-      setTimeout(() => {
-        if (inputRef.current) {
-          inputRef.current.focus();
-        }
-      }, 100);
+      // Mantieni il focus sull'input immediatamente
+      if (inputRef.current) {
+        inputRef.current.focus();
+      }
     }
   };
 

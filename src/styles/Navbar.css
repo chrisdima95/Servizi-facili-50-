@@ -19,7 +19,7 @@
 
 /* Brand area - parte sinistra */
 .navbar-brand {
-  width: 250px; /* Stessa larghezza della search bar per bilanciare */
+  width: 280px; /* Aumentata per il logo */
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -49,7 +49,7 @@
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  width: 250px; /* Larghezza fissa per bilanciare */
+  width: 280px; /* Aumentata per bilanciare il logo */
   justify-content: flex-end;
 }
 
@@ -74,20 +74,6 @@
   overflow: hidden;
 }
 
-.navbar .footer-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s ease;
-}
-
-.navbar .footer-btn:hover::before {
-  left: 100%;
-}
 
 .navbar .footer-btn:hover,
 .navbar .footer-btn:focus {
@@ -134,10 +120,85 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E");
 }
 
-/* Modalità grande testo */
-.large-text-mode .navbar {
-  min-height: 90px;
-  padding: 16px 24px;
+/* ===== LOGO STYLES ===== */
+/* Regola universale per assicurare che il logo sia sempre trasparente */
+.logo-container,
+.logo-container *,
+.logo-svg,
+.logo-svg * {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Logo component styles */
+.logo-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 5px;
+  border-radius: 10px;
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.logo-container:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1);
+}
+
+.logo-container:active {
+  transform: scale(0.98);
+}
+
+.logo-svg {
+  max-width: 100%;
+  height: auto;
+  transition: all 0.3s ease;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.logo-text-main {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.logo-text-age {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Logo specific styles in navbar */
+.navbar-brand .logo-container {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.navbar-brand .logo-svg {
+  max-width: 100%;
+  height: auto;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+
+/* Modalità grande testo per il logo */
+.large-text-mode .navbar-brand {
+  width: 320px;
+}
+
+.large-text-mode .navbar-search {
+  width: 320px;
 }
 
 .large-text-mode .brand-text {
@@ -180,14 +241,56 @@
   box-shadow: 0 6px 20px rgba(255,255,255,0.3);
 }
 
+/* Gestione icone nel contrasto elevato */
+.high-contrast-mode .navbar .footer-btn::after {
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+.high-contrast-mode .navbar .footer-btn[aria-label="Home"]::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E") !important;
+}
+
+.high-contrast-mode .navbar .footer-btn[aria-label="Servizi"]::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") !important;
+}
+
+.high-contrast-mode .navbar .footer-btn[aria-label="Guide"]::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E") !important;
+}
+
+/* Gestione contenitori nel contrasto elevato */
+.high-contrast-mode .navbar-buttons,
+.high-contrast-mode .navbar-search {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Contrasto elevato su mobile - rimuovo rettangoli visibili */
+@media (max-width: 768px) {
+  .high-contrast-mode .navbar-mobile-actions .navbar-search {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  .high-contrast-mode .navbar-brand .logo-container {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
+
 /* Desktop - Ottimizzazione spazio per search bar */
 @media (min-width: 1200px) {
   .navbar-brand {
-    width: 280px; /* Bilancia la search bar più larga */
+    width: 320px; /* Più spazio per il logo su desktop grandi */
   }
   
   .navbar-search {
-    width: 280px;
+    width: 320px;
   }
   
   .navbar-buttons {
@@ -202,11 +305,11 @@
   }
   
   .navbar-brand {
-    width: 220px; /* Bilancia la search bar più piccola */
+    width: 250px; /* Spazio adeguato per il logo su desktop medi */
   }
   
   .navbar-search {
-    width: 220px;
+    width: 250px;
   }
   
   .navbar-buttons {
@@ -214,72 +317,865 @@
   }
 }
 
+/* Container per il pulsante hamburger */
+.navbar-hamburger-container {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  margin-right: 15px;
+}
+
 /* Responsive - Mobile Layout */
 @media (max-width: 768px) {
   .navbar {
-    min-height: auto;
-    padding: 15px;
-    justify-content: center; /* Centra il contenuto su mobile */
-    flex-direction: column; /* Layout verticale su mobile */
+    min-height: 80px;
+    padding: 15px 20px;
+    justify-content: space-between;
+    flex-direction: row; /* Layout orizzontale su mobile */
+    position: relative;
   }
   
-  /* Brand su mobile */
+  /* Brand su mobile - centrato */
   .navbar-brand {
     display: flex;
-    width: 100%;
+    width: auto;
     justify-content: center;
-    order: 0; /* Brand per primo */
-    margin-bottom: 10px;
+    flex: 1;
+    margin: 0;
   }
   
-  .navbar-buttons {
-    flex-direction: column; /* Pulsanti in colonna */
-    gap: 12px;
-    width: 100%;
+  /* Azioni mobile - search bar a destra (ora solo icona) */
+  .navbar-mobile-actions {
+    display: flex;
     align-items: center;
-    order: 1; /* Pulsanti prima */
+    width: auto;
+    flex-shrink: 0;
   }
   
-  .navbar-search {
-    width: 100%;
-    justify-content: center;
-    order: 2; /* Search bar dopo */
+  .navbar-mobile-actions .navbar-search {
+    width: auto;
+    min-width: auto;
+    justify-content: flex-end;
+    background: transparent !important; /* Rimuovo background per evitare rettangoli visibili */
+    border: none !important; /* Rimuovo bordi per evitare rettangoli visibili */
   }
   
-  .navbar .footer-btn {
-    width: 90%;
-    max-width: 250px;
-    font-size: 16px;
-    padding: 12px 20px;
-    border-radius: 10px;
-    text-align: center;
-  }
-  
-  .navbar .footer-btn::after {
-    width: 18px;
-    height: 18px;
-    margin-left: 6px;
+  /* Nascondi pulsanti di navigazione su mobile */
+  .navbar-buttons {
+    display: none;
   }
 }
 
 /* Mobile molto piccolo */
 @media (max-width: 480px) {
   .navbar {
-    padding: 12px;
+    padding: 12px 15px;
   }
   
-  .navbar-content {
-    gap: 10px;
+  .navbar-mobile-actions .navbar-search {
+    min-width: auto;
+  }
+}
+
+/* ===== LOGO RESPONSIVE ADJUSTMENTS ===== */
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .logo-container {
+    padding: 0; /* Rimuovo padding su mobile per evitare rettangoli visibili */
   }
   
-  .navbar-buttons {
-    gap: 10px;
+  .logo-svg {
+    width: 200px;
+    height: auto;
   }
   
-  .navbar .footer-btn {
-    width: 95%;
-    max-width: 280px;
-    font-size: 18px;
-    padding: 14px 20px;
+  .logo-text-main {
+    font-size: 14px !important;
   }
+  
+  .logo-text-age {
+    font-size: 16px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-container {
+    padding: 0; /* Rimuovo padding su mobile piccolo per evitare rettangoli visibili */
+  }
+  
+  .logo-svg {
+    width: 180px;
+    height: auto;
+  }
+  
+  .logo-text-main {
+    font-size: 12px !important;
+  }
+  
+  .logo-text-age {
+    font-size: 14px !important;
+  }
+  
+  /* Contrasto elevato su mobile piccolo */
+  .high-contrast-mode .logo-container {
+    padding: 0 !important;
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* Rimuovo il background nero dal logo-svg nel contrasto elevato su mobile piccolo */
+  .high-contrast-mode .logo-svg {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* Ripristino il cerchio di background bianco nel contrasto elevato su mobile piccolo */
+  .high-contrast-mode .logo-svg circle[fill="url(#backgroundGradient)"] {
+    background-color: #ffffff !important;
+    fill: #ffffff !important;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  
+  /* Mantengo visibili tutti gli altri elementi del logo su mobile piccolo */
+  .high-contrast-mode .logo-svg path,
+  .high-contrast-mode .logo-svg text {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+}
+
+/* ===== LOGO ACCESSIBILITY MODES ===== */
+/* Large text mode adjustments */
+.large-text-mode .logo-svg {
+  width: 320px;
+  height: auto;
+}
+
+.large-text-mode .logo-text-main {
+  font-size: 22px !important;
+}
+
+.large-text-mode .logo-text-age {
+  font-size: 24px !important;
+}
+
+/* High contrast mode adjustments */
+.high-contrast-mode .logo-container {
+  filter: contrast(1.5) brightness(1.2);
+  background: transparent !important; /* Rimuovo background per evitare rettangoli visibili */
+  border: none !important; /* Rimuovo bordi per evitare rettangoli visibili */
+  box-shadow: none !important; /* Rimuovo ombre per evitare rettangoli visibili */
+  padding: 0 !important; /* Rimuovo padding per evitare rettangoli visibili */
+}
+
+/* Rimuovo il background nero dal logo-svg nel contrasto elevato */
+.high-contrast-mode .logo-svg {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* Ripristino il cerchio di background bianco nel contrasto elevato */
+.high-contrast-mode .logo-svg circle[fill="url(#backgroundGradient)"] {
+  background-color: #ffffff !important;
+  fill: #ffffff !important;
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Mantengo visibili tutti gli altri elementi del logo */
+.high-contrast-mode .logo-svg path,
+.high-contrast-mode .logo-svg text {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Contrasto elevato su mobile - rimuovo padding */
+@media (max-width: 768px) {
+  .high-contrast-mode .logo-container {
+    padding: 0 !important; /* Forza padding 0 nel contrasto elevato su mobile */
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* Rimuovo il background nero dal logo-svg nel contrasto elevato su mobile */
+  .high-contrast-mode .logo-svg {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+  
+  /* Ripristino il cerchio di background bianco nel contrasto elevato su mobile */
+  .high-contrast-mode .logo-svg circle[fill="url(#backgroundGradient)"] {
+    background-color: #ffffff !important;
+    fill: #ffffff !important;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+  
+  /* Mantengo visibili tutti gli altri elementi del logo su mobile */
+  .high-contrast-mode .logo-svg path,
+  .high-contrast-mode .logo-svg text {
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+}
+
+.high-contrast-mode .logo-text-main {
+  fill: #ffffff !important;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+}
+
+.high-contrast-mode .logo-text-age {
+  fill: #ffb703 !important;
+  text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.8);
+}
+
+/* ===== HAMBURGER MENU STYLES ===== */
+/* Hamburger Menu - Ottimizzato per over 50 */
+
+/* Pulsante Hamburger/Freccia nella navbar - CLASSE SPECIFICA */
+.hamburger-menu-button {
+  position: relative;
+  z-index: 1200;
+  width: 45px;
+  height: 45px;
+  background: rgba(30, 58, 98, 0.95) !important;
+  border: 2px solid rgba(255, 255, 255, 0.3) !important;
+  border-radius: 10px !important;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  color: #ffffff !important;
+  font-size: inherit !important;
+  font-weight: normal !important;
+  padding: 0 !important;
+  white-space: normal !important;
+  outline: none !important;
+  outline-offset: 0 !important;
+}
+
+/* RIMUOVE TUTTI I PSEUDO-ELEMENTI INDESIDERATI */
+.hamburger-menu-button::before,
+.hamburger-menu-button::after {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+  background-image: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+/* RIMUOVE TUTTI GLI OUTLINE INDESIDERATI - SOLUZIONE ULTRA-AGGRESSIVA */
+.hamburger-menu-button:focus,
+.hamburger-menu-button:focus-visible,
+.hamburger-menu-button:active,
+.hamburger-menu-button:focus-within,
+.hamburger-menu-button:focus-visible:focus,
+.hamburger-menu-button:active:focus {
+  outline: none !important;
+  outline-offset: 0 !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+  -webkit-tap-highlight-color: transparent !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
+}
+
+/* Assicura che il contenuto del pulsante sia pulito */
+.hamburger-menu-button * {
+  box-sizing: border-box;
+}
+
+.hamburger-menu-button:hover {
+  background: rgba(30, 58, 98, 1) !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+.hamburger-menu-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Assicura che il pulsante sia sempre cliccabile quando non è disabilitato */
+.hamburger-menu-button:not(:disabled) {
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+/* Icona hamburger */
+.hamburger-icon {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.hamburger-line {
+  width: 20px;
+  height: 3px;
+  background: #ffffff;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Icona freccia sinistra */
+.arrow-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.arrow-left {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ffffff;
+  transition: all 0.3s ease;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Animazioni per le icone */
+.hamburger-menu-button .hamburger-icon,
+.hamburger-menu-button .arrow-icon {
+  opacity: 1;
+  transform: scale(1);
+  transition: all 0.3s ease;
+}
+
+.hamburger-menu-button.open .hamburger-icon {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.hamburger-menu-button.open .arrow-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.hamburger-menu-button:not(.open) .arrow-icon {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+/* Stile quando il menu è aperto per indicare che il pulsante è ancora attivo */
+.hamburger-menu-button.open {
+  background: rgba(30, 58, 98, 1) !important;
+  border-color: rgba(255, 255, 255, 0.6) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Overlay */
+.hamburger-overlay {
+  position: fixed;
+  top: 80px; /* Inizia esattamente sotto la navbar */
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: transparent; /* RIMOSSO: background scuro che causava la barra */
+  z-index: 1190;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Menu principale */
+.hamburger-menu {
+  position: fixed;
+  top: 80px; /* Inizia esattamente sotto la navbar */
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 80px); /* Altezza viewport meno la navbar */
+  background: #1e3a62; /* Stesso colore del footer per uniformità */
+  z-index: 1190;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  padding: 0;
+  margin: 0; /* Assicura che non ci siano margini */
+}
+
+.hamburger-menu.open {
+  transform: translateX(0);
+}
+
+/* Navigazione */
+.hamburger-nav {
+  flex: 1;
+  padding: 40px 20px 30px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.hamburger-nav-item {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 18px;
+  font-weight: 600;
+  color: #ffffff;
+  text-align: left;
+  backdrop-filter: blur(10px);
+  /* Assicura che tutti gli elementi abbiano lo stesso aspetto di base */
+  box-sizing: border-box;
+  margin: 0;
+}
+
+/* Rimuove qualsiasi differenza visiva per il focus - mantiene aspetto uniforme */
+.hamburger-nav-item:focus {
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  transform: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.hamburger-nav-item:hover,
+.hamburger-nav-item:focus {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateX(8px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  outline: none;
+}
+
+.hamburger-nav-item:active {
+  transform: translateX(4px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.nav-icon {
+  font-size: 24px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+/* Icone SVG per il menu hamburger - stesse della navbar desktop */
+.nav-icon-home {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E");
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-size: 0; /* Nasconde il testo emoji se presente */
+}
+
+.nav-icon-servizi {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E");
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-size: 0; /* Nasconde il testo emoji se presente */
+}
+
+.nav-icon-guide {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E");
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  background-position: center;
+  font-size: 0; /* Nasconde il testo emoji se presente */
+}
+
+.nav-text {
+  font-size: 18px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Footer del menu */
+.hamburger-menu-footer {
+  padding: 20px;
+  text-align: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.menu-footer-text {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 14px;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Modalità grande testo per hamburger */
+.large-text-mode .hamburger-menu-button {
+  width: 55px;
+  height: 55px;
+}
+
+.large-text-mode .hamburger-line {
+  width: 24px;
+  height: 4px;
+}
+
+.large-text-mode .arrow-left {
+  font-size: 28px;
+}
+
+.large-text-mode .hamburger-nav-item {
+  padding: 24px 28px;
+  font-size: 20px;
+  border-radius: 18px;
+}
+
+.large-text-mode .nav-icon {
+  font-size: 28px;
+  width: 36px;
+  height: 36px;
+}
+
+/* Icone SVG per testo grande nel menu hamburger */
+.large-text-mode .nav-icon-home,
+.large-text-mode .nav-icon-servizi,
+.large-text-mode .nav-icon-guide {
+  background-size: 24px 24px; /* Icone più grandi per testo grande */
+}
+
+.large-text-mode .nav-text {
+  font-size: 20px;
+}
+
+.large-text-mode .menu-footer-text {
+  font-size: 16px;
+}
+
+/* Modalità alto contrasto per hamburger */
+.high-contrast-mode .hamburger-menu-button {
+  background: #000000 !important;
+  border: 2px solid #ffffff !important;
+  color: #ffffff !important;
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3) !important;
+}
+
+.high-contrast-mode .hamburger-menu-button:hover {
+  background: #333333 !important;
+  border-color: #ffffff !important;
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4) !important;
+}
+
+.high-contrast-mode .hamburger-line {
+  background: #ffffff !important;
+}
+
+.high-contrast-mode .arrow-left {
+  color: #ffffff !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8) !important;
+}
+
+.high-contrast-mode .hamburger-menu {
+  background: #000000; /* Colore uniforme per alto contrasto */
+}
+
+.high-contrast-mode .hamburger-nav-item {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #ffffff;
+  color: #ffffff;
+}
+
+.high-contrast-mode .hamburger-nav-item:hover,
+.high-contrast-mode .hamburger-nav-item:focus {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: #ffffff;
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
+}
+
+.high-contrast-mode .nav-icon {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Icone SVG per alto contrasto nel menu hamburger */
+.high-contrast-mode .nav-icon-home {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E") !important;
+}
+
+.high-contrast-mode .nav-icon-servizi {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'/%3E%3C/svg%3E") !important;
+}
+
+.high-contrast-mode .nav-icon-guide {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/%3E%3C/svg%3E") !important;
+}
+
+.high-contrast-mode .hamburger-menu-header,
+.high-contrast-mode .hamburger-search,
+.high-contrast-mode .hamburger-menu-footer {
+  border-color: #ffffff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* SOLUZIONE SPECIFICA PER MOBILE: Rimuove completamente tutti gli outline dal pulsante hamburger */
+@media (max-width: 768px) {
+  .hamburger-overlay {
+    top: 80px; /* Inizia sotto la navbar su mobile normale */
+  }
+  
+  .hamburger-menu-button:focus,
+  .hamburger-menu-button:focus-visible,
+  .hamburger-menu-button:active,
+  .hamburger-menu-button:focus-within,
+  .hamburger-menu-button:focus-visible:focus,
+  .hamburger-menu-button:active:focus {
+    outline: none !important;
+    outline-offset: 0 !important;
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    user-select: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+  }
+  
+  /* Assicura che il pulsante hamburger sia visibile in alto contrasto su mobile */
+  .high-contrast-mode .hamburger-menu-button {
+    background: #000000 !important;
+    border: 2px solid #ffffff !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3) !important;
+  }
+  
+  .high-contrast-mode .hamburger-menu-button:hover {
+    background: #333333 !important;
+    border-color: #ffffff !important;
+    box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4) !important;
+  }
+  
+  .high-contrast-mode .hamburger-line {
+    background: #ffffff !important;
+  }
+  
+  .high-contrast-mode .arrow-left {
+    color: #ffffff !important;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8) !important;
+  }
+}
+
+/* Responsive adjustments per hamburger */
+@media (max-width: 480px) {
+  .hamburger-menu-button {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .hamburger-line {
+    width: 18px;
+    height: 2px;
+  }
+  
+  .arrow-left {
+    font-size: 20px;
+  }
+  
+  .hamburger-menu {
+    top: 70px; /* Altezza navbar ridotta su mobile piccolo */
+    height: calc(100vh - 70px); /* Usa viewport height invece di 100% */
+  }
+  
+  .hamburger-overlay {
+    top: 70px; /* Inizia sotto la navbar ridotta su mobile piccolo */
+  }
+  
+  .hamburger-nav {
+    padding: 25px 15px;
+    gap: 15px;
+  }
+  
+  .hamburger-nav-item {
+    padding: 18px 20px;
+    font-size: 16px;
+    border-radius: 12px;
+  }
+  
+  .nav-icon {
+    font-size: 20px;
+    width: 28px;
+    height: 28px;
+  }
+  
+  /* Icone SVG più piccole per mobile piccolo */
+  .nav-icon-home,
+  .nav-icon-servizi,
+  .nav-icon-guide {
+    background-size: 16px 16px; /* Icone più piccole per mobile piccolo */
+  }
+  
+  .nav-text {
+    font-size: 16px;
+  }
+  
+  .hamburger-menu-footer {
+    padding: 15px;
+  }
+  
+  .menu-footer-text {
+    font-size: 12px;
+  }
+}
+
+/* Animazioni per accessibilità ridotta */
+@media (prefers-reduced-motion: reduce) {
+  .hamburger-menu-button,
+  .hamburger-line,
+  .hamburger-menu,
+  .hamburger-nav-item,
+  .hamburger-overlay {
+    transition: none;
+  }
+  
+  .hamburger-menu.open {
+    transform: translateX(0);
+  }
+}
+
+/* Focus visible per accessibilità - solo outline senza cambiare background */
+.hamburger-nav-item:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.5);
+  outline-offset: 2px;
+  background: rgba(255, 255, 255, 0.1) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* SOLUZIONE MIRATA: Nasconde la scrollbar e rimuove la barra scura quando il menu hamburger è aperto */
+body.hamburger-menu-open {
+  overflow: hidden !important;
+  overflow-y: hidden !important;
+  overflow-x: hidden !important;
+  -ms-overflow-style: none !important; /* IE/Edge */
+  scrollbar-width: none !important; /* Firefox */
+  position: fixed !important; /* Previene completamente lo scroll */
+  width: 100% !important;
+  height: 100% !important;
+}
+
+body.hamburger-menu-open::-webkit-scrollbar {
+  display: none !important; /* WebKit */
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Nasconde anche la scrollbar su html quando il menu è aperto */
+html.hamburger-menu-open {
+  overflow: hidden !important;
+  overflow-y: hidden !important;
+  overflow-x: hidden !important;
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+  position: fixed !important; /* Previene completamente lo scroll */
+  width: 100% !important;
+  height: 100% !important;
+}
+
+html.hamburger-menu-open::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* Nasconde la scrollbar anche su tutti gli elementi quando il menu è aperto */
+body.hamburger-menu-open * {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+body.hamburger-menu-open *::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+/* RIMUOVE LA BARRA SCURA: Disabilita il box-shadow della navbar quando il menu è aperto */
+body.hamburger-menu-open .navbar {
+  box-shadow: none !important;
+}
+
+/* Scrollbar personalizzata per il menu - Nascondi completamente */
+.hamburger-menu::-webkit-scrollbar {
+  display: none !important;
+  width: 0px !important;
+  height: 0px !important;
+  background: transparent !important;
+}
+
+.hamburger-menu {
+  -ms-overflow-style: none !important; /* Nasconde la scrollbar su IE/Edge */
+  scrollbar-width: none !important; /* Nasconde la scrollbar su Firefox */
+  overflow-y: auto !important; /* Permette lo scroll ma nasconde la scrollbar */
+}
+
+.hamburger-menu::-webkit-scrollbar-track {
+  display: none !important;
+  background: transparent !important;
+}
+
+.hamburger-menu::-webkit-scrollbar-thumb {
+  display: none !important;
+  background: transparent !important;
+}
+
+.hamburger-menu::-webkit-scrollbar-thumb:hover {
+  display: none !important;
+  background: transparent !important;
+}
+
+/* ASSICURA che i FAB rimangano visibili quando il menu è aperto */
+body.hamburger-menu-open .accessibility-fab,
+body.hamburger-menu-open .chatbot-fab {
+  position: fixed !important;
+  z-index: 1600 !important; /* Z-index più alto del menu hamburger */
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }

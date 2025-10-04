@@ -47,7 +47,7 @@
   padding: 16px;
   background: #f8f9fa;
   border-radius: 12px;
-  border-left: 4px solid #2a9d8f;
+  border-left: 4px solid #1e3a62;
 }
 
 .glossary-card .term-description strong {
@@ -104,7 +104,7 @@
 .glossary-card .navigation button {
   cursor: pointer;
   font-size: 1.3rem;
-  background: #2a9d8f;
+  background: #1e3a62;
   border: 2px solid transparent;
   color: #ffffff;
   font-weight: 800;
@@ -126,7 +126,7 @@
   align-self: center;
   padding: 14px 24px;
   font-size: 1.1rem;
-  background-color: #e76f51;
+  background-color: #1e3a62;
   color: white;
   border: 2px solid transparent;
   border-radius: 12px;
@@ -138,17 +138,17 @@
 
 .glossary-card .close-btn:hover,
 .glossary-card .close-btn:focus {
-  background-color: #f05e3a;
+  background-color: #2a4a7a;
   transform: translateY(-1px);
   outline: none;
-  border-color: #b2412b;
+  border-color: #17695e;
 }
 
 /* Pulsante Glossario Informatico */
 button.open-glossary-btn {
   cursor: pointer;
   font-size: 1.05rem;
-  background-color: #2a9d8f;
+  background-color: #1e3a62;
   color: white;
   border: 2px solid transparent;
   border-radius: 10px;
@@ -159,10 +159,26 @@ button.open-glossary-btn {
 
 button.open-glossary-btn:hover,
 button.open-glossary-btn:focus {
-  background-color: #21867a;
+  background-color: #2a4a7a;
   transform: translateY(-1px);
   outline: none;
   border-color: #17695e;
+}
+
+/* Modalità alto contrasto per il pulsante Glossario */
+.high-contrast-mode button.open-glossary-btn {
+  background-color: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #ffffff !important;
+}
+
+.high-contrast-mode button.open-glossary-btn:hover,
+.high-contrast-mode button.open-glossary-btn:focus {
+  background-color: #333333 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+  transform: translateY(-1px);
+  outline: none;
 }
 
 /* Modalità grande testo */
@@ -202,11 +218,6 @@ button.open-glossary-btn:focus {
   }
 }
 
-/* Contrasto elevato */
-.glossary-page.high-contrast-mode {
-  background-color: #000000 !important;
-  color: #ffffff !important;
-}
 
 .glossary-page.high-contrast-mode .glossary-card {
   background-color: #1a1a1a !important;
@@ -218,15 +229,21 @@ button.open-glossary-btn:focus {
 .glossary-page.high-contrast-mode .glossary-card .term-description,
 .glossary-page.high-contrast-mode .glossary-card .navigation {
   color: #f0f0f0 !important;
+  background-color: transparent !important;
 }
 
 .glossary-page.high-contrast-mode .glossary-card .term-description {
-  background-color: #333333 !important;
+  background-color: transparent !important;
   border-left-color: #ffffff !important;
 }
 
 .glossary-page.high-contrast-mode .glossary-card .navigation {
-  background-color: #333333 !important;
+  background-color: transparent !important;
+}
+
+.glossary-page.high-contrast-mode .glossary-card .navigation span {
+  color: #f0f0f0 !important;
+  background-color: transparent !important;
 }
 
 .glossary-page.high-contrast-mode .glossary-card .close-btn {
@@ -245,4 +262,165 @@ button.open-glossary-btn:focus {
 .glossary-page.high-contrast-mode .glossary-card button:focus-visible,
 .glossary-page.high-contrast-mode .glossary-card .glossary-search-input:focus-visible {
   outline: 3px solid #ffffff;
+}
+
+/* Stili per il messaggio di benvenuto */
+.welcome-message {
+  text-align: center;
+  padding: 32px 16px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: none;
+  margin: 16px 0;
+}
+
+.welcome-message p {
+  margin: 0 0 12px;
+  color: #475569;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.welcome-message p:last-child {
+  margin-bottom: 0;
+  font-size: 0.9rem;
+  color: #64748b;
+}
+
+.welcome-message p:first-child {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1e3a62;
+}
+
+/* Modalità alto contrasto per il messaggio di benvenuto */
+.glossary-page.high-contrast-mode .welcome-message {
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.glossary-page.high-contrast-mode .welcome-message p {
+  color: #f0f0f0 !important;
+  background-color: transparent !important;
+}
+
+.glossary-page.high-contrast-mode .welcome-message p:first-child {
+  color: #f0f0f0 !important;
+  background-color: transparent !important;
+}
+
+/* Responsive per il messaggio di benvenuto */
+@media (max-width: 768px) {
+  .welcome-message {
+    padding: 24px 12px;
+    margin: 12px 0;
+  }
+  
+  .welcome-message p {
+    font-size: 0.9rem;
+  }
+  
+  .welcome-message p:first-child {
+    font-size: 1.1rem;
+  }
+}
+
+/* Stili per la nuova sezione termini */
+.term-section {
+  margin: 20px 0;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 2px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.term-name {
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.term-name strong {
+  font-size: 1.2rem;
+  color: #1e3a62;
+  font-weight: 600;
+}
+
+.term-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.view-definition-btn {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.view-definition-btn {
+  background: linear-gradient(135deg, #1e3a62 0%, #2a4a7a 100%);
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(30, 58, 98, 0.3);
+}
+
+.view-definition-btn:hover {
+  background: linear-gradient(135deg, #2a4a7a 0%, #1e3a62 100%);
+  box-shadow: 0 4px 12px rgba(30, 58, 98, 0.4);
+  transform: translateY(-1px);
+}
+
+.view-definition-btn:active {
+  transform: translateY(0);
+}
+
+/* Modalità alto contrasto per il bottone Vedi significato */
+.glossary-page.high-contrast-mode .view-definition-btn {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: 0 2px 8px rgba(255, 255, 255, 0.3) !important;
+}
+
+.glossary-page.high-contrast-mode .view-definition-btn:hover {
+  background: #333333 !important;
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important;
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.4) !important;
+  transform: translateY(-1px);
+}
+
+.glossary-page.high-contrast-mode .view-definition-btn:focus {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #ffffff !important;
+  outline: 2px solid #ffffff !important;
+  outline-offset: 2px !important;
+}
+
+/* Responsive per la sezione termini */
+@media (max-width: 768px) {
+  .term-section {
+    margin: 16px 0;
+    padding: 16px;
+  }
+  
+  .term-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .view-definition-btn {
+    padding: 10px 16px;
+    font-size: 0.9rem;
+  }
 }

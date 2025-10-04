@@ -1,7 +1,7 @@
 // src/pages/Home.tsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { AccessMode } from "../types";
+import type { AccessMode } from "../types/accessibility";
 import "../styles/Home.css";
 import { FaLaptop, FaBookOpen, FaSearch } from "react-icons/fa";
 
@@ -10,7 +10,7 @@ interface HomeProps {
   isMobile: boolean;
 }
 
-const Home: React.FC<HomeProps> = ({ accessMode, isMobile }) => {
+const Home: React.FC<HomeProps> = React.memo(({ accessMode, isMobile }) => {
   const navigate = useNavigate();
   
   // State per il form di contatto
@@ -86,7 +86,7 @@ const Home: React.FC<HomeProps> = ({ accessMode, isMobile }) => {
     }
     
     // Qui si può aggiungere la logica per inviare il form
-    console.log('Form inviato:', formData);
+    // Form inviato con successo
     alert('Messaggio inviato con successo!');
     
     // Reset del form
@@ -102,99 +102,106 @@ const Home: React.FC<HomeProps> = ({ accessMode, isMobile }) => {
   };
 
   return (
-    <div
-      className={`home-container ${isMobile ? "mobile" : "desktop"} ${
-        accessMode.largeText ? "large-text-mode" : ""
-      } ${accessMode.highContrast ? "high-contrast-mode" : ""}`}
-    >
-      {/* HERO SECTION */}
-      <section className="hero">
-        <div className="hero-content">
-          <div className="hero-text">
-            <h1>
-              Servizi Facili 50+: tutto quello che ti serve online, spiegato
-              passo passo
-            </h1>
-            <p>
-              Tutti i servizi pubblici e utili a portata di mano, in modo
-              semplice e chiaro.
-            </p>
-            <div className="hero-buttons">
-              <button onClick={() => navigate("/servizi")}>Vai ai Servizi</button>
-              <button onClick={() => navigate("/glossario")}>
-                Glossario Informatico
-              </button>
+    <>
+      <div
+        className={`home-container ${isMobile ? "mobile" : "desktop"} ${
+          accessMode.largeText ? "large-text-mode" : ""
+        } ${accessMode.highContrast ? "high-contrast-mode" : ""}`}
+      >
+        {/* HERO SECTION */}
+        <section className="hero">
+          <div className="hero-content">
+            <div className="hero-text">
+              <h1>
+                Servizi Facili 50+
+              </h1>
+              <h2>
+                Tutto quello che ti serve online, spiegato passo passo
+              </h2>
+              <h3>
+                Tutti i servizi pubblici e utili a portata di mano, in modo
+                semplice e chiaro.
+              </h3>
+              <div className="hero-buttons">
+                <button onClick={() => navigate("/servizi")}>Vai ai Servizi</button>
+                <button 
+                  className="glossario-btn" 
+                  onClick={() => navigate("/glossario")}
+                >
+                  Glossario Informatico
+                </button>
+              </div>
+            </div>
+            <div className="hero-image">
+              <img
+                src="/hero-anziani.jpg"
+                alt="Persone over 50 che usano un computer con serenità"
+              />
             </div>
           </div>
-          <div className="hero-image">
-            <img
-              src="/hero-anziani.jpg"
-              alt="Persone over 50 che usano un computer con serenità"
-            />
+        </section>
+
+        {/* COSA TROVI QUI */}
+        <section className="info-cards">
+          <div className="card">
+            <FaLaptop className="card-icon" />
+            <h2>Servizi digitali</h2>
+            <p>Accedi facilmente a INPS, Agenzia delle Entrate, Poste e altri.</p>
           </div>
-        </div>
-      </section>
-
-      {/* COSA TROVI QUI */}
-      <section className="info-cards">
-        <div className="card">
-          <FaLaptop className="card-icon" />
-          <h2>Servizi digitali</h2>
-          <p>Accedi facilmente a INPS, Agenzia delle Entrate, Poste e altri.</p>
-        </div>
-        <div className="card">
-          <FaBookOpen className="card-icon" />
-          <h2>Guide passo passo</h2>
-          <p>
-            Spiegazioni chiare con esempi pratici per usare i servizi senza
-            difficoltà.
-          </p>
-        </div>
-        <div className="card">
-          <FaSearch className="card-icon" />
-          <h2>Glossario informatico</h2>
-          <p>Significato semplice dei termini digitali più usati.</p>
-        </div>
-      </section>
-
-      {/* FEATURED GUIDE */}
-      <section className="featured-guide">
-        <div className="featured-content">
-          <div className="featured-text">
-            <h2>Non sai da dove iniziare?</h2>
-            <p>Leggi la nostra guida introduttiva per orientarti subito.</p>
-            <button onClick={() => navigate("/guide")}>Leggi la guida</button>
+          <div className="card">
+            <FaBookOpen className="card-icon" />
+            <h2>Guide passo passo</h2>
+            <p>
+              Spiegazioni chiare con esempi pratici per usare i servizi senza
+              difficoltà.
+            </p>
           </div>
-          <div className="featured-image">
-            <img
-              src="/guida-introduttiva.png"
-              alt="Illustrazione di una guida passo passo"
-            />
+          <div className="card">
+            <FaSearch className="card-icon" />
+            <h2>Glossario informatico</h2>
+            <p>Significato semplice dei termini digitali più usati.</p>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* COME FUNZIONA */}
-      <section className="how-it-works">
-        <h2>Come funziona</h2>
-        <ol>
-          <li>Scegli il servizio che ti serve</li>
-          <li>Segui le istruzioni guidate</li>
-          <li>Completa facilmente la tua operazione</li>
-        </ol>
-      </section>
+        {/* FEATURED GUIDE */}
+        <section className="featured-guide">
+          <div className="featured-content">
+            <div className="featured-text">
+              <h2>Non sai da dove iniziare?</h2>
+              <p>Leggi la nostra guida introduttiva per orientarti subito.</p>
+              <button onClick={() => navigate("/guide")}>Leggi la guida</button>
+            </div>
+            <div className="featured-image">
+              <img
+                src="/guida-introduttiva.png"
+                alt="Illustrazione di una guida passo passo"
+              />
+            </div>
+          </div>
+        </section>
 
-      {/* NEWS / AVVISI */}
-      <section className="news">
-        <h2>Novità e avvisi utili</h2>
-        <ul>
-          <li>Scadenza dichiarazione dei redditi: 30 settembre</li>
-          <li> Nuovi bonus per pensionati disponibili</li>
-          <li>Aggiornamenti SPID: maggiore sicurezza</li>
-        </ul>
-      </section>
+        {/* COME FUNZIONA */}
+        <section className="how-it-works">
+          <h2>Come funziona</h2>
+          <ol>
+            <li>Scegli il servizio che ti serve</li>
+            <li>Segui le istruzioni guidate</li>
+            <li>Completa facilmente la tua operazione</li>
+          </ol>
+        </section>
 
-      {/* FOOTER */}
+        {/* NEWS / AVVISI */}
+        <section className="news">
+          <h2>Novità e avvisi utili</h2>
+          <ul>
+            <li>Scadenza dichiarazione dei redditi: 30 settembre</li>
+            <li> Nuovi bonus per pensionati disponibili</li>
+            <li>Aggiornamenti SPID: maggiore sicurezza</li>
+          </ul>
+        </section>
+      </div>
+
+      {/* FOOTER - Fuori dal container principale */}
       <footer className="footer">
         <div className="footer-container">
           {/* FORM */}
@@ -290,7 +297,7 @@ const Home: React.FC<HomeProps> = ({ accessMode, isMobile }) => {
 
             <h2>Contatti</h2>
             <p>Telefono: 080-123456</p>
-            <p>Supporto: supporto@servizidigitali.it</p>
+            <p>Supporto: supporto@servizifacili50+.it</p>
 
             <h2>Orari</h2>
             <p>Lunedì – Venerdì</p>
@@ -302,8 +309,8 @@ const Home: React.FC<HomeProps> = ({ accessMode, isMobile }) => {
           <p>© 2025 Servizi Facili 50+</p>
         </div>
       </footer>
-    </div>
-  );
-};
+    </>
+    );
+});
 
 export default Home;

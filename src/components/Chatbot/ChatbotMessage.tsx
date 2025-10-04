@@ -1,6 +1,6 @@
 // src/components/Chatbot/ChatbotMessage.tsx
 import React from 'react';
-import type { ChatMessage } from '../../types/chatbot-types';
+import type { ChatMessage } from './chatbot-types';
 
 interface ChatbotMessageProps {
   message: ChatMessage;

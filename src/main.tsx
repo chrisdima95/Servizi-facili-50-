@@ -3,16 +3,18 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./index.css";
-import { UserProvider } from "./context/UserContext";
+
+// Disabilita lo scroll restoration del browser globalmente - OTTIMIZZATO
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
 
 const root = ReactDOM.createRoot(document.getElementById("root")!);
 
 root.render(
   <React.StrictMode>
-    <UserProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </UserProvider>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>
 );

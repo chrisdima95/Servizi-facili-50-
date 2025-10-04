@@ -11,7 +11,7 @@
     /* LAYOUT INTERNO */
     display: flex;
     align-items: center; 
-    gap: 8px;           
+    gap: 0; /* Rimosso gap per icona interna */           
     cursor: pointer; 
     
     /* Dimensioni ottimizzate per la navbar - più flessibili */
@@ -24,7 +24,7 @@
 .search-trigger-placeholder {
     border-radius: 25px; 
     border: 2px solid #3498DB; 
-    padding: 10px 15px 10px 20px; /* Più padding a sinistra per l'icona */
+    padding: 10px 15px 10px 45px; /* Più padding a sinistra per l'icona interna */
     
     flex-grow: 1; 
     
@@ -32,27 +32,53 @@
     box-sizing: border-box; 
     font-size: 17px;
     color: #ffffff; 
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.15); /* Aumentato da 0.1 a 0.15 per migliore visibilità */
     backdrop-filter: blur(10px);
     display: flex;
     align-items: center;
     transition: all 0.3s ease;
+    font-weight: 500; /* Aggiunto peso del font per migliore leggibilità */
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3); /* Aggiunta ombra al testo per migliore leggibilità */
+    position: relative; /* Per posizionare l'icona internamente */
 }
 
 .search-trigger:hover .search-trigger-placeholder {
-    background: rgba(255, 255, 255, 0.2);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    background: rgba(255, 255, 255, 0.25); /* Aumentato da 0.2 a 0.25 */
+    transform: translateY(-2px); /* Aumentato da -1px a -2px per effetto più pronunciato */
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3); /* Aggiunto colore blu all'ombra */
+    border-color: #5dade2; /* Cambio colore bordo su hover */
 }
 
 .search-icon {
     color: #3498DB; 
-    font-size: 24px; 
+    font-size: 18px; /* Ridotto da 20px a 18px per schermi piccoli */
     fill: currentColor;
     flex-shrink: 0;
-    position: relative;
-    z-index: 1;
-    margin-right: -8px; /* Sovrappone leggermente al placeholder */
+    position: absolute;
+    left: 12px; /* Ridotto da 15px a 12px per più spazio */
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    transition: all 0.3s ease; /* Aggiunta transizione per l'icona */
+    width: 18px; /* Dimensioni fisse per evitare sovrapposizioni */
+    height: 18px;
+}
+
+/* Effetto hover per l'icona */
+.search-trigger:hover .search-icon {
+    color: #5dade2; /* Cambio colore su hover */
+}
+
+/* Effetto focus per accessibilità */
+.search-trigger:focus {
+    outline: 3px solid rgba(52, 152, 219, 0.5);
+    outline-offset: 2px;
+}
+
+.search-trigger:focus .search-trigger-placeholder {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #5dade2;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
 }
 
 /*
@@ -75,7 +101,7 @@
     backdrop-filter: blur(20px);
     
     z-index: 10000; 
-    padding: 30px;
+    padding: 0;
     
     display: flex;
     flex-direction: column;
@@ -87,6 +113,10 @@
     
     /* Animazione di apertura */
     animation: modalFadeIn 0.3s ease-out;
+    
+    /* Abilita scroll su tutto il modal */
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 @keyframes modalFadeIn {
@@ -98,6 +128,16 @@
         opacity: 1;
         transform: scale(1) translateY(0);
     }
+}
+
+/* Contenitore scrollabile interno */
+.modal-scrollable-content {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 30px;
+    box-sizing: border-box;
 }
 
 /* Header del Modale */
@@ -208,7 +248,6 @@
     width: 100%;
     max-width: 900px; 
     margin: 0 auto;
-    overflow-y: auto;
     padding-top: 20px;
     flex-grow: 1;
 }
@@ -216,8 +255,8 @@
 /* Contenitore dei risultati */
 .results-container {
     background: rgba(255, 255, 255, 0.05); 
-    padding: 25px; 
-    border-radius: 15px;
+    padding: 20px; 
+    border-radius: 12px;
     width: 100%;
     box-sizing: border-box;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -231,9 +270,9 @@
 }
 
 .results-list-modal li {
-    margin-bottom: 15px; 
-    border-radius: 12px; 
-    padding: 20px; 
+    margin-bottom: 12px; 
+    border-radius: 10px; 
+    padding: 15px; 
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.1);
     transition: all 0.3s ease;
@@ -260,18 +299,19 @@
 }
 
 .results-list-modal strong {
-    font-size: 1.3em;
+    font-size: 1.1em;
     color: #3498DB; 
     display: block;
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
+    line-height: 1.3;
 }
 
 .results-list-modal p {
-    font-size: 1em;
+    font-size: 0.9em;
     color: rgba(255, 255, 255, 0.8); 
-    margin-top: 5px;
-    line-height: 1.5;
+    margin-top: 4px;
+    line-height: 1.4;
 }
 
 .no-results {
@@ -309,12 +349,17 @@
         width: 100%;
         height: 100%;
         border-radius: 0;
-        padding: 10px 0; 
+        padding: 0; 
+    }
+    
+    /* Contenitore scrollabile per mobile */
+    .modal-scrollable-content {
+        padding: 10px 0;
     }
 
     /* 2. Header: Allinea input e X sulla stessa riga, gestisce i 5px dai bordi */
     .modal-header {
-        margin-top: 0; 
+        margin-top: 20px; 
         
         display: flex;
         flex-direction: row; 
@@ -323,7 +368,8 @@
         
         max-width: 100%; 
         width: 100%;
-        padding-top: 10px;
+        padding-top: 15px;
+        padding-bottom: 15px;
         
         /* Padding laterale per lasciare 5px dai bordi esterni */
         padding-left: 5px; 
@@ -338,6 +384,7 @@
         flex-grow: 1;
         margin-right: 0; 
         gap: 0;
+        padding: 8px 12px;
     }
 
     /* Lente nel modale: Assicurati che sia visibile e non comprimibile */
@@ -345,15 +392,19 @@
         display: block; 
         flex-shrink: 0; 
         /* Spazio di 5px tra lente e input */
-        margin-right: 5px; 
+        margin-right: 5px;
+        width: 24px;
+        height: 24px;
     }
 
-    /* 4. Input: Altezza ridotta per il mobile */
+    /* 4. Input: Altezza ottimizzata per il mobile */
     .search-input-wrapper-modal input[type="text"] {
-        height: 15vh; 
-        font-size: 20px; 
+        height: 50px; 
+        font-size: 16px; 
         white-space: pre-wrap;
-        padding: 10px;
+        padding: 12px 15px;
+        min-height: 50px;
+        max-height: 50px;
     }
     
     /* 5. Pulsante di chiusura: Attaccalo all'input a destra */
@@ -361,7 +412,9 @@
         position: static; 
         margin-left: 5px; 
         flex-shrink: 0; 
-        font-size: 30px; 
+        font-size: 24px;
+        width: 40px;
+        height: 40px;
     }
     
     /* 6. Larghezza e Spaziatura risultati */
@@ -373,7 +426,24 @@
     }
 
     .results-list-modal li {
-        margin-bottom: 3vw; 
+        margin-bottom: 10px;
+        padding: 12px;
+        border-radius: 8px;
+    }
+    
+    .results-list-modal strong {
+        font-size: 1em;
+        margin-bottom: 4px;
+    }
+    
+    .results-list-modal p {
+        font-size: 0.85em;
+        line-height: 1.3;
+        margin-top: 3px;
+    }
+    
+    .results-container {
+        padding: 15px;
     }
 }
 
@@ -407,12 +477,16 @@ RESPONSIVE: Allineamento search bar con navbar
     .search-trigger-placeholder {
         height: 40px;
         font-size: 15px;
-        padding: 8px 12px 8px 18px;
+        padding: 8px 12px 8px 35px; /* Ridotto padding sinistro per evitare sovrapposizione */
     }
     
     .search-icon {
-        font-size: 20px;
+        font-size: 16px; /* Ridotto per mobile */
+        width: 16px;
+        height: 16px;
+        left: 10px; /* Posizione più vicina al bordo */
     }
+    
 }
 
 /* Desktop grande - più spazio per la search bar */
@@ -433,21 +507,400 @@ RESPONSIVE: Allineamento search bar con navbar
     
     .search-trigger-placeholder {
         font-size: 15px;
-        padding: 8px 12px 8px 16px;
+        padding: 8px 12px 8px 40px; /* Padding sinistro aumentato per evitare sovrapposizione */
     }
     
     .search-icon {
+        font-size: 18px;
+        width: 18px;
+        height: 18px;
+        left: 12px;
+    }
+    
+}
+
+/* Schermi molto piccoli (smartphone) */
+@media (max-width: 480px) {
+    .search-trigger {
+        width: 95%;
+        max-width: 280px;
+        min-width: 200px;
+    }
+    
+    .search-trigger-placeholder {
+        height: 38px;
+        font-size: 14px;
+        padding: 6px 10px 6px 32px; /* Padding ancora più ridotto */
+    }
+    
+    .search-icon {
+        font-size: 14px; /* Icona ancora più piccola */
+        width: 14px;
+        height: 14px;
+        left: 8px; /* Posizione molto vicina al bordo */
+    }
+    
+    
+    /* Contrasto elevato su mobile piccolo - rimuovo background neri */
+    .high-contrast-mode .search-trigger-placeholder {
+        background: transparent !important; /* Rimuovo background nero su mobile piccolo */
+        border: none !important; /* Rimuovo bordi su mobile piccolo */
+        box-shadow: none !important; /* Rimuovo ombre su mobile piccolo */
+    }
+    
+    .high-contrast-mode .search-trigger:hover .search-trigger-placeholder {
+        background: transparent !important; /* Rimuovo background nero su hover mobile piccolo */
+        border: none !important; /* Rimuovo bordi su hover mobile piccolo */
+        box-shadow: none !important; /* Rimuovo ombre su hover mobile piccolo */
+    }
+    
+    /* Regole con specificità più alta per mobile piccolo */
+    .high-contrast-mode .navbar .search-trigger,
+    .high-contrast-mode .navbar .search-trigger-placeholder,
+    .high-contrast-mode .navbar-mobile-actions .search-trigger,
+    .high-contrast-mode .navbar-mobile-actions .search-trigger-placeholder,
+    .high-contrast-mode .navbar-search .search-trigger,
+    .high-contrast-mode .navbar-search .search-trigger-placeholder {
+        background: transparent !important;
+        background-color: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+    
+    /* Ulteriori ottimizzazioni per il modal su schermi molto piccoli */
+    .search-input-wrapper-modal input[type="text"] {
+        height: 45px;
+        font-size: 15px;
+        padding: 10px 12px;
+    }
+    
+    .close-modal-btn {
+        width: 35px;
+        height: 35px;
         font-size: 20px;
     }
+    
+    .search-icon-modal {
+        width: 20px;
+        height: 20px;
+    }
+    
+    /* Ulteriori ottimizzazioni per le schede su schermi molto piccoli */
+    .results-list-modal li {
+        margin-bottom: 8px;
+        padding: 10px;
+    }
+    
+    .results-list-modal strong {
+        font-size: 0.95em;
+        margin-bottom: 3px;
+    }
+    
+    .results-list-modal p {
+        font-size: 0.8em;
+        line-height: 1.25;
+    }
+    
+    .results-container {
+        padding: 12px;
+    }
+}
+
+/* Modalità mobile - solo icona */
+.search-trigger.mobile-icon-only {
+    width: 45px !important;
+    max-width: 45px !important;
+    min-width: 45px !important;
+}
+
+.search-trigger.mobile-icon-only .search-trigger-placeholder {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+}
+
+.search-trigger.mobile-icon-only .search-icon {
+    position: static;
+    transform: none;
+    left: auto;
+    top: auto;
+    margin: 0;
+    width: 20px;
+    height: 20px;
+    color: #ffffff;
+}
+
+.search-trigger.mobile-icon-only:hover .search-trigger-placeholder {
+    background: rgba(255, 255, 255, 0.25);
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+    border-color: rgba(255, 255, 255, 0.5);
 }
 
 /* Modalità grande testo - dimensioni aumentate */
 .large-text-mode .search-trigger {
-    width: 300px;
-    max-width: 300px;
+    width: 320px;
+    max-width: 320px;
 }
 
 .large-text-mode .search-trigger-placeholder {
     font-size: 18px;
-    padding: 12px 18px 12px 22px;
+    padding: 12px 18px 12px 50px; /* Aumentato padding sinistro per evitare sovrapposizione con l'icona */
+    height: 50px; /* Aumentata altezza per contenere il testo più grande */
+}
+
+.large-text-mode .search-icon {
+    font-size: 20px; /* Icona leggermente più grande */
+    width: 20px;
+    height: 20px;
+    left: 15px; /* Posizione più lontana dal bordo */
+}
+
+.large-text-mode .search-trigger.mobile-icon-only {
+    width: 55px !important;
+    max-width: 55px !important;
+    min-width: 55px !important;
+}
+
+.large-text-mode .search-trigger.mobile-icon-only .search-trigger-placeholder {
+    width: 55px;
+    height: 55px;
+}
+
+.large-text-mode .search-trigger.mobile-icon-only .search-icon {
+    width: 24px;
+    height: 24px;
+}
+
+/* Fix per combinazione grande testo + contrasto elevato su mobile-icon-only */
+.large-text-mode.high-contrast-mode .search-trigger.mobile-icon-only,
+.high-contrast-mode.large-text-mode .search-trigger.mobile-icon-only {
+    width: 55px !important;
+    max-width: 55px !important;
+    min-width: 55px !important;
+}
+
+.large-text-mode.high-contrast-mode .search-trigger.mobile-icon-only .search-trigger-placeholder,
+.high-contrast-mode.large-text-mode .search-trigger.mobile-icon-only .search-trigger-placeholder {
+    width: 55px !important;
+    height: 55px !important;
+    border-radius: 50% !important;
+    padding: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: #000000 !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: none !important;
+    color: #ffffff !important;
+}
+
+/* ===== HIGH CONTRAST MODE ===== */
+.high-contrast-mode .search-trigger {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.high-contrast-mode .search-trigger-placeholder {
+  background: #000000 !important;
+  border: 2px solid #ffffff !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+/* Contrasto elevato su mobile - rimuovo regole duplicate per evitare doppio bordo */
+@media (max-width: 768px) {
+  .high-contrast-mode .search-trigger:hover .search-trigger-placeholder {
+    background: #333333 !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: none !important;
+    color: #ffffff !important;
+  }
+}
+
+.high-contrast-mode .search-trigger:hover .search-trigger-placeholder {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.high-contrast-mode .search-icon {
+    color: #ffffff !important;
+    fill: #ffffff !important;
+    filter: none !important;
+    position: absolute !important;
+    left: 15px !important; /* Aumentato da 12px a 15px per più spazio */
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    z-index: 1 !important;
+    background-color: transparent !important;
+    margin-right: 0 !important; /* Rimosso margin-right negativo che causava sovrapposizione */
+}
+
+/* Combinazione modalità grande testo + alto contrasto */
+.large-text-mode.high-contrast-mode .search-icon,
+.high-contrast-mode.large-text-mode .search-icon {
+    left: 18px !important; /* Ancora più spazio per evitare sovrapposizione */
+    font-size: 22px !important;
+    width: 22px !important;
+    height: 22px !important;
+}
+
+.large-text-mode.high-contrast-mode .search-trigger-placeholder,
+.high-contrast-mode.large-text-mode .search-trigger-placeholder {
+    padding-left: 55px !important; /* Padding ancora maggiore per evitare sovrapposizione */
+}
+
+.high-contrast-mode .search-trigger.mobile-icon-only .search-icon {
+    position: static !important;
+    transform: none !important;
+    left: auto !important;
+    top: auto !important;
+    margin: 0 !important;
+    width: 20px !important;
+    height: 20px !important;
+    color: #ffffff !important;
+    fill: #ffffff !important;
+    filter: none !important;
+    z-index: 1 !important;
+    background-color: transparent !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Fix specifico per combinazione grande testo + contrasto elevato su mobile */
+.large-text-mode.high-contrast-mode .search-trigger.mobile-icon-only .search-icon,
+.high-contrast-mode.large-text-mode .search-trigger.mobile-icon-only .search-icon {
+    position: static !important;
+    transform: none !important;
+    left: auto !important;
+    top: auto !important;
+    margin: 0 !important;
+    width: 24px !important;
+    height: 24px !important;
+    color: #ffffff !important;
+    fill: #ffffff !important;
+    filter: none !important;
+    z-index: 1 !important;
+    background-color: transparent !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.high-contrast-mode .search-trigger.mobile-icon-only .search-trigger-placeholder {
+    background: #000000 !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: none !important;
+    color: #ffffff !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.high-contrast-mode .search-trigger.mobile-icon-only:hover .search-trigger-placeholder {
+    background: #333333 !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: none !important;
+    color: #ffffff !important;
+    transform: scale(1.05);
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Hover state per combinazione grande testo + contrasto elevato su mobile */
+.large-text-mode.high-contrast-mode .search-trigger.mobile-icon-only:hover .search-trigger-placeholder,
+.high-contrast-mode.large-text-mode .search-trigger.mobile-icon-only:hover .search-trigger-placeholder {
+    background: #333333 !important;
+    border: 2px solid #ffffff !important;
+    box-shadow: none !important;
+    color: #ffffff !important;
+    transform: scale(1.05) !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.high-contrast-mode .modal-header {
+    background: #000000 !important;
+    border-color: #ffffff !important;
+}
+
+.high-contrast-mode .search-input-wrapper-modal {
+    background: #000000 !important;
+    border-color: #ffffff !important;
+}
+
+.high-contrast-mode .search-input-wrapper-modal:focus-within {
+    border-color: #ffffff !important;
+    background: #333333 !important;
+}
+
+.high-contrast-mode .search-input-wrapper-modal input[type="text"] {
+    background: transparent !important;
+    color: #ffffff !important;
+}
+
+.high-contrast-mode .search-input-wrapper-modal input[type="text"]::placeholder {
+    color: #cccccc !important;
+}
+
+.high-contrast-mode .close-modal-btn {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border-color: #ffffff !important;
+}
+
+.high-contrast-mode .close-modal-btn:hover {
+    background: #ffffff !important;
+    color: #000000 !important;
+}
+
+.high-contrast-mode .results-container {
+    background: #000000 !important;
+    border-color: #ffffff !important;
+}
+
+.high-contrast-mode .results-list-modal li {
+    background: #000000 !important;
+    border-color: #ffffff !important;
+}
+
+.high-contrast-mode .results-list-modal li:hover {
+    background: #333333 !important;
+    border-color: #ffffff !important;
+}
+
+.high-contrast-mode .results-list-modal li a {
+    color: #ffffff !important;
+}
+
+.high-contrast-mode .results-list-modal strong {
+    color: #ffffff !important;
+}
+
+.high-contrast-mode .results-list-modal p {
+    color: #cccccc !important;
+}
+
+.high-contrast-mode .no-results {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border-color: #ffffff !important;
 }

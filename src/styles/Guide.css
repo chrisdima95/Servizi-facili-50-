@@ -81,7 +81,7 @@
 /* Highlight Box */
 .highlight-box {
   background: #f8f9fa;
-  border-left: 4px solid #2a9d8f;
+  border-left: 4px solid #1e3a62;
   padding: 20px;
   margin: 20px 0;
   border-radius: 8px;
@@ -112,7 +112,7 @@
 }
 
 .step-number {
-  background: #2a9d8f;
+  background: #1e3a62;
   color: #ffffff;
   width: 40px;
   height: 40px;
@@ -321,7 +321,7 @@
 }
 
 .back-button {
-  background: linear-gradient(135deg, #2a9d8f, #21867a);
+  background: linear-gradient(135deg, #1e3a62, #2a4a7a);
   color: #ffffff;
   border: 2px solid transparent;
   border-radius: 12px;
@@ -333,7 +333,7 @@
 }
 
 .back-button:hover {
-  background: linear-gradient(135deg, #21867a, #176457);
+  background: linear-gradient(135deg, #2a4a7a, #1e3a62);
   transform: translateY(-2px);
   box-shadow: 0 6px 16px rgba(42, 157, 143, 0.3);
 }
@@ -343,6 +343,7 @@
   border-color: #2a9d8f;
   box-shadow: 0 0 0 4px rgba(42, 157, 143, 0.3);
 }
+
 
 /* Modalità grande testo */
 .large-text-mode .guide-title {
@@ -397,6 +398,11 @@
   border-color: #ffffff;
 }
 
+.high-contrast-mode .guide-title {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
 .high-contrast-mode .guide-subtitle,
 .high-contrast-mode .section-content,
 .high-contrast-mode .highlight-box,
@@ -424,13 +430,15 @@
 }
 
 .high-contrast-mode .back-button {
-  background: #ffffff;
-  color: #000000;
-  border-color: #ffffff;
+  background: #ffffff !important;
+  color: #000000 !important;
+  border: 2px solid #ffffff !important;
 }
 
 .high-contrast-mode .back-button:hover {
-  background: #cccccc;
+  background: #f0f0f0 !important;
+  color: #000000 !important;
+  border: 2px solid #ffffff !important;
 }
 
 /* Responsive */

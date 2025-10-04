@@ -14,7 +14,7 @@ interface AccessibilityFabProps {
   toggleFocusMode: () => void;
 }
 
-const AccessibilityFab: React.FC<AccessibilityFabProps> = ({
+const AccessibilityFab: React.FC<AccessibilityFabProps> = React.memo(({
   accessMode,
   toggleAccessMode,
   focusMode,
@@ -52,10 +52,15 @@ const AccessibilityFab: React.FC<AccessibilityFabProps> = ({
         onClick={() => setOpen((v) => !v)}
       >
         <span className="fab-icon" aria-hidden>👤</span>
+        
+        {/* Tooltip */}
+        <div className="accessibility-fab-tooltip">
+          Pulsante accessibilità
+        </div>
       </button>
     </div>
   );
-};
+});
 
 export default AccessibilityFab;
 

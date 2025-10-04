@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import type { AccessMode } from "../types";
+import type { AccessMode } from "../types/accessibility";
 import "../styles/Guide.css";
 
 interface GuideProps {

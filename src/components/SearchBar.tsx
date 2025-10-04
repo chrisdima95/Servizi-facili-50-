@@ -1,7 +1,9 @@
-import React, { useState, useMemo, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate
+import React, { useState, useEffect, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { debounce } from 'lodash'; // Importa useNavigate
 // Importiamo i tipi e l'hook (usando 'type' per l'interfaccia)
-import { useSearch, type SearchResult } from '../context/SearchContext'; 
+import { useSearch } from '../contexts/SearchContext';
+import type { SearchResult } from '../types/search'; 
 import '../styles/SearchBar.css'; 
 
 // **********************************************
@@ -9,15 +11,13 @@ import '../styles/SearchBar.css';
 // **********************************************
 
 interface SearchModalProps {
-    filteredResults: SearchResult[];
-    onClose: () => void;
-    isMobile: boolean; 
+    filteredResults: SearchResult[];
+    onClose: () => void;
 }
 
-const SearchModal: React.FC<SearchModalProps> = ({ 
-    filteredResults, 
-    onClose,
-    isMobile 
+const SearchModal: React.FC<SearchModalProps> = React.memo(({ 
+    filteredResults, 
+    onClose
 }) => {
     const { globalQuery, setGlobalQuery } = useSearch();
     const navigate = useNavigate(); // Hook di navigazione
@@ -35,9 +35,10 @@ const SearchModal: React.FC<SearchModalProps> = ({
 
     return (
         // Questo div gestirà il posizionamento a schermo intero (vedi CSS)
-        <div className="search-modal-overlay"> 
-            <div className="search-modal" role="dialog" aria-modal="true" aria-label="Finestra di ricerca globale">
-                <div className="modal-header">
+        <div className="search-modal-overlay"> 
+            <div className="search-modal" role="dialog" aria-modal="true" aria-label="Finestra di ricerca globale">
+                <div className="modal-scrollable-content">
+                    <div className="modal-header">
                     
                     {/* Barra di ricerca all'interno del modale */}
                     <div className="search-input-wrapper-modal">
@@ -69,11 +70,11 @@ const SearchModal: React.FC<SearchModalProps> = ({
                                 {filteredResults.map((item) => (
                                     <li key={item.id}>
                                         <a href={item.path} onClick={(e) => handleLinkClick(item.path, e)}>
-                                            <span style={{ fontSize: '0.8em', color: '#999', marginRight: '8px' }}>
+                                            <span style={{ fontSize: '0.75em', color: '#999', marginRight: '6px' }}>
                                                 {item.type === 'glossary' ? '[GLOSSARIO]' : item.type === 'service' ? '[SERVIZIO]' : '[GUIDA]'}
                                             </span>
-                                            <strong>{item.title}</strong>
-                                            <p>{item.text.substring(0, 120)}...</p>
+                                    <strong>{item.title}</strong>
+                                    <p>{item.text.substring(0, 80)}...</p>
                                         </a>
                                     </li>
                                 ))}
@@ -83,11 +84,12 @@ const SearchModal: React.FC<SearchModalProps> = ({
                     {noResults && (
                         <div className="no-results">Nessun risultato trovato per "{globalQuery}".</div>
                     )}
-                </div>
-            </div>
-        </div>
-    );
-};
+            </div>
+        </div>
+    </div>
+        </div>
+    );
+});
 
 
 // **********************************************
@@ -101,11 +103,18 @@ interface SearchBarProps {
     largeText?: boolean;
 }
 
-const SearchBar: React.FC<SearchBarProps> = ({ isMobile = false }) => {
+const SearchBar: React.FC<SearchBarProps> = React.memo(({ isMobile = false }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     
-    const { globalQuery, setGlobalQuery, filteredGlobalResults } = useSearch(); 
-    const navigate = useNavigate(); // Hook di navigazione (già importato)
+    const { globalQuery, setGlobalQuery, filteredGlobalResults } = useSearch();
+
+    // Debounced search ottimizzato per migliorare le performance
+    const debouncedSetQuery = useMemo(
+        () => debounce((query: string) => {
+            setGlobalQuery(query);
+        }, 150), // Ridotto da 300ms a 150ms per migliore responsività
+        [setGlobalQuery]
+    );
 
     // Logica di apertura/chiusura
     const openModal = () => setIsModalOpen(true);
@@ -132,18 +141,18 @@ const SearchBar: React.FC<SearchBarProps> = ({ isMobile = false }) => {
 
     return (
         <>
-            {/* 1. TRIGGER: Lente a SINISTRA e testo sincronizzato */}
-            <div className="search-trigger" onClick={openModal} role="button" aria-label="Apri ricerca nel sito">
+            {/* 1. TRIGGER: Icona interna e testo sincronizzato */}
+            <div className={`search-trigger ${isMobile ? 'mobile-icon-only' : ''}`} onClick={openModal} role="button" aria-label="Apri ricerca nel sito">
                 
-                {/* 1. Lente (Andrà a sinistra) */}
-                <svg className="search-icon" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
-                    <path fill="currentColor" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-                </svg>
-                
-                {/* 2. Placeholder / Testo SINCRONIZZATO (Andrà a destra) */}
+                {/* Placeholder con icona interna */}
                 <div className="search-trigger-placeholder">
-                    {/* Mostra il testo della query O il placeholder */}
-                    {triggerText} 
+                    {/* Icona interna */}
+                    <svg className="search-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+                        <path fill="currentColor" d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+                    </svg>
+                    
+                    {/* Testo della query O il placeholder - nascosto su mobile */}
+                    {!isMobile && triggerText}
                 </div>
             </div>
 
@@ -152,11 +161,10 @@ const SearchBar: React.FC<SearchBarProps> = ({ isMobile = false }) => {
                 <SearchModal 
                     filteredResults={filteredGlobalResults} 
                     onClose={closeModal} 
-                    isMobile={isMobile} 
                 />
             )}
         </>
     );
-};
+});
 
 export default SearchBar;

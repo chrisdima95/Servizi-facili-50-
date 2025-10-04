@@ -3,47 +3,46 @@
   left: 20px;
   bottom: 20px;
   z-index: 1500;
+  overflow: visible;
 }
 
 .accessibility-fab .fab-trigger {
   width: 60px;
   height: 60px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #2a4a7a 0%, #3a5a8a 100%);
+  background: linear-gradient(135deg, #1e3a62 0%, #2a4a7a 100%);
   color: #ffffff;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 8px 24px rgba(42, 74, 122, 0.3);
+  border: none;
+  box-shadow: 0 4px 20px rgba(30, 58, 98, 0.4);
   cursor: pointer;
   font-size: 28px;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   backdrop-filter: blur(10px);
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
 }
 
-.accessibility-fab .fab-trigger::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-  transition: left 0.5s ease;
-}
-
-.accessibility-fab .fab-trigger:hover::before {
-  left: 100%;
-}
 
 .accessibility-fab .fab-trigger:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 12px 32px rgba(42, 74, 122, 0.4);
-  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(30, 58, 98, 0.6);
+}
+
+.accessibility-fab .fab-trigger:focus {
+  outline: none;
+}
+
+.accessibility-fab .fab-trigger:focus-visible {
+  outline: none;
+}
+
+.accessibility-fab .fab-trigger:active {
+  outline: none;
 }
 
 .accessibility-fab .fab-icon {
@@ -58,7 +57,35 @@
 
 .accessibility-fab .fab-trigger:hover .fab-icon {
   transform: scale(1.1);
-  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4)) brightness(0) invert(1);
+  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.4)) brightness(0) invert(1) !important;
+}
+
+.accessibility-fab-tooltip {
+  position: absolute;
+  bottom: 70px;
+  left: 0;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  z-index: 2000;
+}
+
+.accessibility-fab .fab-trigger:hover .accessibility-fab-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Nasconde il tooltip quando il menu è aperto */
+.accessibility-fab.open .accessibility-fab-tooltip {
+  opacity: 0 !important;
+  visibility: hidden !important;
 }
 
 .accessibility-fab .accessibility-menu {
@@ -77,14 +104,11 @@
   backdrop-filter: blur(10px);
 }
 
-/* Uniforma stile dei pulsanti nel menu */
-.accessibility-fab .high-contrast-toggle-btn,
-.accessibility-fab .large-text-toggle-btn,
-.accessibility-fab .accessibility-btn,
+/* Uniforma stile dei pulsanti nel menu - solo per glossary-btn */
 .accessibility-fab .glossary-btn {
-  background: rgba(30, 58, 98, 0.1);
-  color: #1e3a62;
-  border: 2px solid rgba(30, 58, 98, 0.2);
+  background: #1e3a62;
+  color: #ffffff;
+  border: 2px solid #1e3a62;
   border-radius: 12px;
   padding: 12px 16px;
   font-size: 16px;
@@ -94,30 +118,35 @@
   backdrop-filter: blur(10px);
 }
 
-.accessibility-fab .high-contrast-toggle-btn:hover,
-.accessibility-fab .large-text-toggle-btn:hover,
-.accessibility-fab .accessibility-btn:hover,
+
 .accessibility-fab .glossary-btn:hover {
-  background: rgba(30, 58, 98, 0.2);
-  border-color: rgba(30, 58, 98, 0.4);
+  background: #2a4a7a;
+  border-color: #2a4a7a;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(30, 58, 98, 0.2);
+  box-shadow: 0 6px 16px rgba(30, 58, 98, 0.3);
 }
 
-.accessibility-fab .high-contrast-toggle-btn.active,
-.accessibility-fab .large-text-toggle-btn.active,
-.accessibility-fab .accessibility-btn.active {
-  background: #1e3a62;
+
+.accessibility-fab .glossary-btn.active {
+  background: #2a4a7a;
   color: #ffffff;
-  border-color: #1e3a62;
-  box-shadow: 0 4px 12px rgba(30, 58, 98, 0.3);
+  border-color: #2a4a7a;
+  box-shadow: 0 4px 12px rgba(30, 58, 98, 0.4);
 }
 
 /* Tema contrasto elevato per il menu */
 body.high-contrast-mode .accessibility-fab .fab-trigger {
-  background: linear-gradient(135deg, #2a4a7a 0%, #3a5a8a 100%);
-  border-color: #ffffff;
-  box-shadow: 0 8px 24px rgba(42, 74, 122, 0.3);
+  background: #000;
+  color: #fff;
+  border: 2px solid #fff;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  outline: none;
+}
+
+body.high-contrast-mode .accessibility-fab .fab-trigger:focus,
+body.high-contrast-mode .accessibility-fab .fab-trigger:focus-visible,
+body.high-contrast-mode .accessibility-fab .fab-trigger:active {
+  outline: none;
 }
 
 body.high-contrast-mode .accessibility-fab .accessibility-menu {
@@ -130,7 +159,7 @@ body.high-contrast-mode .accessibility-fab .high-contrast-toggle-btn,
 body.high-contrast-mode .accessibility-fab .large-text-toggle-btn,
 body.high-contrast-mode .accessibility-fab .accessibility-btn,
 body.high-contrast-mode .accessibility-fab .glossary-btn {
-  background: rgba(255, 255, 255, 0.1);
+  background: #000000;
   color: #ffffff;
   border-color: #ffffff;
 }
@@ -139,7 +168,8 @@ body.high-contrast-mode .accessibility-fab .high-contrast-toggle-btn:hover,
 body.high-contrast-mode .accessibility-fab .large-text-toggle-btn:hover,
 body.high-contrast-mode .accessibility-fab .accessibility-btn:hover,
 body.high-contrast-mode .accessibility-fab .glossary-btn:hover {
-  background: rgba(255, 255, 255, 0.3);
+  background: #ffffff;
+  color: #000000;
   border-color: #ffffff;
 }
 
@@ -158,14 +188,43 @@ body.high-contrast-mode .accessibility-fab .accessibility-btn.active {
 
 /* Modalità alto contrasto per l'emoji */
 body.high-contrast-mode .accessibility-fab .fab-icon {
-  filter: drop-shadow(0 2px 4px rgba(255, 255, 255, 0.5)) brightness(0) invert(1) !important;
+  filter: brightness(0) invert(1) !important;
+  color: #ffffff !important;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8) !important;
 }
+
+/* Tooltip alto contrasto */
+body.high-contrast-mode .accessibility-fab-tooltip {
+  background: #000;
+  color: #fff;
+  border: 1px solid #fff;
+}
+
 
 @media (max-width: 768px) {
   .accessibility-fab {
-    left: 14px;
-    bottom: 14px;
+    left: 15px;
+    bottom: 15px;
+  }
+  
+  .accessibility-fab .fab-trigger {
+    width: 56px;
+    height: 56px;
   }
 }
+
+@media (max-width: 480px) {
+  .accessibility-fab {
+    left: 10px;
+    bottom: 10px;
+  }
+  
+  .accessibility-fab .fab-trigger {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+
 
 
