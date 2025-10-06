@@ -1,4 +1,4 @@
-// src/components/Chatbot/ChatbotInput.tsx
+// Input del chatbot: textarea con auto-resize, invio con Enter e validazione messaggi
 import React, { useState, useRef, useEffect } from 'react';
 
 interface ChatbotInputProps {

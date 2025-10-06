@@ -1,12 +1,12 @@
-// src/hooks/useDeviceDetection.ts
+// Hook per rilevare il dispositivo: mobile, tablet o desktop
 import { useState, useEffect } from 'react';
 
 export const useDeviceDetection = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(false); // Stato per mobile
   const [isTablet, setIsTablet] = useState(false);
   const [isDesktop, setIsDesktop] = useState(false);
 
-  useEffect(() => {
+  useEffect(() => { // Effetto per controllare il dispositivo
     const checkDevice = () => {
       const width = window.innerWidth;
       setIsMobile(width < 768);

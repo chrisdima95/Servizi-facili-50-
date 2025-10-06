@@ -1,4 +1,4 @@
-// src/pages/DizionarioSlang.tsx
+// Glossario informatico: dizionario interattivo di termini tecnici con ricerca e navigazione
 
 import React, { useState, useEffect, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";

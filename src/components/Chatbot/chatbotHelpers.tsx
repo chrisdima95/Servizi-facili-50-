@@ -1,4 +1,4 @@
-// src/data/chatbotHelpers.ts
+// Helper del chatbot: messaggi di supporto, rilevamento emozioni e spiegazioni semplificate
 export const chatbotHelpers = {
   // Frasi di incoraggiamento per anziani
   encouragement: [

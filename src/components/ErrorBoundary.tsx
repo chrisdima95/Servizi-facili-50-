@@ -1,5 +1,5 @@
-// src/components/ErrorBoundary.tsx
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+// Intercetta gli errori che si verificano nei componenti figli e previene il crash dell'intera applicazione
+import { Component, type ErrorInfo, type ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
@@ -22,9 +22,9 @@ class ErrorBoundary extends Component<Props, State> {
     return { hasError: true, error };
   }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // Puoi loggare l'errore in un servizio di reporting
-    console.error('ErrorBoundary caught an error:', error, errorInfo);
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) { // Cattura gli errori
+    
+    console.error('ErrorBoundary caught an error:', error, errorInfo); // Log dell'errore
     
     // Se è un errore di caricamento dinamico, prova a ricaricare la pagina
     if (error.message.includes('Failed to fetch dynamically imported module')) {
@@ -69,7 +69,7 @@ class ErrorBoundary extends Component<Props, State> {
           >
             Riprova
           </button>
-          {process.env.NODE_ENV === 'development' && this.state.error && (
+          {import.meta.env.DEV && this.state.error && (
             <details style={{ marginTop: '20px', textAlign: 'left' }}>
               <summary>Dettagli errore (solo in sviluppo)</summary>
               <pre style={{ 

@@ -1,4 +1,4 @@
-// src/components/Chatbot/ChatbotWindow.tsx
+// Finestra principale del chatbot: container per messaggi, input e controlli dell'assistente
 import React, { useRef, useEffect } from 'react';
 import ChatbotMessage from './ChatbotMessage';
 import ChatbotInput from './ChatbotInput';

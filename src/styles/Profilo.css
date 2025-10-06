@@ -15,6 +15,7 @@
   text-align: center;
 }
 
+
 .profile-form {
   display: grid;
   grid-template-columns: 1fr;
@@ -116,6 +117,7 @@
 .profile-logout {
   margin-top: 16px;
 }
+
 
 
 /* Accessibilità */

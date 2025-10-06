@@ -1,4 +1,4 @@
-// src/pages/Home.tsx
+// Pagina home: landing page con hero section, info cards, guida introduttiva e form di contatto
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { AccessMode } from "../types/accessibility";

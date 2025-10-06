@@ -1,4 +1,4 @@
-// src/data/chatbotRules.ts
+// Regole e configurazione del chatbot: intenti, pattern matching, FAQ e risposte predefinite
 export interface ChatbotIntent {
   patterns: string[];
   responses: string[];

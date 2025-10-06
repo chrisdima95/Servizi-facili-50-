@@ -1,4 +1,4 @@
-// src/data/scamEmailExamples.ts
+// Rilevamento email scam: database di esempi e algoritmo per identificare email pericolose/sospette
 
 export interface ScamEmailExample {
   id: string;

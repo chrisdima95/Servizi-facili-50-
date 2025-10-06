@@ -1,4 +1,4 @@
-// src/contexts/AccessibilityContext.tsx
+// Context per accessibilità: gestisce stato di modalità testo grande, alto contrasto e focus mode
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import type { AccessMode } from '../types/accessibility';
 
@@ -9,10 +9,11 @@ interface AccessibilityContextValue {
   toggleFocusMode: () => void;
 }
 
-const AccessibilityContext = createContext<AccessibilityContextValue | undefined>(undefined);
+// Crea il context
+const AccessibilityContext = createContext<AccessibilityContextValue | undefined>(undefined); // Crea il context
 
-export const useAccessibility = () => {
-  const context = useContext(AccessibilityContext);
+export const useAccessibility = () => { // Recupera il context
+  const context = useContext(AccessibilityContext); 
   if (!context) {
     throw new Error('useAccessibility must be used within an AccessibilityProvider');
   }

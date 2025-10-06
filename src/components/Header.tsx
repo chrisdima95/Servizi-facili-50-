@@ -1,6 +1,8 @@
+// Header condizionale: mostra pulsante glossario solo nella pagina servizi
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
+// Componente per il header condizionale
 const Header: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();

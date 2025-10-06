@@ -1,4 +1,4 @@
-// src/types/search.tsx
+// Tipo per gestire i risultati della ricerca
 
 export interface SearchResult {
   id: string | number;

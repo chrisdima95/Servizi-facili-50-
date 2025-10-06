@@ -1,4 +1,4 @@
-// src/components/Chatbot/ChatbotFab.tsx
+// Pulsante floating del chatbot: icona sempre visibile per aprire l'assistente digitale
 import React from 'react';
 import '../../styles/Chatbot.css';
 

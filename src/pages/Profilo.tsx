@@ -1,3 +1,4 @@
+// Pagina profilo utente: gestisce login, dashboard con statistiche accessi e cronologia ricerche
 import React, { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../contexts/UserContext";
@@ -5,21 +6,14 @@ import "../styles/Profilo.css";
 
 const Profilo: React.FC = () => {
   const navigate = useNavigate();
-  const { user, isAuthenticated, login, register, accessStats, logout, searchHistory } = useUser();
+  const { user, isAuthenticated, login, accessStats, logout, searchHistory } = useUser();
 
-  const [mode, setMode] = useState<"login" | "register">("login");
 
   // Login state
   const [identifier, setIdentifier] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  // Register state
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [regPassword, setRegPassword] = useState("");
 
   const totalAccesses = useMemo(
     () => Object.values(accessStats).reduce((acc, v) => acc + v, 0),
@@ -67,22 +61,6 @@ const Profilo: React.FC = () => {
     navigate("/");
   };
 
-  const onSubmitRegister = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setError(null);
-    const ok = await register({
-      firstName: firstName.trim(),
-      lastName: lastName.trim(),
-      email: email.trim(),
-      username: username.trim(),
-      password: regPassword.trim(),
-    });
-    if (!ok) {
-      setError("Compila tutti i campi correttamente");
-      return;
-    }
-    navigate("/");
-  };
 
   const radius = 60;
   const center = 75;
@@ -123,7 +101,7 @@ const Profilo: React.FC = () => {
     <div className="profile-page">
       <h2 className="profile-title">{isAuthenticated ? `Ciao, ${user?.username}` : "Profilo"}</h2>
 
-      {!isAuthenticated && mode === "login" && (
+      {!isAuthenticated && (
         <form onSubmit={onSubmitLogin} aria-label="Login" className="profile-form">
           <label className="profile-field">
             <span className="profile-label">Nome utente</span>
@@ -152,37 +130,6 @@ const Profilo: React.FC = () => {
         </form>
       )}
 
-      {!isAuthenticated && mode === "register" && (
-        <form onSubmit={onSubmitRegister} aria-label="Registrazione" className="profile-form">
-          <label className="profile-field">
-            <span className="profile-label">Nome</span>
-            <input className="profile-input" type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} required />
-          </label>
-          <label className="profile-field">
-            <span className="profile-label">Cognome</span>
-            <input className="profile-input" type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} required />
-          </label>
-          <label className="profile-field">
-            <span className="profile-label">Indirizzo e-mail</span>
-            <input className="profile-input" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
-          </label>
-          <label className="profile-field">
-            <span className="profile-label">Nome utente</span>
-            <input className="profile-input" type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
-          </label>
-          <label className="profile-field">
-            <span className="profile-label">Password</span>
-            <input className="profile-input" type="password" value={regPassword} onChange={(e) => setRegPassword(e.target.value)} required />
-          </label>
-
-          {error && <div role="alert" className="profile-error">{error}</div>}
-
-          <div className="profile-actions">
-            <button type="submit" className="profile-primary-btn">Crea account</button>
-            <button type="button" className="profile-secondary-btn" onClick={() => setMode("login")}>Torna al login</button>
-          </div>
-        </form>
-      )}
 
 
       {isAuthenticated && (

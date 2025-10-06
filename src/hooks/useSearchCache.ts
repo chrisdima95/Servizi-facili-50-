@@ -1,4 +1,4 @@
-// src/hooks/useSearchCache.ts
+// Hook per gestire il cache delle ricerche
 import { useState, useCallback, useMemo } from 'react';
 import type { SearchResult } from '../types/search';
 
@@ -10,10 +10,12 @@ export const useSearchCache = () => {
   const [cache, setCache] = useState<SearchCache>({});
   const [maxCacheSize] = useState(50);
 
+  // Funzione per ottenere i risultati memorizzati
   const getCachedResults = useCallback((query: string): SearchResult[] | null => {
     return cache[query] || null;
   }, [cache]);
 
+  // Funzione per memorizzare i risultati
   const setCachedResults = useCallback((query: string, results: SearchResult[]) => {
     setCache(prev => {
       const newCache = { ...prev, [query]: results };
@@ -29,10 +31,12 @@ export const useSearchCache = () => {
     });
   }, [maxCacheSize]);
 
+  // Funzione per cancellare il cache
   const clearCache = useCallback(() => {
     setCache({});
   }, []);
 
+  // Funzione per ottenere le statistiche del cache
   const cacheStats = useMemo(() => ({
     size: Object.keys(cache).length,
     maxSize: maxCacheSize

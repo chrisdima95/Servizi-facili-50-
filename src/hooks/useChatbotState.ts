@@ -1,4 +1,4 @@
-// src/hooks/useChatbotState.ts
+// Hook per gestire lo stato del chatbot: messaggi, preferenze, wizard e stato
 import { useState, useCallback } from 'react';
 import type { ChatbotState, ChatbotPreferences, WizardState } from '../components/Chatbot/chatbot-types';
 
@@ -21,10 +21,12 @@ export const useChatbotState = () => {
     }
   });
 
+  // Funzione per aggiornare lo stato del chatbot
   const updateState = useCallback((updates: Partial<ChatbotState>) => {
     setState(prev => ({ ...prev, ...updates }));
   }, []);
 
+  // Funzione per aggiornare le preferenze del chatbot
   const updatePreferences = useCallback((prefs: Partial<ChatbotPreferences>) => {
     setState(prev => ({
       ...prev,
@@ -32,6 +34,7 @@ export const useChatbotState = () => {
     }));
   }, []);
 
+  // Funzione per aggiornare lo stato del wizard
   const updateWizard = useCallback((wizard: Partial<WizardState>) => {
     setState(prev => ({
       ...prev,

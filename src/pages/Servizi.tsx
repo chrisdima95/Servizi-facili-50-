@@ -1,4 +1,4 @@
-// src/pages/Servizi.tsx
+// Pagina servizi: mostra griglia di tutti i servizi disponibili con ricerca e filtri
 
 import React, { useMemo } from "react";
 import { useNavigate } from "react-router-dom";

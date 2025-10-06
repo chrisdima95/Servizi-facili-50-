@@ -1,4 +1,4 @@
-// src/contexts/SearchContext.tsx
+// Context per ricerca globale: gestisce query e filtra risultati da servizi, operazioni e glossario
 import React, { createContext, useContext, useState, useMemo } from 'react';
 import servicesData from '../data/servicesData';
 import { termini } from '../data/glossaryData';

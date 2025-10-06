@@ -1,4 +1,4 @@
-// src/hooks/useSearchOptimized.ts
+// Hook per gestire la ricerca ottimizzata
 import { useState, useMemo, useCallback } from 'react';
 import { debounce } from 'lodash';
 import type { SearchResult } from '../types/search';
@@ -7,6 +7,7 @@ export const useSearchOptimized = () => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<SearchResult[]>([]);
   
+  // Funzione per la ricerca debounced
   const debouncedSearch = useMemo(
     () => debounce((searchQuery: string, searchableContent: SearchResult[]) => {
       if (!searchQuery || searchQuery.length < 1) {
@@ -14,6 +15,7 @@ export const useSearchOptimized = () => {
         return;
       }
       
+      // Filtra i risultati
       const query = searchQuery.toLowerCase();
       const filtered = searchableContent.filter(item =>
         item.title.toLowerCase().includes(query) ||
@@ -25,12 +27,13 @@ export const useSearchOptimized = () => {
     []
   );
   
+  // Funzione per cancellare i risultati
   const clearResults = useCallback(() => {
     setResults([]);
     setQuery('');
   }, []);
   
-  return { 
+  return {  // Funzione per ottenere i risultati
     query, 
     setQuery, 
     results, 

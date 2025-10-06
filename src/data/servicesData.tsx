@@ -1,4 +1,4 @@
-// src/pages/servicesData.ts
+// Dati dei servizi: lista di servizi con operazioni e guide
 export interface Operation {
   name: string;
   label: string; 

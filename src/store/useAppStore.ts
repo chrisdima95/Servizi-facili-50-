@@ -1,4 +1,4 @@
-// src/store/useAppStore.ts
+// Store per gestire lo stato dell'applicazione
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { AccessMode } from '../types/accessibility';
@@ -15,34 +15,34 @@ interface AppState {
   // User state
   user: User | null;
   isAuthenticated: boolean;
-  accessStats: Record<string, number>;
-  searchHistory: string[];
+  accessStats: Record<string, number>; // Statistiche di accesso ai servizi
+  searchHistory: string[]; // Cronologia ricerche
   
   // UI state
   accessMode: AccessMode;
-  focusMode: boolean;
+  focusMode: boolean; 
   isMobile: boolean;
   
   // Search state
-  globalQuery: string;
-  searchableContent: SearchResult[];
+  globalQuery: string; // Query di ricerca globale
+  searchableContent: SearchResult[]; // Contenuto ricercabile
   
   // Actions
-  setUser: (user: User | null) => void;
-  incrementServiceAccess: (serviceId: string) => void;
-  addSearchTerm: (term: string) => void;
-  resetUserStats: () => void;
-  setAccessMode: (mode: AccessMode) => void;
-  toggleAccessMode: (key: keyof AccessMode) => void;
-  toggleFocusMode: () => void;
-  setIsMobile: (isMobile: boolean) => void;
-  setGlobalQuery: (query: string) => void;
+  setUser: (user: User | null) => void; // Funzione per impostare l'utente  
+  incrementServiceAccess: (serviceId: string) => void; // Funzione per incrementare il numero di accessi a un servizio
+  addSearchTerm: (term: string) => void; // Funzione per aggiungere un termine alla cronologia ricerche
+  resetUserStats: () => void; // Funzione per resettare le statistiche dell'utente
+  setAccessMode: (mode: AccessMode) => void; // Funzione per impostare il modo di accesso
+  toggleAccessMode: (key: keyof AccessMode) => void; // Funzione per attivare o disattivare il modo di accesso  
+  toggleFocusMode: () => void; // Funzione per attivare o disattivare il focus mode
+  setIsMobile: (isMobile: boolean) => void; // Funzione per impostare il dispositivo mobile
+  setGlobalQuery: (query: string) => void; // Funzione per impostare la query globale
   setSearchableContent: (content: SearchResult[]) => void;
 }
 
 export const useAppStore = create<AppState>()(
   persist(
-    (set, get) => ({
+    (set) => ({ // Funzione per impostare lo stato iniziale
       // Initial state
       user: null,
       isAuthenticated: false,
@@ -96,7 +96,7 @@ export const useAppStore = create<AppState>()(
       
       setGlobalQuery: (globalQuery) => set({ globalQuery }),
       
-      setSearchableContent: (searchableContent) => set({ searchableContent })
+      setSearchableContent: (searchableContent) => set({ searchableContent }) 
     }),
     {
       name: 'app-storage',

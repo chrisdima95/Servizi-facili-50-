@@ -1,4 +1,4 @@
-// src/hooks/useAccessibility.ts
+// Hook per gestire lo stato di accessibilità: modalità testo grande, alto contrasto e focus mode
 import { useState, useCallback } from 'react';
 import type { AccessMode } from '../types/accessibility';
 

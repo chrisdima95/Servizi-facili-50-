@@ -1,3 +1,4 @@
+// Pagina guida completa: tutorial dettagliato per l'uso della piattaforma con sezioni informative
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import type { AccessMode } from "../types/accessibility";

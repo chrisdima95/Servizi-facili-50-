@@ -1,4 +1,4 @@
-// src/pages/ServiceOperations.tsx
+// Pagina operazioni servizio: mostra lista delle operazioni disponibili per un servizio specifico
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import type { AccessMode } from "../types/accessibility";

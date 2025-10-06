@@ -1,3 +1,4 @@
+// Barra di navigazione principale
 import React, { useCallback, useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../contexts/UserContext";
@@ -8,39 +9,43 @@ interface NavbarProps {
   isMobile?: boolean;
 }
 
-const Navbar: React.FC<NavbarProps> = React.memo(({ isMobile = false }) => {
-  const navigate = useNavigate();
-  const { isAuthenticated, user } = useUser();
-  const label = isAuthenticated ? `👤 ${user?.username}` : "👤 Profilo";
+// Componente per la barra di navigazione principale
+const Navbar: React.FC<NavbarProps> = React.memo(({ isMobile = false }) => { // Componente memoizzato per migliorare le prestazioni
+  const navigate = useNavigate(); 
+  const { isAuthenticated, user } = useUser(); // Controllo se l'utente è autenticato e recupera le informazioni dell'utente
+  const label = isAuthenticated ? `👤 ${user?.username}` : "👤 Profilo"; // Label per il pulsante profilo
 
   // Stati per il menu hamburger
-  const [isHamburgerOpen, setIsHamburgerOpen] = useState(false);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const hamburgerMenuRef = useRef<HTMLDivElement>(null);
-  const hamburgerButtonRef = useRef<HTMLButtonElement>(null);
+  const [isHamburgerOpen, setIsHamburgerOpen] = useState(false); // Controllo se il menu hamburger è aperto
+  const [isAnimating, setIsAnimating] = useState(false); // Controllo se l'animazione è in corso
+  const hamburgerMenuRef = useRef<HTMLDivElement>(null); // Ref per il menu hamburger
+  const hamburgerButtonRef = useRef<HTMLButtonElement>(null); // Ref per il pulsante hamburger
 
   // Ottimizzazione: memoizza le funzioni di navigazione
-  const navigateHome = useCallback(() => navigate("/"), [navigate]);
-  const navigateServizi = useCallback(() => navigate("/servizi"), [navigate]);
-  const navigateGuide = useCallback(() => navigate("/guide"), [navigate]);
-  const navigateProfilo = useCallback(() => navigate("/profilo"), [navigate]);
+  const navigateHome = useCallback(() => navigate("/"), [navigate]); // Funzione per navigare alla home
+  const navigateServizi = useCallback(() => navigate("/servizi"), [navigate]); // Funzione per navigare ai servizi
+  const navigateGuide = useCallback(() => navigate("/guide"), [navigate]); // Funzione per navigare alle guide
+  const navigateProfilo = useCallback(() => navigate("/profilo"), [navigate]); // Funzione per navigare al profilo
 
   // Funzioni di navigazione per il menu hamburger (con chiusura automatica)
   const navigateHomeHamburger = useCallback(() => {
-    navigate("/");
-    closeHamburgerMenu();
-  }, [navigate]);
+    navigate("/"); // Navigazione alla home
+    closeHamburgerMenu(); // Chiusura del menu hamburger
+  }, [navigate]); 
   
-  const navigateServiziHamburger = useCallback(() => {
+  // Funzione per navigare ai servizi nel menu hamburger
+  const navigateServiziHamburger = useCallback(() => { 
     navigate("/servizi");
     closeHamburgerMenu();
   }, [navigate]);
   
+  // Funzione per navigare alle guide nel menu hamburger
   const navigateGuideHamburger = useCallback(() => {
     navigate("/guide");
     closeHamburgerMenu();
   }, [navigate]);
   
+  // Funzione per navigare al profilo nel menu hamburger
   const navigateProfiloHamburger = useCallback(() => {
     navigate("/profilo");
     closeHamburgerMenu();
@@ -98,15 +103,9 @@ const Navbar: React.FC<NavbarProps> = React.memo(({ isMobile = false }) => {
     document.body.classList.add('hamburger-menu-open');
     document.documentElement.classList.add('hamburger-menu-open');
     
-    // Focus management per accessibilità - RIMOSSO per evitare differenze visive
-    // setTimeout(() => {
-    //   const firstFocusable = hamburgerMenuRef.current?.querySelector('button[aria-label="Home"]');
-    //   if (firstFocusable instanceof HTMLElement) {
-    //     firstFocusable.focus();
-    //   }
-    // }, 100);
   }, []);
 
+  // Funzione per chiudere il menu hamburger
   const closeHamburgerMenu = useCallback(() => {
     setIsHamburgerOpen(false);
     

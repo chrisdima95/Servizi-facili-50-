@@ -1,3 +1,4 @@
+// Entry point dell'applicazione: configurazione React Router e rendering dell'app principale
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
@@ -9,7 +10,8 @@ if ('scrollRestoration' in history) {
   history.scrollRestoration = 'manual';
 }
 
-const root = ReactDOM.createRoot(document.getElementById("root")!);
+// Crea il root dell'applicazione
+const root = ReactDOM.createRoot(document.getElementById("root")!); // ! per indicare che l'elemento root esiste
 
 root.render(
   <React.StrictMode>

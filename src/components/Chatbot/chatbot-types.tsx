@@ -1,4 +1,4 @@
-// src/types/chatbot-types.ts
+// Tipi TypeScript per il chatbot: messaggi, preferenze, stato wizard e configurazioni
 export interface ChatMessage {
   id: string;
   type: 'user' | 'bot';

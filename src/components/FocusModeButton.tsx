@@ -1,3 +1,4 @@
+// Modalità focus
 import React, { useEffect } from "react";
 import { createPortal } from "react-dom";
 import "../styles/FocusModeButton.css";
@@ -13,16 +14,16 @@ const FocusModeButton: React.FC<FocusModeButtonProps> = ({
   onToggle,
   highContrast = false,
 }) => {
-  useEffect(() => {
+  useEffect(() => { // Effetto per aggiornare la posizione della striscia orizzontale
     const handleMouseMove = (e: MouseEvent) => {
-      if (enabled && !highContrast) {
+      if (enabled && !highContrast) { // Se la modalità focus è attiva e non è in modalità alto contrasto
         // Aggiorna solo la posizione Y del mouse per la striscia orizzontale
         const mouseY = e.clientY;
-        document.documentElement.style.setProperty("--mouse-y", `${mouseY}px`);
+        document.documentElement.style.setProperty("--mouse-y", `${mouseY}px`); // Imposta la posizione Y del mouse
       }
     };
 
-    if (enabled && !highContrast) {
+    if (enabled && !highContrast) { // Se la modalità focus è attiva e non è in modalità alto contrasto
       // Aggiungi listener per mousemove su tutto il documento
       document.addEventListener("mousemove", handleMouseMove, { passive: true });
       // Imposta la posizione iniziale del mouse al centro dello schermo
@@ -46,7 +47,7 @@ const FocusModeButton: React.FC<FocusModeButtonProps> = ({
         className={`accessibility-btn ${enabled ? "active" : ""}`}
         type="button"
       >
-        {enabled ? "Disattiva modalità focus" : "Attiva modalità focus"}
+        {enabled ? "Disattiva modalità focus" : "Attiva modalità focus"} 
       </button>
       {/* L'overlay deve essere sempre presente quando la modalità focus è attiva */}
       {enabled && !highContrast && createPortal(

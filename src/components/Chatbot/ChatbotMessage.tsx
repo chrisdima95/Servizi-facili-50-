@@ -1,4 +1,4 @@
-// src/components/Chatbot/ChatbotMessage.tsx
+// Componente messaggio del chatbot: renderizza singoli messaggi con quick replies e formattazione
 import React from 'react';
 import type { ChatMessage } from './chatbot-types';
 

@@ -1,42 +1,46 @@
-// src/hooks/useCleanup.ts
+// Hook per gestire il cleanup di timeout e interval
+// Evita memory leaks e accumulo di callback
 import { useEffect, useRef } from 'react';
 
-/**
- * Hook per gestire il cleanup di timeout e interval
- * Evita memory leaks e accumulo di callback
- */
 export const useCleanup = () => {
-  const timeoutsRef = useRef<Set<NodeJS.Timeout>>(new Set());
-  const intervalsRef = useRef<Set<NodeJS.Timeout>>(new Set());
+  const timeoutsRef = useRef<Set<number>>(new Set());
+  const intervalsRef = useRef<Set<number>>(new Set());
 
-  const addTimeout = (timeout: NodeJS.Timeout) => {
+  // Funzione per aggiungere un timeout
+  const addTimeout = (timeout: number) => {
     timeoutsRef.current.add(timeout);
   };
 
-  const addInterval = (interval: NodeJS.Timeout) => {
+  // Funzione per aggiungere un interval
+  const addInterval = (interval: number) => {
     intervalsRef.current.add(interval);
   };
 
-  const clearTimeout = (timeout: NodeJS.Timeout) => {
-    global.clearTimeout(timeout);
+  // Funzione per cancellare un timeout
+  const clearTimeout = (timeout: number) => {
+    window.clearTimeout(timeout);
     timeoutsRef.current.delete(timeout);
   };
 
-  const clearInterval = (interval: NodeJS.Timeout) => {
-    global.clearInterval(interval);
+  // Funzione per cancellare un interval
+  const clearInterval = (interval: number) => {
+    window.clearInterval(interval);
     intervalsRef.current.delete(interval);
   };
 
+  // Funzione per cancellare tutti i timeout
   const clearAllTimeouts = () => {
-    timeoutsRef.current.forEach(timeout => global.clearTimeout(timeout));
+    timeoutsRef.current.forEach(timeout => window.clearTimeout(timeout));
     timeoutsRef.current.clear();
   };
 
+  // Funzione per cancellare tutti gli interval
   const clearAllIntervals = () => {
-    intervalsRef.current.forEach(interval => global.clearInterval(interval));
+    intervalsRef.current.forEach(interval => window.clearInterval(interval));
     intervalsRef.current.clear();
   };
 
+  // Funzione per cancellare tutti i timeout e gli interval
   const clearAll = () => {
     clearAllTimeouts();
     clearAllIntervals();

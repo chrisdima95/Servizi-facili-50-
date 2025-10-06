@@ -1,4 +1,4 @@
-// src/data/chatbotWizards.ts
+// Wizard interattivi del chatbot: flussi guidati passo-passo per operazioni complesse come domanda pensione
 export interface WizardStep {
   id: string;
   question: string;

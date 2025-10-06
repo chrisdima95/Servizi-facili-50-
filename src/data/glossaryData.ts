@@ -1,4 +1,4 @@
-// src/data/glossaryData.ts
+// Dati del glossario: termini comuni e spiegazioni semplificate
 
 export interface Term {
   slang: string;

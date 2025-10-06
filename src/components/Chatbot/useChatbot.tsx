@@ -1,4 +1,4 @@
-// src/components/Chatbot/useChatbot.tsx
+// Hook principale del chatbot: gestisce logica conversazionale, wizard, rilevamento scam e navigazione
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useSearch } from '../../contexts/SearchContext';
@@ -17,7 +17,7 @@ export const useChatbot = () => {
   const { user, isAuthenticated } = useUser();
 
   // Riferimenti per timeout attivi per cleanup
-  const activeTimeouts = useRef<Set<NodeJS.Timeout>>(new Set());
+  const activeTimeouts = useRef<Set<number>>(new Set());
 
   // Stato del chatbot
   const [state, setState] = useState<ChatbotState>({

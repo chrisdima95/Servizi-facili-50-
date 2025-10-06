@@ -1,4 +1,4 @@
-// src/components/Chatbot/index.tsx
+// Export barrel per componenti chatbot: centralizza tutte le esportazioni del modulo chatbot
 export { default as ChatbotFab } from './ChatbotFab';
 export { default as ChatbotWindow } from './ChatbotWindow';
 export { default as ChatbotMessage } from './ChatbotMessage';

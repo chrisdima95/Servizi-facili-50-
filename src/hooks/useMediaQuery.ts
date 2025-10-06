@@ -1,10 +1,10 @@
-// src/hooks/useMediaQuery.ts
+// Hook per gestire le query media: mobile, tablet o desktop
 import { useState, useEffect } from 'react';
 
 export const useMediaQuery = (query: string): boolean => {
   const [matches, setMatches] = useState(false);
 
-  useEffect(() => {
+  useEffect(() => { // Effetto per controllare la query media
     const media = window.matchMedia(query);
     
     // Imposta il valore iniziale

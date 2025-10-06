@@ -1,3 +1,4 @@
+// Componente principale dell'applicazione: gestisce routing, provider, lazy loading e stato globale
 import React, { useState, useEffect, useRef, lazy, Suspense } from "react";
 import { Routes, Route, useParams, Navigate, useLocation } from "react-router-dom";
 import Header from "./components/Header";
