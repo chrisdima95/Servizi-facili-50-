@@ -284,16 +284,6 @@ const Home: React.FC<HomeProps> = React.memo(({ accessMode, isMobile }) => {
           <div className="footer-info">
             <h2>Sede legale</h2>
             <p>Via Roma 123, Bari</p>
-            <iframe
-              title="Mappa sede"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2970.00126123455!2d12.480997975560951!3d41.89282996449258!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x132f604b502e29e7%3A0xe89d47e31326b0dc!2sComune%20di%20Roma%20Capitale!5e0!3m2!1sit!2sit!4v1759339169423!5m2!1sit!2sit"
-              width="600"
-              height="450"
-              style={{ border: 0 }}
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            ></iframe>
 
             <h2>Contatti</h2>
             <p>Telefono: 080-123456</p>

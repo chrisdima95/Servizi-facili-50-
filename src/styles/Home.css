@@ -723,7 +723,8 @@ button.glossario-btn {
 
 .footer-form h2 {
   margin-bottom: 20px;
-  font-size: 1.6rem;
+  margin-top: 20px;
+  font-size: 1.4rem;
   color: #ffdd99;
 }
 
@@ -848,6 +849,7 @@ button.glossario-btn {
 .footer-info {
   flex: 1;
   min-width: 320px;
+  margin-left: 120px;
 }
 
 .footer-info h2 {
@@ -857,13 +859,6 @@ button.glossario-btn {
   color: #ffdd99;
 }
 
-.footer-info iframe {
-  width: 100%;
-  max-width: 400px;
-  height: 200px;
-  border-radius: 10px;
-  margin: 12px 0;
-}
 
 .footer-bottom {
   margin-top: auto; /* Spinge il footer-bottom in fondo */

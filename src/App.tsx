@@ -10,6 +10,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { useChatbot } from "./components/Chatbot/useChatbot";
 import { UserProvider, useUser } from "./contexts/UserContext";
 import { SearchProvider } from "./contexts/SearchContext";
+import { useDeviceDetection } from "./hooks/useDeviceDetection";
 // Funzione di retry per il lazy loading
 const retryImport = (importFn: () => Promise<any>, retries = 3): Promise<any> => {
   return importFn().catch((error) => {
@@ -45,33 +46,6 @@ const LoadingSpinner = () => (
 
 // ===== UTILITY FUNCTIONS =====
 
-function useIsMobile(breakpoint: number = 768): boolean {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia(`(max-width: ${breakpoint}px)`);
-    setIsMobile(mediaQuery.matches);
-
-    const handler = (event: MediaQueryListEvent) => setIsMobile(event.matches);
-
-    if (mediaQuery.addEventListener) {
-      mediaQuery.addEventListener("change", handler);
-    } else {
-      mediaQuery.addListener(handler);
-    }
-
-    return () => {
-      if (mediaQuery.removeEventListener) {
-        mediaQuery.removeEventListener("change", handler);
-      } else {
-        mediaQuery.removeListener(handler);
-      }
-    };
-  }, [breakpoint]);
-
-  return isMobile;
-}
-
 // ===== PROVIDER COMPONENTS =====
 
 // Wrapper per gestire la route /service/:serviceId
@@ -91,9 +65,8 @@ const AppContent: React.FC = () => {
     highContrast: false,
   });
 
-
   const [focusMode, setFocusMode] = useState(false);
-  const isMobile = useIsMobile();
+  const { isMobile } = useDeviceDetection();
   const appContainerRef = useRef<HTMLDivElement>(null);
   const { isAuthenticated } = useUser();
   const location = useLocation();
@@ -109,12 +82,10 @@ const AppContent: React.FC = () => {
     clearChat,
     handleQuickReply
   } = useChatbot();
-  
 
   const toggleAccessMode = (key: keyof AccessMode) => {
     setAccessMode((prev) => ({ ...prev, [key]: !prev[key] }));
   };
-
 
   const toggleFocusMode = () => {
     setFocusMode((prev) => !prev);
@@ -122,29 +93,18 @@ const AppContent: React.FC = () => {
 
   useEffect(() => {
     const body = document.body;
+    const container = appContainerRef.current;
 
-    if (accessMode.largeText) body.classList.add("large-text-mode");
-    else body.classList.remove("large-text-mode");
+    // Gestione classi per il body
+    body.classList.toggle("large-text-mode", accessMode.largeText);
+    body.classList.toggle("high-contrast-mode", accessMode.highContrast);
+    body.classList.toggle("focus-mode", focusMode);
 
-    if (accessMode.highContrast) body.classList.add("high-contrast-mode");
-    else body.classList.remove("high-contrast-mode");
-
-
-    if (focusMode) body.classList.add("focus-mode");
-    else body.classList.remove("focus-mode");
-
-    if (appContainerRef.current) {
-      const container = appContainerRef.current;
-
-      if (accessMode.highContrast) container.classList.add("high-contrast-mode");
-      else container.classList.remove("high-contrast-mode");
-
-      if (accessMode.largeText) container.classList.add("large-text-mode");
-      else container.classList.remove("large-text-mode");
-
-      if (focusMode) container.classList.add("focus-mode");
-      else container.classList.remove("focus-mode");
-
+    // Gestione classi per il container
+    if (container) {
+      container.classList.toggle("high-contrast-mode", accessMode.highContrast);
+      container.classList.toggle("large-text-mode", accessMode.largeText);
+      container.classList.toggle("focus-mode", focusMode);
     }
   }, [accessMode, focusMode]);
 

@@ -5,42 +5,21 @@ body, html, #root {
   margin: 0;
   padding: 0;
   font-family: "Roboto", sans-serif;
-  background-color: #fefcf8; /* sfondo uniforme per tutta la web app */
+  background-color: #fefcf8;
   color: #222;
   font-size: 18px;
   height: 100%;
   min-height: 100vh;
   overflow-x: hidden !important;
   overflow-y: auto;
-  scroll-behavior: auto !important; /* Forza scroll istantaneo */
+  scroll-behavior: auto !important;
+  scroll-padding-top: 0 !important;
   box-sizing: border-box;
 }
 
-
-/* Forza scroll verso l'alto su tutti gli elementi scrollabili */
+/* Forza scroll istantaneo su tutti gli elementi */
 * {
   scroll-behavior: auto !important;
-}
-
-/* Forza scroll verso l'alto su ogni cambio di route */
-html, body {
-  scroll-behavior: auto !important;
-  scroll-padding-top: 0 !important;
-}
-
-/* Disabilita qualsiasi scroll restoration */
-html {
-  scroll-behavior: auto !important;
-}
-
-body {
-  scroll-behavior: auto !important;
-  scroll-padding-top: 0 !important;
-}
-
-#root {
-  scroll-behavior: auto !important;
-  scroll-padding-top: 0 !important;
 }
 
 .app-container {
@@ -52,17 +31,8 @@ body {
   overflow-x: hidden !important;
   overflow-y: visible;
   padding-bottom: 0;
-  background-color: #fefcf8; /* sfondo uniforme per tutta la web app */
+  background-color: #fefcf8;
   box-sizing: border-box;
-}
-
-/* Modalità alto contrasto - sovrascrive tutti i background */
-.high-contrast-mode body,
-.high-contrast-mode html,
-.high-contrast-mode #root,
-.high-contrast-mode .app-container {
-  background-color: #000000 !important;
-  color: #ffffff !important;
 }
 
 /* Contrasto elevato su mobile - rimuovo background neri per evitare rettangoli visibili */
@@ -134,8 +104,6 @@ body {
   min-width: 440px !important;
   max-width: 95%;
 }
-
-/* Rimuovo stili navbar - ora gestiti in Navbar.css */
 
 /* ===============================
    High Contrast Mode - SISTEMA RAFFINATO
@@ -384,14 +352,6 @@ body {
   background: transparent !important;
 }
 
-.high-contrast-mode .logo-svg circle[fill="url(#backgroundGradient)"] {
-  background-color: #ffffff !important;
-  fill: #ffffff !important;
-  display: block !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
 /* Icone e elementi speciali */
 .high-contrast-mode .accessibility-fab .fab-icon {
   background-color: transparent !important;
@@ -456,14 +416,6 @@ body {
   color: #ffffff !important;
 }
 
-/* Sovrascrive TUTTI i background specifici */
-.high-contrast-mode body,
-.high-contrast-mode html,
-.high-contrast-mode #root,
-.high-contrast-mode .app-container {
-  background-color: #000000 !important;
-  color: #ffffff !important;
-}
 
 /* Sovrascrive TUTTI i background delle card e contenitori */
 .high-contrast-mode .home-container,
@@ -521,8 +473,6 @@ body {
   z-index: 10000 !important;
 }
 
-/* Rimuovo stili navbar - ora gestiti in Navbar.css */
-
 /* ===============================
    Header e Navbar
 =============================== */
@@ -546,8 +496,6 @@ body {
   position: static;
   margin: 0;
 }
-
-/* Rimuovo stili navbar - ora gestiti in Navbar.css */
 
 /* ===============================
    Pulsanti Accessibilità
