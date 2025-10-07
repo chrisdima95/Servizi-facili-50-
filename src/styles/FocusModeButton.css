@@ -69,11 +69,27 @@
   -webkit-mask-size: 100% 100% !important;
 }
 
-/* Quando la modalità alto contrasto è attiva, rimuovi la mask per evitare conflitti */
+/* Quando la modalità alto contrasto è attiva, mantieni l'overlay ma con stili adattati */
 .high-contrast-mode .focus-overlay {
-  mask-image: none !important;
-  -webkit-mask-image: none !important;
-  background-color: transparent !important;
+  /* Mantieni la mask per la striscia orizzontale anche in alto contrasto */
+  mask-image: linear-gradient(
+    to bottom,
+    black calc(var(--mouse-y, 50vh) - 60px),
+    transparent calc(var(--mouse-y, 50vh) - 60px),
+    transparent calc(var(--mouse-y, 50vh) + 60px),
+    black calc(var(--mouse-y, 50vh) + 60px)
+  ) !important;
+  
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    black calc(var(--mouse-y, 50vh) - 60px),
+    transparent calc(var(--mouse-y, 50vh) - 60px),
+    transparent calc(var(--mouse-y, 50vh) + 60px),
+    black calc(var(--mouse-y, 50vh) + 60px)
+  ) !important;
+  
+  /* Usa un background più scuro per il contrasto elevato */
+  background-color: rgba(0, 0, 0, 0.9) !important;
 }
 
 /* Regole ancora più specifiche per sovrascrivere qualsiasi CSS */
@@ -148,12 +164,9 @@ body.high-contrast-mode .accessibility-btn.active {
   border-color: #2a4a7a;
 }
 
+/* Regole specifiche per garantire che l'overlay focus funzioni in alto contrasto */
+.high-contrast-mode .focus-overlay,
 body.high-contrast-mode .focus-overlay {
-  background-color: rgba(0, 0, 0, 0.9);
-}
-
-/* Assicura che la modalità focus funzioni anche in alto contrasto */
-.high-contrast-mode .focus-overlay {
   background-color: rgba(0, 0, 0, 0.9) !important;
   z-index: 999999 !important;
   position: fixed !important;
